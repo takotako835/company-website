@@ -37,7 +37,7 @@ const personalServices = [
     step: 'STEP 0',
     title: '個別相談',
     meta: '60分・3,000円・オンライン',
-    body: '「どこから手を付けるか」の見立てを、その場で必ずお渡しします。相談だけで終えてOK。',
+    body: '「どこから手を付けるか」の見立てを、その場で必ずお渡しします。相談だけで終えていただいて構いません。',
   },
   {
     step: 'STEP 1',
@@ -91,11 +91,11 @@ const corporateServices = [
         <Button href="/services/" variant="secondary">サービスを見る</Button>
       </div>
       <p class="mt-4 text-sm text-muted" data-reveal>
-        登録不要・結果はその場で表示。じっくり相談したい方は
+        登録は不要で、結果はその場で表示されます。じっくり話したい方は、
         <a href="/contact/" class="font-bold text-primary-700 underline underline-offset-4">個別相談(60分・3,000円)</a>
-        へ。
+        をご利用ください。
       </p>
-      <div class="mt-16 flex items-end gap-5" data-reveal>
+      <div class="mt-16 flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-5" data-reveal>
         <svg
           class="w-full max-w-[520px] text-brand-teal"
           viewBox="0 0 520 26"
@@ -105,7 +105,7 @@ const corporateServices = [
           <path d="M1 25h518" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
           <path d="M452 25a15 15 0 0 1 30 0Z" fill="var(--color-brand-orange)" />
         </svg>
-        <span class="flex-none pb-0.5 text-xs font-bold tracking-[0.24em] text-muted">
+        <span class="flex-none text-xs font-bold tracking-[0.24em] text-muted sm:pb-0.5">
           まいど、から始まる伴走
         </span>
       </div>
@@ -113,9 +113,9 @@ const corporateServices = [
   </div>
 
   <Section tone="subtle">
-    <SectionTitle no="01">こんな課題から、お探しください</SectionTitle>
+    <SectionTitle no="01">こんな悩みは、ありませんか</SectionTitle>
     <p class="mb-8 max-w-[42em] text-muted" data-reveal>
-      その原因は、あなたの能力ではなく「構造」にあるのかもしれません。近い悩みを選ぶと、対応するサービスに進めます。
+      その原因は、あなたの能力ではなく「構造」にあるのかもしれません。近いものを選んでいただくと、対応するサービスへご案内します。
     </p>
 
     <div class="grid gap-8 lg:grid-cols-2">
@@ -137,9 +137,9 @@ const corporateServices = [
           ))}
         </ul>
         <p class="mt-4 rounded-lg border border-primary-100 bg-primary-100/40 p-4 text-sm" data-reveal>
-          どれが根っこか分からない方は、
+          どれが根っこなのか分からないときは、まず
           <a href="/shindan/" class="font-bold text-primary-700 underline underline-offset-4">30秒診断(無料・登録不要)</a>
-          で、伸び悩みの「本当のボトルネック」を確かめられます。
+          へ。チームが伸び悩む「本当のボトルネック」を確かめられます。
         </p>
       </div>
       <div>
@@ -226,7 +226,7 @@ const corporateServices = [
   </Section>
 
   <Section>
-    <SectionTitle no="06">安心して任せられる理由</SectionTitle>
+    <SectionTitle no="06">安心してご相談いただける理由</SectionTitle>
     <div class="grid gap-8 lg:grid-cols-[auto_1fr] lg:gap-12">
       <div class="flex items-start gap-6" data-reveal>
         <Image
