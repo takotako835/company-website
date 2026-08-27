@@ -188,7 +188,7 @@ Render の Dashboard を見ると、数分後に新しいデプロイが「Live�
 | エラーの内容 | 原因と対処 |
 |---|---|
 | `Cannot find package '@tailwindcss/vite'` などパッケージが見つからない | **Render は `NODE_ENV=production` を設定するため、`npm ci` / `npm install` が devDependencies を除外します。** ビルドに必要なパッケージは `package.json` の `dependencies` 側に置いてください(対応済み) |
-| `Cannot find native binding` / `Cannot find module '@rolldown/binding-...'` | npm の既知バグ(npm/cli#4828)。`npm ci` だとネイティブバイナリが入りません。**`npm ci` は使わない**でください(対応済み。下記参照) |
+| `Cannot find native binding` / `Cannot find module '@rolldown/binding-...'` | npm の既知バグ(npm/cli#4828)。**`npm ci` を使わない**ことに加え、**`node_modules` を毎回削除する**必要があります(対応済み。下記参照)。ログに `up to date in 1s` と出ていたら、Render のキャッシュが使われて再インストールされていないサインです |
 | Node のバージョン関連 | `render.yaml` の `NODE_VERSION` を確認する |
 
 3. 手元で確認するときは、**Render と同じ条件**にすると再現できます
@@ -210,10 +210,12 @@ npm install                   # ロックファイルを作り直しておく
 `render.yaml` のビルドコマンドは、あえて次のようにしています。
 
 ```
-rm -f package-lock.json && npm install --no-audit --no-fund && npm run build
+rm -rf node_modules package-lock.json && npm install --no-audit --no-fund && npm run build
 ```
 
-通常 CI では `npm ci` を使うのが定石ですが、このプロジェクトでは使えません。
+通常 CI では `npm ci` を使うのが定石ですが、このプロジェクトでは使えません。理由は2つあります。
+
+**理由1: `npm ci` がネイティブバイナリを入れられない**
 
 - Astro が内部で使う `vite` は `rolldown` に依存し、`rolldown` は OS ごとに異なる
   **ネイティブバイナリ**(`@rolldown/binding-linux-x64-gnu` など)を必要とします
@@ -221,8 +223,17 @@ rm -f package-lock.json && npm install --no-audit --no-fund && npm run build
   ([npm/cli#4828](https://github.com/npm/cli/issues/4828))。npm 10・npm 11 のどちらでも再現します
 - さらに、Windows で作った `package-lock.json` を Linux の Render で使うと、この問題が顕在化します
 
-そのため、ロックファイルを外して `npm install` に解決させています。
-Render と同じ Node 22.11.0 / npm 10.9.0 / `NODE_ENV=production` で、ビルド成功を確認済みです。
+**理由2: Render は `node_modules` をキャッシュする**
+
+- Render はビルドを速くするため、`node_modules` を次回のビルドに引き継ぎます
+- 一度でも壊れた `node_modules` が作られると、次のビルドで `npm install` を実行しても
+  **「up to date」と判断されて何も直りません**
+- そのため `node_modules` ごと削除して、毎回まっさらな状態から入れ直しています
+
+Render と同じ Node 22.11.0 / npm 10.9.0 / `NODE_ENV=production` の環境で、
+「壊れた `node_modules` が残っている状態からでもビルドが成功する」ことを確認済みです。
+
+> ビルド時間は毎回20秒ほど増えますが、確実さを優先しています。
 
 > `package-lock.json` はリポジトリに残してあります(手元の開発でバージョンを固定するため)。
 > ビルド時にだけ外している、という位置づけです。
