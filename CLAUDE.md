@@ -35,9 +35,10 @@
 
 ## 技術スタック(詳細は docs/05_tech-spec.md)
 
-- フレームワーク: Astro(05_tech-spec.md の推奨に従い採用・実装済み)
+- フレームワーク: Astro(SSR・`@astrojs/node` アダプタ)。問い合わせフォームのメール送信にサーバーが要るため静的書き出しではなく SSR
 - スタイリング: Tailwind CSS(v4・デザイントークンは `src/styles/global.css` の `@theme` に一元定義)
-- デプロイ: Render(Static Site)。設定は `render.yaml`、手順は `docs/07_deploy-render.md`
+- メール送信: Resend(`src/lib/mail.ts` / `src/pages/api/contact.ts`)
+- デプロイ: Render(Web Service・Starter)。設定は `render.yaml`、手順は `docs/07_deploy-render.md`
 
 ## よく使うコマンド
 

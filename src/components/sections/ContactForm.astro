@@ -1,10 +1,12 @@
 ---
 import LineButton from '../ui/LineButton.astro';
+import { readMailConfig } from '../../lib/mail';
 
-// 静的サイトのため送信処理を自前で持たず、外部フォームサービスへPOSTする(05_tech-spec §1)。
-// 送信先URLは環境変数で差し替える。未設定のときはフォームを出さずLINE導線に倒す
-// (壊れたフォームを公開してしまうのを防ぐため)。設定手順は docs/07_deploy-render.md
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+// 送信は自社の /api/contact が受け、Resend でメールを送る。
+// 送信設定(RESEND_API_KEY / MAIL_FROM / CONTACT_TO)が未設定のときはフォームを出さず
+// LINE導線に倒す(壊れたフォームを公開してしまうのを防ぐため)。
+// import.meta.env はビルド時に値が焼き込まれてしまうため、実行時の process.env を読む
+const endpoint = readMailConfig(process.env) ? '/api/contact' : '';
 
 const inquiryTypes = [
   '個別相談について',
@@ -340,16 +342,26 @@ const inquiryTypes = [
           headers: { Accept: 'application/json' },
         });
 
-        if (!response.ok) throw new Error(`status ${response.status}`);
+        if (!response.ok) {
+          // サーバーが理由を返していれば、それをそのまま伝える
+          const body: unknown = await response.json().catch(() => null);
+          const reason =
+            typeof body === 'object' && body !== null && 'error' in body
+              ? String((body as { error: unknown }).error)
+              : null;
+          throw new Error(reason ?? `status ${response.status}`);
+        }
 
         clearDraft();
         window.location.href = '/contact/thanks/';
-      } catch {
+      } catch (error) {
         // 失敗しても入力値はそのまま残す(05_tech-spec §4)。個人情報はログに出さない
         setSubmitting(false);
-        showFormAlert(
-          '送信できませんでした。通信状況をご確認のうえ、もう一度お試しください。解決しない場合は、お手数ですがLINEからご連絡ください。',
-        );
+        const reason =
+          error instanceof Error && !error.message.startsWith('status')
+            ? error.message
+            : '送信できませんでした。通信状況をご確認のうえ、もう一度お試しください。';
+        showFormAlert(`${reason}解決しない場合は、お手数ですがLINEからご連絡ください。`);
       }
     });
   }

@@ -1,11 +1,17 @@
 # 07. Render へのデプロイ手順
 
-このサイトを Render の **Static Site(静的サイト)** として公開する手順です。
+このサイトを Render の **Web Service** として公開する手順です。
 専門知識がなくても進められるよう、画面の操作を1つずつ書いています。
 
-- 費用: **無料プラン(Free)で運用できます**。クレジットカードの登録も不要です
-- 所要時間: 初回のみ約20分。2回目以降の更新は数分で自動反映されます
+- 費用: **有料プラン(Starter・$7/月)** を使います。お問い合わせフォームのメール送信に
+  サーバーが必要なためです(無料プランは15分で停止し、次の訪問者が約1分待たされます)
+- 所要時間: 初回のみ約30分。2回目以降の更新は数分で自動反映されます
 - リポジトリには `render.yaml`(設定ファイル)が入っているため、Render 側での設定入力はほとんど不要です
+
+> **なぜサーバーが必要なのか**
+> お問い合わせフォームは Resend というサービスでメールを送ります。
+> その API キーは秘密の値で、ブラウザ側に置くと誰にでも見えてしまいます。
+> そのため、サーバー側でキーを預かって送信する必要があります。
 
 ---
 
@@ -15,6 +21,7 @@
 |---|---|---|
 | GitHub アカウント | サイトのソースコードを置く場所 | https://github.com/signup |
 | Render アカウント | サイトを公開するサービス | https://render.com |
+| Resend アカウント | お問い合わせフォームのメール送信 | https://resend.com |
 
 > Render は「GitHub に置いたコードを読み取って公開する」仕組みです。
 > そのため **先に GitHub へコードを置く(STEP 1)** 必要があります。
@@ -67,9 +74,9 @@ GitHub のページを再読み込みして、ファイル一覧が表示され�
 3. **「Connect GitHub」**(または「Configure account」)を押し、Render に GitHub への接続を許可する
    - 「All repositories」または STEP 1 で作ったリポジトリだけを選択して許可する
 4. リポジトリの一覧から `company-website` を選び、**「Connect」** を押す
-5. Render が `render.yaml` を自動で読み取り、`maido-crafts-website` という静的サイトが1件表示される
+5. Render が `render.yaml` を自動で読み取り、`maido-crafts-website` というサービスが1件表示される
    - **Blueprint Name**: そのままで構いません
-   - 表示された内容(Static Site / Build Command / Publish Directory)を確認する
+   - 表示された内容(Web Service / Starter / Build Command / Start Command)を確認する
 6. **「Apply」**(または「Create New Resources」)を押す
 
 これでビルドとデプロイが始まります。**3〜5分ほど**で完了します。
@@ -120,53 +127,69 @@ Render の URL は、サービス名が他の人と重複していると `maido-
 ## STEP 5. お問い合わせフォームを有効にする
 
 サイトには LINE 導線に加えて、`/contact/` に**お問い合わせフォーム**があります。
-このサイトは静的サイト(サーバーを持たない構成)なので、フォームの送信先だけは
-外部サービスを使います。**設定するまでフォームは表示されず、LINE のご案内が出ます**
-(壊れたフォームを公開してしまわないようにするためです)。
+送信されると **Resend** というサービス経由でメールが届きます
+(vietnam-guidebook と同じ仕組みです)。
 
-### 5-1. Formspree に登録して送信先URLを取得する
+**下の3つの設定がすべて揃うまで、フォームは表示されず LINE のご案内が出ます。**
+壊れたフォームを公開してしまわないようにするためです。
 
-無料プランで月50件まで受け取れます。クレジットカードの登録は不要です。
+### 5-1. Resend でドメインを認証する
 
-1. https://formspree.io にアクセスし、**Sign up** でアカウントを作る
-2. **New Form** を押す
-3. 以下を入力する
-   - **Form Name**: `お問い合わせ`(任意の名前)
-   - **Send to Email**: 問い合わせを受け取りたいメールアドレス
-4. 作成すると `https://formspree.io/f/xxxxxxxx` という **エンドポイントURL** が表示されるので控える
+差出人を自社ドメインにするため、ドメインの認証が必要です。
+(認証しないと、迷惑メールに振り分けられて届きません)
 
-> **他のサービスを使いたい場合**
-> 日本語のサービスなら [SSGForm](https://ssgform.com/) なども使えます。
-> フォームは「指定したURLへ送信する」だけの作りなので、
-> POST を受け取れるサービスであれば、URLを差し替えるだけで動きます。
+1. https://resend.com にログインする
+2. 左メニュー **「Domains」** → **「Add Domain」**
+3. `ywc-maido.com` を入力して追加する
+4. 表示された **DNS レコード**(SPF・DKIM など)を控える
+5. ドメインを管理している会社(お名前.com 等)の管理画面で、控えたレコードを登録する
+6. Resend の画面に戻り、状態が **「Verified」** になるのを待つ(反映まで数分〜数時間)
 
-### 5-2. Render に送信先URLを設定する
+> すでに vietnam-guidebook で同じドメインを認証済みなら、この手順は不要です。
+> Domains の一覧に出ていれば、そのまま使えます。
+
+### 5-2. API キーを作る
+
+1. Resend の左メニュー **「API Keys」** → **「Create API Key」**
+2. 名前は `company-website` など分かるものにする
+3. 権限は **「Sending access」** で十分です
+4. 表示された `re_...` で始まるキーを控える
+   - **この画面を閉じると二度と表示されません。** 必ずこの場で控えてください
+   - **★このキーは秘密です。** メールやチャットに貼らず、リポジトリにも書かないでください
+
+### 5-3. Render に3つの設定を入れる
 
 1. Render Dashboard → `maido-crafts-website` → 左メニュー **「Environment」**
-2. **「Add Environment Variable」** を押す
-3. 以下を入力する
+2. **「Add Environment Variable」** で、以下の3つを追加する
 
-   | Key | Value |
-   |---|---|
-   | `PUBLIC_FORM_ENDPOINT` | 5-1 で控えたURL(例: `https://formspree.io/f/xxxxxxxx`) |
+   | Key | Value | 説明 |
+   |---|---|---|
+   | `RESEND_API_KEY` | 5-2 で控えた `re_...` | ★秘密の値 |
+   | `MAIL_FROM` | `maido&crafts strategy <no-reply@ywc-maido.com>` | 差出人。`@` の後ろは 5-1 で認証したドメイン |
+   | `CONTACT_TO` | `support@ywc-maido.com` | お問い合わせの届け先 |
 
-4. **「Save, rebuild, and deploy」** を押す
+3. **「Save, rebuild, and deploy」** を押す
 
-### 5-3. 動作確認(必ず実施してください)
+### 5-4. 動作確認(必ず実施してください)
 
 1. 再デプロイ後、`https://〇〇.onrender.com/contact/` を開く
 2. フォームが表示されていることを確認する
 3. **実際にテスト送信してみる**(自分宛に届くので問題ありません)
 4. 「お問い合わせを受け付けました」のページに移ることを確認する
-5. **5-1 で指定したメールアドレスに通知が届くこと**を確認する
+5. **`CONTACT_TO` に指定したアドレスにメールが届くこと**を確認する
+6. **届いたメールにそのまま返信すると、問い合わせた人に届く**ことを確認する
+   (差出人は自社ドメイン、返信先は問い合わせ者のアドレスになっています)
 
-> Formspree は初回送信時に、受信先メールアドレスの確認メールを送ります。
-> そのメール内のリンクを開いて承認するまで、以降の通知が届きません。**必ず承認してください。**
+フォームが表示されない場合は、3つの環境変数がすべて入っているかを確認してください。
+1つでも欠けていると、フォームは出ません。
 
-### 5-4. 迷惑メール対策
+### 5-5. 迷惑メール対策
 
-フォームには、自動投稿を弾く仕組み(honeypot)を入れてあります。
-それでも迷惑メールが増える場合は、Formspree の管理画面から reCAPTCHA を有効にできます。
+フォームには次の対策を入れてあります。追加の設定は不要です。
+
+- **honeypot**: 人には見えないダミー項目。自動投稿はここに入力するため見分けられます
+- **連投の制限**: 同じ相手からは10分間に5件まで
+- **他サイトからの投稿の拒否**: このサイト以外からの送信は受け付けません
 
 ---
 
@@ -208,11 +231,13 @@ Render の Dashboard を見ると、数分後に新しいデプロイが「Live�
 
 ## 注意点・よくあるつまずき
 
-### 無料プランの制限
+### プランについて
 
-- 静的サイトの無料プランは **月100GBの転送量**まで。コーポレートサイトの規模なら十分です
-- 無料プランでも**スリープ(初回アクセスが遅くなる現象)は起きません**。
-  スリープするのは Web Service(サーバー)の無料プランで、静的サイトは対象外です
+- `render.yaml` では **Starter($7/月)** を指定しています
+- **無料プランに変更しないでください。** 15分アクセスがないとサーバーが停止し、
+  次の訪問者が約1分待たされます。コーポレートサイトでは致命的です
+- サイトの表示が重くなってきたら、Render の画面で上位プランに変更できます
+  (`render.yaml` の `plan` も合わせて書き換えてください)
 
 ### ビルドが失敗する(Deploy failed と出る)
 
@@ -226,12 +251,13 @@ Render の Dashboard を見ると、数分後に新しいデプロイが「Live�
 3. 次の値になっているか確認する
 
    ```
-   rm -f package-lock.json && npm install --no-audit --no-fund && npm run build
+   rm -rf node_modules package-lock.json && npm install --no-audit --no-fund && npm run build
    ```
 
 4. `npm ci && npm run build` など**古い値のままだったら、その場で書き換えて保存**する
    (この画面で直接編集できます)
-5. あわせて **Publish Directory** が `dist`、**Branch** が `main` になっているかも確認する
+5. あわせて **Start Command** が `node ./dist/server/entry.mjs`、
+   **Branch** が `main` になっているかも確認する
 
 #### それでも失敗する場合
 
@@ -309,7 +335,7 @@ Render と同じ Node 22.11.0 / npm 10.9.0 / `NODE_ENV=production` の環境で�
 
 | 原因 | 対処 |
 |---|---|
-| `region` や `plan` を書いている | 静的サイトはグローバルCDN配信のため、この2つは**指定できません**。書いてあると同期に失敗します(現在の `render.yaml` からは削除済み) |
+| 静的サイト(`runtime: static`)に `region` や `plan` を書いている | 静的サイトはグローバルCDN配信のため、この2つは**指定できません**。現在は Web Service なので、どちらも指定できます |
 | `branch: main` と書いてあるが、GitHub 側に `main` ブランチがない | GitHub のリポジトリ画面でブランチ名を確認する。`master` になっている場合は下記のコマンドで `main` に統一する |
 | `render.yaml` がサブフォルダにある | リポジトリの**一番上の階層**に置く。サブフォルダにあると検出されません |
 | インデントに全角スペースやタブが混じっている | 半角スペース2つでそろえる |
@@ -342,27 +368,30 @@ git push
 
 どうしても Blueprint がうまくいかないときは、手動でも作成できます。
 
-1. Render で **「+ New」** → **「Static Site」**
+1. Render で **「+ New」** → **「Web Service」**
 2. リポジトリを選ぶ
 3. 以下を入力する
 
    | 項目 | 入力する値 |
    |---|---|
    | Name | `maido-crafts-website` |
+   | Language / Runtime | `Node` |
    | Branch | `main` |
-   | Build Command | `npm ci && npm run build` |
-   | Publish Directory | `dist` |
+   | Region | `Singapore` |
+   | Instance Type | `Starter`(★Free は選ばない) |
+   | Build Command | `rm -rf node_modules package-lock.json && npm install --no-audit --no-fund && npm run build` |
+   | Start Command | `node ./dist/server/entry.mjs` |
+   | Health Check Path | `/healthz` |
 
 4. **「Advanced」** を開き、環境変数を追加する
    - `NODE_VERSION` = `22.11.0`
+   - `NODE_ENV` = `production`
    - `SITE_URL` = 公開後のURL(いったん空欄で作成し、STEP 3 で設定してもよい)
-   - `PUBLIC_FORM_ENDPOINT` = お問い合わせフォームの送信先(STEP 5 で設定してもよい)
-5. 「Create Static Site」を押す
+   - `RESEND_API_KEY` / `MAIL_FROM` / `CONTACT_TO` = STEP 5 で設定してもよい
+5. 「Create Web Service」を押す
 
 > 手動で作成した場合、`render.yaml` の内容は使われません。
-> セキュリティヘッダも設定したい場合は、作成後に **Settings** → **Headers** から
-> `render.yaml` に書いてある4つ(`X-Content-Type-Options` など)を同じ内容で追加してください。
-> 未設定でもサイトは正常に表示されます。
+> セキュリティヘッダはアプリ側(`src/middleware.ts`)で付けているため、Render 側の設定は不要です。
 
 ---
 
@@ -372,8 +401,9 @@ git push
 
 - [ ] STEP 4 の全URLが正しく表示される
 - [ ] `SITE_URL` が実際の公開URLと一致している
-- [ ] お問い合わせフォームからテスト送信し、**メールが実際に届いた**(STEP 5-3)
-- [ ] Formspree の受信先メールアドレスの確認メールを承認済み
+- [ ] お問い合わせフォームからテスト送信し、**メールが実際に届いた**(STEP 5-4)
+- [ ] 届いたメールに**そのまま返信できる**ことを確認した(返信先が問い合わせ者になっている)
+- [ ] Resend でドメインが **Verified** になっている
 - [ ] OGP画像(`public/ogp.png`)が仮版のままでよいか確認した
 - [ ] お知らせ記事の公開日が正しい
 - [ ] Google Search Console にサイトを登録し、sitemap を送信した

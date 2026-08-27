@@ -1,47 +1,46 @@
 # Render Blueprint — このファイルがあれば Render 側の設定入力はほぼ不要になる
 # 手順は docs/07_deploy-render.md を参照
 #
-# 注意: 静的サイト(runtime: static)は Render のグローバルCDNから配信されるため、
-# `region` と `plan` は指定できない(指定すると Blueprint の同期に失敗する)。
+# ★秘密の値(Resend の API キーなど)はここに書かない。
+#   sync: false の項目は Render の画面で1つずつ入力する。
 services:
   - type: web
-    runtime: static
+    runtime: node
     name: maido-crafts-website
+    # ★Free にすると15分で停止し、次の訪問者が約1分待たされる。
+    #   コーポレートサイトなので常時起動にする
+    plan: starter
+    region: singapore
     branch: main
+    healthCheckPath: /healthz
+    autoDeploy: true
+
     # `npm ci` は使わない。vite が依存する rolldown のネイティブバイナリが
     # npm の既知バグ(npm/cli#4828)でインストールされず、ビルドが失敗するため。
     #
     # node_modules も必ず消すこと。Render はビルド間で node_modules をキャッシュするため、
     # 残っていると npm install が「up to date」と判断して壊れたツリーを直さない。
     buildCommand: rm -rf node_modules package-lock.json && npm install --no-audit --no-fund && npm run build
-    staticPublishPath: ./dist
-    # main への push で自動デプロイ
-    autoDeploy: true
+    startCommand: node ./dist/server/entry.mjs
 
     envVars:
       - key: NODE_VERSION
         value: 22.11.0
+      - key: NODE_ENV
+        value: production
       # 公開URL。canonical / OGP / sitemap / robots.txt に反映される。
       # 初回デプロイ後に実際のURLを確認し、独自ドメイン設定時はその値に変更する
       - key: SITE_URL
         value: https://maido-crafts-website.onrender.com
-      # お問い合わせフォームの送信先URL(外部フォームサービス)。
-      # Render の画面で設定する。未設定の間はフォームを出さずLINE導線を表示する
-      - key: PUBLIC_FORM_ENDPOINT
-        sync: false
 
-    headers:
-      # セキュリティヘッダ(docs/05_tech-spec.md §5)
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff
-      - path: /*
-        name: Referrer-Policy
-        value: strict-origin-when-cross-origin
-      - path: /*
-        name: X-Frame-Options
-        value: SAMEORIGIN
-      # ハッシュ付きファイル名なので長期キャッシュしてよい
-      - path: /_astro/*
-        name: Cache-Control
-        value: public, max-age=31536000, immutable
+      # ── メールの送信(Resend)。Render の画面で入力する ──
+      # ★API キーは秘密。リポジトリには絶対に書かない
+      - key: RESEND_API_KEY
+        sync: false
+      # 差出人。ドメインは Resend で認証したものにする
+      # 例: maido&crafts strategy <no-reply@ywc-maido.com>
+      - key: MAIL_FROM
+        sync: false
+      # お問い合わせの届け先(社内の受信アドレス)
+      - key: CONTACT_TO
+        sync: false

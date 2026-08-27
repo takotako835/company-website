@@ -32,9 +32,9 @@ draft: false           # true にすると非公開
 
 ## デプロイ(Render)
 
-**手順書: [docs/07_deploy-render.md](docs/07_deploy-render.md)** — GitHub への公開から独自ドメイン設定まで、画面操作を1つずつ書いています。
+**手順書: [docs/07_deploy-render.md](docs/07_deploy-render.md)** — GitHub への公開からメール送信の設定、独自ドメインまで、画面操作を1つずつ書いています。
 
-リポジトリ直下の `render.yaml` に設定が入っているため、Render の「Blueprint」から接続するだけで公開できます。以降は `main` ブランチへ push すれば自動で再デプロイされます。
+Render の **Web Service**(Node)として動かします。お問い合わせフォームのメール送信にサーバーが必要なためです。リポジトリ直下の `render.yaml` に設定が入っているので、Render の「Blueprint」から接続するだけで公開できます。以降は `main` ブランチへ push すれば自動で再デプロイされます。
 
 公開URLは環境変数 `SITE_URL` で切り替わり、canonical / OGP / sitemap / robots.txt にまとめて反映されます(コードの書き換えは不要)。
 
@@ -45,7 +45,13 @@ draft: false           # true にすると非公開
 | 変数 | 用途 |
 |---|---|
 | `SITE_URL` | サイトの公開URL。canonical / OGP / sitemap / robots.txt に反映 |
-| `PUBLIC_FORM_ENDPOINT` | お問い合わせフォームの送信先URL。**未設定だとフォームは表示されず、LINE導線の案内に切り替わります** |
+| `RESEND_API_KEY` | Resend の API キー。**秘密の値** |
+| `MAIL_FROM` | メールの差出人。ドメインは Resend で認証したもの |
+| `CONTACT_TO` | お問い合わせの届け先アドレス |
+
+> お問い合わせフォームは、**メール送信の3つがすべて揃っているときだけ表示されます。**
+> 1つでも欠けている場合は、フォームを出さずにLINE導線の案内へ切り替わります
+> (壊れたフォームを公開しないため)。
 
 ### 公開前に確定が必要なこと(TODO)
 
