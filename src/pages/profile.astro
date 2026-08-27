@@ -28,10 +28,17 @@ const timeline = [
   },
   {
     title: 'NEC',
-    body: '2020年1月、カスタマーサクセス専門職として参画。顧客の成果に伴走する仕事へ。2023年からは兼業として活動を開始',
+    body: '2020年1月、カスタマーサクセス専門職として参画。顧客の成果に伴走する仕事へ。2023年からは兼業として活動を開始し、2024年に退職',
     now: false,
   },
   { title: '2025年1月 独立', body: `${SITE.companyName}を設立`, now: true },
+];
+
+// 支援で磨く3つの軸(超実務1on1プログラム資料 p.3 より)
+const threeAxes = [
+  { name: '思考力', body: 'それぞれの場面で、何を考えるべきか。' },
+  { name: '行動力', body: '考えたことを、どう形にするか。' },
+  { name: '人生の軸', body: 'その仕事は、自分の人生とどう繋がっているか。' },
 ];
 
 const values = [
@@ -126,6 +133,24 @@ const personLd = {
   </Section>
 
   <Section tone="subtle" narrow>
+    <SectionTitle>私のミッション</SectionTitle>
+    <p class="rounded-lg border border-edge bg-white p-6 text-center text-lg font-bold leading-relaxed text-primary-700 md:p-8">
+      「社外参謀」として、クライアントのキャリアと人生の変革を支援する。
+    </p>
+    <p class="mt-6 mb-4 max-w-[42em] text-sm text-muted">
+      成果を出すだけでも、キャリアを描くだけでもなく。3つの軸を統合的に磨くことが、私の仕事だと考えています。
+    </p>
+    <div class="grid gap-4 md:grid-cols-3" data-reveal="group">
+      {threeAxes.map((axis) => (
+        <div class="rounded-lg border border-edge bg-white p-5">
+          <p class="font-bold text-primary-700">{axis.name}</p>
+          <p class="mt-2 text-sm text-muted">{axis.body}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section narrow>
     <SectionTitle>支援で大切にしていること</SectionTitle>
     <ul class="space-y-4">
       {values.map((value) => (
@@ -137,7 +162,7 @@ const personLd = {
     </ul>
   </Section>
 
-  <Section narrow>
+  <Section tone="subtle" narrow>
     <SectionTitle>「はい、わかりました」とは言いません</SectionTitle>
     <blockquote class="rounded-r-lg border-l-4 border-primary-700 bg-primary-100 p-6 text-primary-900">
       <p class="mb-4">
@@ -149,7 +174,7 @@ const personLd = {
     </blockquote>
   </Section>
 
-  <Section tone="subtle" narrow>
+  <Section narrow>
     <SectionTitle>あなたへのメッセージ</SectionTitle>
     <div class="rounded-lg border border-edge bg-white p-6 md:p-8">
       <p class="mb-4">

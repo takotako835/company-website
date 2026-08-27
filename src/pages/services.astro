@@ -59,6 +59,114 @@ const bootcampGains = [
   '課題設定と実行のPDCA',
 ];
 
+// 獲得できるマインドセット(超実務1on1プログラム資料 p.15 より)
+const bootcampMindsets = [
+  '試行錯誤と検証を楽しめるマインド',
+  '「どう生きたいか」から逆算してキャリアを選ぶ視点',
+];
+
+// ブートキャンプ各回の進め方(同資料 p.12 より)
+const bootcampSteps = [
+  ['テーマ設定', '現在地を整理し、向き合うテーマを決めます。'],
+  ['ボトルネックの特定', '論点や課題を整理し、どこで詰まっているのかを特定します。'],
+  ['打ち手の検討', '解決策をつくり込みます。ロールプレイ・演習も行います。'],
+  ['アクションプランの明確化', '次のステージへ進むための、90日間の計画を作り切ります。'],
+];
+
+// ブートキャンプの特徴(同資料 p.14 より)
+const bootcampFeatures = [
+  {
+    title: '「思考OS」をインストールできる',
+    body: '再現性の高いシンプルなメソッドを、ご自身の案件や人生のテーマに当てはめて使うため、「知っている」ことが「使える」状態になります。',
+  },
+  {
+    title: '"社外参謀"スタイルのマンツーマン形式',
+    body: '「何を変えれば前へ進めるのか」を、社外参謀が受講者と伴走しながら一緒に作り込みます。',
+  },
+  {
+    title: '案件ベースの実践的なフィードバック',
+    body: '実案件をテーマに、フィードバックからアウトプットの磨き込みまでセッション中に行うため、短い時間でも成果をつかみやすくなります。',
+  },
+  {
+    title: 'スキル・マインドセットの両方を体系化',
+    body: '実務だけでなく、転職・副業・独立・家族との時間など、人生の意思決定の場面でも使いまわせる形に体系化します。',
+  },
+];
+
+// 活用例(同資料 p.13 の事例を要約)
+const bootcampCases = [
+  {
+    person: '大手事業会社・30代・経営企画',
+    problem: '評価は悪くないのに、「もう一段上」を求められる',
+    detail:
+      '資料作成や分析は得意で、評価も平均より少し上。しかし上司からは「もっと上流から、経営目線で提案して」と言われ続けていた。今の中期計画プロジェクトをテーマに、経営が本当に気にしている論点の整理から、上司との1on1で論点をぶつけるトークスクリプト作成までを4回で行った。',
+    changes: [
+      '社内でのポジションが「作業が早い人」から「経営の相談相手」になってきた',
+      '強み・弱みと、今後3年のキャリアの方向性がクリアになった',
+    ],
+  },
+  {
+    person: 'SIer・30代・ITコンサルタント',
+    problem: 'プロジェクトを任されたものの、自信が持てない',
+    detail:
+      '中規模プロジェクトのリードを初めて任されたが、毎週の定例会議では論点が散らばり、いつも時間切れ。「このプロジェクトを半年以内に安定軌道に乗せる」をテーマに、詰まっている場所の特定、定例会議のアジェンダ・進行台本づくりとロールプレイ、90日ロードマップの設計までを行った。',
+    changes: [
+      '会議が「何となく報告する場」から「決める場」に変わった',
+      'クライアントからの信頼が上がり、「次の案件もぜひお願いしたい」と言われるようになった',
+    ],
+  },
+];
+
+// 伴走プログラムで目指す状態(同資料 p.19 より)
+const partnerGoals = [
+  {
+    wall: '仕事',
+    body: '主要案件で「自分の成果」と言える実績が挙がり、上司・クライアントからの信頼・期待値が一段上がる',
+  },
+  {
+    wall: 'キャリア',
+    body: '次の一手(昇格・転職・社内異動・独立など)について、具体的な行動とスケジュールが動き出している',
+  },
+  {
+    wall: '人生',
+    body: '大事にしたい価値観が明確になり、ワークライフバランスや投資すべき領域が整理されている',
+  },
+];
+
+// 思考OSインストール前後の変化(同資料 p.8 より)
+const osBefore = [
+  '頑張っているのに、満足度が低い',
+  '向かう先が見えない',
+  '「このまま今の会社でいいのか」と悩み続ける',
+  '転職・副業・独立を決断できない',
+];
+const osAfter = [
+  '何のために働くのかを、自分の言葉にできる',
+  '次の3年の軸が定まる',
+  '優先順位が明確になり、意思決定がぶれない',
+  '人生の満足度が上がる',
+];
+
+// ほかの研修・コーチングと違う理由(同資料 p.4 より)
+const differences = [
+  {
+    title: '「理屈」だけでなく「実装」を知っている',
+    body: 'シンプルだから実装できる、実装できるから使い続けられる。現場で使い切れる形のフレームワークにこだわります。',
+  },
+  {
+    title: '「キャリア」と「人生」を統合的に見ている',
+    body: '今の案件で成果を出すこと、キャリアを戦略的に描くこと、人生の満足度を高めること。この3つを同時に追いかけます。',
+  },
+  {
+    title: '「内部からは見えない盲点」を指摘できる',
+    body: '利害関係のない外部者だからこそ、社内では言いにくいこと、内側からは気づけない本当のボトルネックを浮き彫りにできます。',
+  },
+  {
+    title: '「商店街で学んだ温かさ」を忘れていない',
+    body: '突き放さず、評論家にもならず。一緒に考え、一緒に悩み、一緒に進みます。',
+  },
+];
+
 // 支援の3原則(会社説明資料 p.20 より)
 const supportPrinciples = [
   {
@@ -165,6 +273,35 @@ const supportPrinciples = [
       </div>
     </div>
 
+    <div class="mt-8 rounded-lg border border-edge bg-white p-6 md:p-8" data-reveal>
+      <h3 class="mb-4 font-semibold text-primary-700">「思考OS」が変えるもの</h3>
+      <div class="grid gap-6 md:grid-cols-[1fr_auto_1fr] md:items-center">
+        <div>
+          <p class="mb-2 text-xs font-bold tracking-wide text-muted">インストール前</p>
+          <ul class="space-y-1.5 text-sm text-muted">
+            {osBefore.map((item) => (
+              <li class="flex gap-2">
+                <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-edge" aria-hidden="true"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <p class="rotate-90 text-center text-xl font-bold text-brand-teal md:rotate-0" aria-hidden="true">→</p>
+        <div>
+          <p class="mb-2 text-xs font-bold tracking-wide text-primary-500">インストール後</p>
+          <ul class="space-y-1.5 text-sm">
+            {osAfter.map((item) => (
+              <li class="flex gap-2 font-bold text-primary-700">
+                <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-brand-orange" aria-hidden="true"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <h3 class="mt-12 mb-4 text-sm font-bold tracking-wide text-muted">支援の3原則</h3>
     <ol class="space-y-4" data-reveal="group">
       {supportPrinciples.map((principle, i) => (
@@ -209,13 +346,26 @@ const supportPrinciples = [
           <div class="col-span-2 md:col-span-1"><dt class="text-xs font-bold text-muted">成果物</dt><dd class="font-bold">90日アクションプラン</dd></div>
         </dl>
         <div class="mb-4 rounded-md bg-paper-subtle p-4 text-sm">
-          <p class="mb-1 font-bold">プログラムの流れ</p>
-          <ol class="list-decimal space-y-1 pl-5 text-muted">
-            <li>テーマ設定</li>
-            <li>ボトルネックの特定</li>
-            <li>打ち手の検討</li>
-            <li>アクションプランの明確化(90日)</li>
+          <p class="mb-2 font-bold">プログラムの流れ</p>
+          <ol class="space-y-2">
+            {bootcampSteps.map(([title, body], i) => (
+              <li class="flex gap-3">
+                <span class="mt-0.5 flex-none text-xs font-bold text-primary-500">#{i + 1}</span>
+                <p><span class="font-bold text-primary-700">{title}</span><span class="text-muted"> ── {body}</span></p>
+              </li>
+            ))}
           </ol>
+        </div>
+        <div class="mb-4">
+          <p class="mb-2 text-sm font-bold">このプログラムの特徴</p>
+          <div class="grid gap-3 md:grid-cols-2">
+            {bootcampFeatures.map((feature) => (
+              <div class="rounded-md border border-edge bg-white p-4">
+                <h4 class="text-sm font-semibold text-primary-700">{feature.title}</h4>
+                <p class="mt-1 text-xs leading-relaxed text-muted">{feature.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
         <div class="mb-4 rounded-md border border-primary-100 bg-primary-100/40 p-4">
           <p class="mb-2 text-sm font-bold">終了時に目指す状態(業務の言葉で)</p>
@@ -235,6 +385,7 @@ const supportPrinciples = [
         </div>
         <div class="mb-4">
           <p class="mb-2 text-sm font-bold">獲得できるもの</p>
+          <p class="mb-1.5 text-xs font-bold text-muted">スキル</p>
           <ul class="flex flex-wrap gap-2">
             {bootcampGains.map((gain) => (
               <li class="rounded-sm bg-primary-100 px-3 py-1 text-xs font-bold text-primary-700">
@@ -242,11 +393,38 @@ const supportPrinciples = [
               </li>
             ))}
           </ul>
+          <p class="mt-3 mb-1.5 text-xs font-bold text-muted">マインドセット</p>
+          <ul class="flex flex-wrap gap-2">
+            {bootcampMindsets.map((mindset) => (
+              <li class="rounded-sm bg-primary-100 px-3 py-1 text-xs font-bold text-primary-700">
+                {mindset}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="mb-4">
+          <p class="mb-2 text-sm font-bold">活用例</p>
+          <div class="grid gap-3 lg:grid-cols-2">
+            {bootcampCases.map((c) => (
+              <div class="rounded-md bg-paper-subtle p-4">
+                <p class="text-xs font-bold text-muted">{c.person}</p>
+                <p class="mt-1 text-sm font-bold text-primary-700">「{c.problem}」</p>
+                <p class="mt-2 text-xs leading-relaxed text-muted">{c.detail}</p>
+                <ul class="mt-3 space-y-1.5 border-t border-edge pt-3 text-xs">
+                  {c.changes.map((change) => (
+                    <li class="flex gap-2 font-bold text-primary-700">
+                      <span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-brand-orange" aria-hidden="true"></span>
+                      {change}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
         <p class="mb-1 text-sm text-muted">
           対象: 経営企画・事業推進・DX推進・人事企画など、問題解決を仕事にしている方。コンサルティング業界を志望する方。
         </p>
-        {/* TODO: 活用例2件(超実務1on1プログラム資料p.13)の要約掲載は原文入手後に追加 */}
         <p class="mt-4 border-t border-edge pt-4 text-sm font-bold">
           料金: お問い合わせください
           <a href="/contact/" class="ml-3 font-bold text-primary-500 underline underline-offset-4">
@@ -276,6 +454,17 @@ const supportPrinciples = [
             重要会議・提案・評価面談・転職面接など「勝負どころ」の前後で、壁打ち・シミュレーションを行います。
           </li>
         </ul>
+        <div class="mb-4 rounded-md border border-primary-100 bg-primary-100/40 p-4">
+          <p class="mb-2 text-sm font-bold">期間終了時に目指す状態</p>
+          <ul class="space-y-2 text-sm text-muted">
+            {partnerGoals.map((goal) => (
+              <li class="flex gap-3">
+                <span class="mt-0.5 flex-none rounded-sm bg-primary-700 px-2 py-0.5 text-xs font-bold text-white">{goal.wall}</span>
+                <p>{goal.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
         <p class="mb-1 text-sm text-muted">
           対象: ブートキャンプを終え、「この社外参謀と半年〜1年、本気で走ってみたい」と感じた方。
         </p>
@@ -362,6 +551,18 @@ const supportPrinciples = [
   <Section>
     <SectionTitle>研修でも、コンサルでもなく</SectionTitle>
     <Positioning />
+
+    <h3 class="mt-12 mb-4 text-sm font-bold tracking-wide text-muted">
+      ほかの研修・コーチングと違う、4つの理由
+    </h3>
+    <div class="grid gap-4 md:grid-cols-2 md:gap-6" data-reveal="group">
+      {differences.map((diff) => (
+        <div class="rounded-lg border border-edge bg-white p-6">
+          <h4 class="font-semibold text-primary-700">{diff.title}</h4>
+          <p class="mt-2 text-sm text-muted">{diff.body}</p>
+        </div>
+      ))}
+    </div>
   </Section>
 
   <Section tone="subtle" narrow>
