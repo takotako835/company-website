@@ -27,7 +27,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/ogp.png', Astro.site);
 
 // 全ページ共通の Organization 構造化データ(06_seo-performance §2)
-// TODO: 所在地・連絡先が確定したら address / contactPoint を追加する
 const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -36,6 +35,18 @@ const organizationLd = {
   logo: new URL(symbolOrange.src, Astro.site).toString(),
   foundingDate: SITE.foundingDate,
   founder: { '@type': 'Person', name: SITE.representative },
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'JP',
+    addressRegion: '東京都',
+    streetAddress: SITE.address.replace('東京都', ''),
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer support',
+    email: SITE.email,
+    availableLanguage: ['Japanese'],
+  },
 };
 ---
 

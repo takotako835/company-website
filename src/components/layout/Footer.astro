@@ -1,8 +1,8 @@
 ---
-import { NAV, SITE } from '../../lib/site';
+import { LEGAL_NAV, NAV, SITE } from '../../lib/site';
 import symbolWhite from '../../assets/maido_symbol_white.svg';
 
-// TODO: 所在地・電話番号が確定したらフッターに記載する(03_ux-guidelines §3 の信頼要素)
+// 電話番号は特商法表記のとおり「請求があれば遅滞なく開示」の運用のため、サイトには掲載しない
 ---
 
 <footer class="bg-primary-900 text-white">
@@ -17,6 +17,15 @@ import symbolWhite from '../../assets/maido_symbol_white.svg';
           </div>
         </div>
         <p class="mt-6 max-w-md text-sm text-primary-100/90">{SITE.tagline}</p>
+        <address class="mt-6 max-w-md text-sm not-italic text-primary-100/90">
+          {SITE.address}<br />
+          <a
+            href={`mailto:${SITE.email}`}
+            class="underline underline-offset-4 transition-colors duration-200 hover:text-white"
+          >
+            {SITE.email}
+          </a>
+        </address>
       </div>
 
       <nav aria-label="フッターナビゲーション">
@@ -38,8 +47,20 @@ import symbolWhite from '../../assets/maido_symbol_white.svg';
       </nav>
     </div>
 
-    <p class="mt-12 border-t border-white/15 pt-6 text-center text-xs text-primary-100/70">
-      © {SITE.companyName}
-    </p>
+    <div class="mt-12 border-t border-white/15 pt-6">
+      <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs">
+        {LEGAL_NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="py-1 text-primary-100/80 underline-offset-4 transition-colors duration-200 hover:text-white hover:underline"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 text-center text-xs text-primary-100/70">© {SITE.companyName}</p>
+    </div>
   </div>
 </footer>

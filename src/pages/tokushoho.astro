@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+import Section from '../components/layout/Section.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import { SITE } from '../lib/site';
+
+// 原文: docs/content/tokushoho.html(既存サイトの内容をそのまま移植。文言は変更しない)
+// TODO: 原文のキャンセル欄にあった「お支払いページ(payment.html)」へのリンクは、
+// このサイトに該当ページがないため外している。移植が必要か要確認
+const rows: { label: string; body: string; note?: string }[] = [
+  { label: '販売事業者', body: SITE.companyName },
+  { label: '運営責任者', body: '玉岡 諒太(代表取締役)' },
+  { label: '所在地', body: SITE.address },
+  {
+    label: 'お問い合わせ',
+    body: SITE.email,
+    note: '電話番号は、ご請求をいただいた場合に遅滞なく開示します(お問い合わせは上記メールまたはLINEにて承ります)',
+  },
+  {
+    label: '販売価格',
+    body: '個別相談: 3,000円(税込)/ 60分',
+    note: '勉強会・1on1コーチング: お申し込み前に、書面またはLINEで個別にご提示します',
+  },
+  {
+    label: '販売価格以外の必要料金',
+    body: 'インターネット接続にかかる通信料(お客様負担)',
+  },
+  {
+    label: 'お支払い方法',
+    body: 'クレジットカード(オンライン決済)/ 請求書払い(銀行振込)',
+  },
+  {
+    label: 'お支払い時期',
+    body: 'クレジットカード: ご予約確定後、相談実施日の前日まで',
+    note: '請求書払い: 請求書記載の期日まで',
+  },
+  {
+    label: 'サービスの提供時期',
+    body: 'ご予約いただいた日時に、オンライン(Zoom等)で提供します',
+  },
+  {
+    label: 'キャンセル・返金',
+    body: 'サービスの性質上、お支払い後の返金はいたしかねます。日程の変更は前日まで無料で承ります',
+  },
+  {
+    label: '動作環境',
+    body: 'Zoom等のオンライン通話が利用できるスマートフォンまたはPC、インターネット接続環境',
+  },
+];
+---
+
+<Base
+  title="特定商取引法に基づく表記"
+  description="maido&crafts strategy株式会社の特定商取引法に基づく表記。販売事業者・販売価格・支払方法・提供時期・キャンセル条件などを記載しています。"
+>
+  <Breadcrumb items={[{ label: '特定商取引法に基づく表記' }]} />
+
+  <div class="mx-auto max-w-[800px] px-5 pt-8 pb-12 md:pt-12 lg:px-10">
+    <h1 class="text-[28px] font-bold md:text-4xl">特定商取引法に基づく表記</h1>
+    <p class="mt-6 max-w-[42em] text-muted">
+      オンラインでの有料サービス提供にあたり、以下のとおり表記します。
+    </p>
+  </div>
+
+  <Section narrow>
+    <table class="w-full overflow-hidden rounded-lg border border-edge bg-white text-sm">
+      <tbody>
+        {rows.map((row) => (
+          <tr class="border-b border-edge last:border-b-0">
+            <th
+              scope="row"
+              class="w-[34%] bg-paper-subtle px-4 py-3 text-left align-top font-bold text-muted"
+            >
+              {row.label}
+            </th>
+            <td class="px-4 py-3">
+              {row.label === 'お問い合わせ' ? (
+                <a
+                  href={`mailto:${SITE.email}`}
+                  class="text-primary-500 underline underline-offset-4"
+                >
+                  {row.body}
+                </a>
+              ) : (
+                row.body
+              )}
+              {row.note && <span class="mt-1 block text-muted">{row.note}</span>}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <div class="mt-16">
+      <SectionTitle>表現および再現性について</SectionTitle>
+      <p>
+        当サイトに示された内容や成果には個人差があり、必ずしも同様の結果を保証するものではありません。
+      </p>
+    </div>
+  </Section>
+</Base>
