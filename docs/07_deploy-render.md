@@ -266,6 +266,7 @@ Render の Dashboard を見ると、数分後に新しいデプロイが「Live�
 
 | エラーの内容 | 原因と対処 |
 |---|---|
+| `No open ports detected on 0.0.0.0` が繰り返し出る(ビルドは成功している) | 環境変数 `HOST` が `0.0.0.0` になっていません。Astro のサーバーは `HOST` の指定がないと `localhost` だけで待ち受けるため、Render から到達できません。**Environment** に `HOST` = `0.0.0.0` を追加してください(`render.yaml` には記載済み) |
 | `Cannot find package '@tailwindcss/vite'` などパッケージが見つからない | **Render は `NODE_ENV=production` を設定するため、`npm ci` / `npm install` が devDependencies を除外します。** ビルドに必要なパッケージは `package.json` の `dependencies` 側に置いてください(対応済み) |
 | `Cannot find native binding` / `Cannot find module '@rolldown/binding-...'` | npm の既知バグ(npm/cli#4828)。**`npm ci` を使わない**ことに加え、**`node_modules` を毎回削除する**必要があります(対応済み。下記参照)。ログに `up to date in 1s` と出ていたら、Render のキャッシュが使われて再インストールされていないサインです |
 | Node のバージョン関連 | `render.yaml` の `NODE_VERSION` を確認する |
@@ -386,6 +387,7 @@ git push
 4. **「Advanced」** を開き、環境変数を追加する
    - `NODE_VERSION` = `22.11.0`
    - `NODE_ENV` = `production`
+   - **`HOST` = `0.0.0.0`(★必須。これがないと Render がサーバーを見つけられません)**
    - `SITE_URL` = 公開後のURL(いったん空欄で作成し、STEP 3 で設定してもよい)
    - `RESEND_API_KEY` / `MAIL_FROM` / `CONTACT_TO` = STEP 5 で設定してもよい
 5. 「Create Web Service」を押す
