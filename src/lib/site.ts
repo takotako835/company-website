@@ -7,8 +7,10 @@ export const SITE = {
     '成長の土台となるポータブルスキルを構築し、個人と組織の持続的な発展を促進することで、社会に貢献できる人材を輩出する',
   foundingDate: '2025-01',
   representative: '玉岡 諒太',
-  address: '東京都台東区浅草1丁目13番5号 井門浅草すしや通りビルC43',
-  email: 'support@ywc-maido.com',
+  address: '東京都台東区浅草1丁目13番5号 井門浅草すしや通りビル',
+  // 問い合わせ窓口はサイト内のフォームとLINEに一本化する(メールアドレスは掲載しない)。
+  // フォームの送信先は環境変数 CONTACT_TO で設定する
+  contactPath: '/contact/',
   /** LINE公式アカウントに「個別相談」と送る導線(最重要CV) */
   lineUrl:
     'https://line.me/R/oaMessage/@798sqegp/?%E5%80%8B%E5%88%A5%E7%9B%B8%E8%AB%87',

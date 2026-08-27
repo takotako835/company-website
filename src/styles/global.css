@@ -51,15 +51,37 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /*
+   * 日本語の折り返し位置。
+   * auto-phrase は「研修を受けても、現場で行動が変わら／ない」のように
+   * 語や文節の途中で切れるのを防ぎ、意味の切れ目で改行する。
+   * 未対応のブラウザでは日本語の通常の折り返しになる(表示は崩れない)
+   */
+  body {
+    word-break: auto-phrase;
+  }
+
   h1,
   h2,
   h3,
   h4 {
     font-feature-settings: "palt" 1;
-    word-break: keep-all;
+    /* URLなど、途中で切れない長い文字列がはみ出さないための保険 */
     overflow-wrap: anywhere;
     text-wrap: balance;
     letter-spacing: 0.02em;
+  }
+
+  /* 最終行に1〜2文字だけ残る「泣き別れ」を避ける */
+  p,
+  li,
+  dd,
+  dt,
+  th,
+  td,
+  figcaption,
+  blockquote {
+    text-wrap: pretty;
   }
 
   /* フォーカスリングを消さない(03_ux-guidelines §6) */

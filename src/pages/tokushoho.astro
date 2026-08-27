@@ -14,8 +14,8 @@ const rows: { label: string; body: string; note?: string }[] = [
   { label: '所在地', body: SITE.address },
   {
     label: 'お問い合わせ',
-    body: SITE.email,
-    note: '電話番号は、ご請求をいただいた場合に遅滞なく開示します(お問い合わせは上記メールまたはLINEにて承ります)',
+    body: '本サイトのお問い合わせフォーム、またはLINE公式アカウントにて承ります',
+    note: '電話番号は、ご請求をいただいた場合に遅滞なく開示します',
   },
   {
     label: '販売価格',
@@ -76,10 +76,7 @@ const rows: { label: string; body: string; note?: string }[] = [
             </th>
             <td class="px-4 py-3">
               {row.label === 'お問い合わせ' ? (
-                <a
-                  href={`mailto:${SITE.email}`}
-                  class="text-primary-500 underline underline-offset-4"
-                >
+                <a href={SITE.contactPath} class="text-primary-500 underline underline-offset-4">
                   {row.body}
                 </a>
               ) : (

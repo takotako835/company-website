@@ -44,7 +44,7 @@ const organizationLd = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer support',
-    email: SITE.email,
+    url: new URL(SITE.contactPath, Astro.site).toString(),
     availableLanguage: ['Japanese'],
   },
 };
