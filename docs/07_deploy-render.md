@@ -163,6 +163,25 @@ Render の Dashboard を見ると、数分後に新しいデプロイが「Live�
 
 ### ビルドが失敗する(Deploy failed と出る)
 
+#### 最初に確認: サービスの Build Command が最新になっているか
+
+`render.yaml` を修正しても、**すでに作成済みのサービスに反映されていない**ことがあります。
+とくに、最初の Blueprint 同期が失敗した状態で作られたサービスで起こります。
+
+1. Render Dashboard → `maido-crafts-website` を開く
+2. 左メニューの **「Settings」** → **「Build & Deploy」** の **Build Command** を見る
+3. 次の値になっているか確認する
+
+   ```
+   rm -f package-lock.json && npm install --no-audit --no-fund && npm run build
+   ```
+
+4. `npm ci && npm run build` など**古い値のままだったら、その場で書き換えて保存**する
+   (この画面で直接編集できます)
+5. あわせて **Publish Directory** が `dist`、**Branch** が `main` になっているかも確認する
+
+#### それでも失敗する場合
+
 1. サービス画面の **Logs** タブを開き、赤いエラーメッセージを探す
 2. よくある原因:
 
