@@ -8,7 +8,10 @@ services:
     runtime: static
     name: maido-crafts-website
     branch: main
-    buildCommand: npm ci && npm run build
+    # `npm ci` は使わない。vite が依存する rolldown のネイティブバイナリが
+    # npm の既知バグ(npm/cli#4828)でインストールされず、ビルドが失敗するため。
+    # ロックファイルを外してから npm install で解決させる(検証済み: Node 22.11.0 / npm 10.9.0)
+    buildCommand: rm -f package-lock.json && npm install --no-audit --no-fund && npm run build
     staticPublishPath: ./dist
     # main への push で自動デプロイ
     autoDeploy: true
