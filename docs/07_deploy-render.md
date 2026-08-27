@@ -168,22 +168,47 @@ Render の Dashboard を見ると、数分後に新しいデプロイが「Live�
 
 | エラーの内容 | 原因と対処 |
 |---|---|
-| `Cannot find package '@tailwindcss/vite'` などパッケージが見つからない | **Render は `NODE_ENV=production` を設定するため、`npm ci` が devDependencies を除外します。** ビルドに必要なパッケージは `package.json` の `dependencies` 側に置いてください(対応済み) |
-| `package-lock.json` 関連のエラー | ロックファイルが GitHub に上がっていない、または `package.json` と内容がずれている。`npm install` して両方を commit・push する |
+| `Cannot find package '@tailwindcss/vite'` などパッケージが見つからない | **Render は `NODE_ENV=production` を設定するため、`npm ci` / `npm install` が devDependencies を除外します。** ビルドに必要なパッケージは `package.json` の `dependencies` 側に置いてください(対応済み) |
+| `Cannot find native binding` / `Cannot find module '@rolldown/binding-...'` | npm の既知バグ(npm/cli#4828)。`npm ci` だとネイティブバイナリが入りません。**`npm ci` は使わない**でください(対応済み。下記参照) |
 | Node のバージョン関連 | `render.yaml` の `NODE_VERSION` を確認する |
 
 3. 手元で確認するときは、**Render と同じ条件**にすると再現できます
 
 ```powershell
 $env:NODE_ENV = "production"
-Remove-Item -Recurse -Force node_modules, dist -ErrorAction SilentlyContinue
-npm ci
+Remove-Item -Recurse -Force node_modules, dist, package-lock.json -ErrorAction SilentlyContinue
+npm install
 npm run build
 Remove-Item Env:\NODE_ENV     # 確認が終わったら必ず戻す
+npm install                   # ロックファイルを作り直しておく
 ```
 
 > ここで成功すれば、Render でも同じ結果になります。
 > 単に `npm run build` だけで確認すると、devDependencies が入ったままなので**この不具合を見逃します**。
+
+### なぜ `npm ci` ではなく `npm install` なのか(技術メモ)
+
+`render.yaml` のビルドコマンドは、あえて次のようにしています。
+
+```
+rm -f package-lock.json && npm install --no-audit --no-fund && npm run build
+```
+
+通常 CI では `npm ci` を使うのが定石ですが、このプロジェクトでは使えません。
+
+- Astro が内部で使う `vite` は `rolldown` に依存し、`rolldown` は OS ごとに異なる
+  **ネイティブバイナリ**(`@rolldown/binding-linux-x64-gnu` など)を必要とします
+- npm には、この種の「OS別のオプション依存」を `npm ci` で正しく入れられないバグがあります
+  ([npm/cli#4828](https://github.com/npm/cli/issues/4828))。npm 10・npm 11 のどちらでも再現します
+- さらに、Windows で作った `package-lock.json` を Linux の Render で使うと、この問題が顕在化します
+
+そのため、ロックファイルを外して `npm install` に解決させています。
+Render と同じ Node 22.11.0 / npm 10.9.0 / `NODE_ENV=production` で、ビルド成功を確認済みです。
+
+> `package-lock.json` はリポジトリに残してあります(手元の開発でバージョンを固定するため)。
+> ビルド時にだけ外している、という位置づけです。
+> 副作用として、Render 側では依存パッケージが `package.json` の範囲内で最新に解決されます。
+> 特定バージョンで固定したい場合は `package.json` の `^` を外してください。
 
 ### 「ブループリントの同期に失敗しました」というメールが届いた
 
