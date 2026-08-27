@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>新任リーダー30秒診断｜チームが伸び悩む本当のボトルネック</title>
+<meta name="description" content="6つの質問に「ある/ない」で答えるだけ。チームが伸び悩む本当のボトルネックと、解き方の方向性がわかります。登録不要・無料・30秒。">
+<meta property="og:title" content="新任リーダー30秒診断｜チームが伸び悩む本当のボトルネック">
+<meta property="og:description" content="プレイヤーの頃は、うまくいっていたのに。6つの質問で、あなたのチームのボトルネックがわかります。登録不要・30秒。">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1F3A5F">
+<style>
+  :root{
+    --navy:#1F3A5F; --navy-d:#16304F; --ink:#1d1d1f; --gray:#6e6e73; --grayL:#f5f5f7;
+    --line:#d2d2d7; --bg:#fbfbfd; --ok:#06C755;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{font-size:16px}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+       color:var(--ink);background:var(--bg);line-height:1.85;letter-spacing:0;
+       -webkit-font-smoothing:antialiased;
+       padding-bottom:env(safe-area-inset-bottom)}
+  .app{max-width:480px;margin:0 auto;min-height:100dvh;position:relative}
+  .screen{display:none;padding:28px 20px 60px;animation:fade .35s ease}
+  .screen.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes pop{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  button{font-family:inherit;cursor:pointer;border:none}
+  button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #7aa7e0;outline-offset:2px}
+  h1,h2,h3{font-feature-settings:"palt" 1;word-break:keep-all;overflow-wrap:anywhere;text-wrap:balance;letter-spacing:.01em}
+
+  /* ===== hero ===== */
+  .hero{background:var(--navy);color:#fff;
+        border-radius:0 0 26px 26px;padding:40px 22px 34px;margin:0 -0 26px}
+  .chips{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .chip{background:rgba(255,255,255,.16);border:none;
+        font-size:.76rem;font-weight:700;padding:4px 12px;border-radius:999px}
+  .hero h1{font-size:1.62rem;line-height:1.5;font-weight:800;margin-bottom:12px}
+  .hero h1 em{font-style:normal;color:#9FC5F0;text-decoration:underline;text-decoration-color:rgba(159,197,240,.55);text-underline-offset:6px;text-decoration-thickness:3px}
+  .hero p{font-size:.9rem;opacity:.88}
+  .startWrap{padding:0 4px}
+  .eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.08em;color:#9FC5F0;
+           background:rgba(255,255,255,.12);display:inline-block;padding:5px 14px;
+           border-radius:980px;margin-bottom:16px}
+  .hsub{font-size:.9rem;opacity:.9;line-height:1.9}
+  .trust{margin-top:14px;font-size:.72rem;font-weight:700;color:#BFD6EF;
+         border-top:1px solid rgba(255,255,255,.18);padding-top:12px;line-height:1.7}
+  .trust span{font-weight:400;opacity:.75}
+  .pains{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 16px 14px;
+         margin-bottom:14px;box-shadow:0 2px 14px rgba(0,0,0,.05)}
+  .pains .pt{font-size:.85rem;font-weight:800;color:var(--ink);margin-bottom:11px}
+  .pains .pt span{display:block;font-size:.72rem;font-weight:700;color:var(--navy);margin-top:2px}
+  .pill{position:relative;background:var(--grayL);border-radius:10px;padding:10px 13px 10px 34px;
+        font-size:.86rem;font-weight:700;margin-bottom:8px;line-height:1.6}
+  .pill:before{content:"”";position:absolute;left:13px;top:8px;font-size:1.2rem;font-weight:800;
+        color:var(--navy);opacity:.55;font-family:Georgia,serif}
+  .merit{background:linear-gradient(180deg,#fff,#F4F8FD);border:1.5px solid #C9DDF3;border-radius:16px;
+         padding:18px 16px;margin-bottom:16px}
+  .merit .mt{font-size:.85rem;font-weight:800;color:var(--navy);margin-bottom:11px}
+  .mrow{display:flex;gap:10px;align-items:flex-start;font-size:.87rem;font-weight:700;
+        margin-bottom:9px;line-height:1.65}
+  .mrow:last-child{margin-bottom:0}
+  .mi{flex:none;display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;
+      border-radius:50%;background:var(--navy);color:#fff;font-size:.72rem;font-weight:800;margin-top:2px}
+  .primary{display:block;width:100%;background:var(--navy);color:#fff;font-size:1.05rem;font-weight:700;
+           padding:17px;border-radius:980px;transition:.12s}
+  .primary:active{transform:scale(.97)}
+  .subnote{text-align:center;font-size:.78rem;color:var(--gray);margin-top:10px}
+
+  /* ===== quiz ===== */
+  .qhead{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .back{background:none;color:var(--gray);font-size:.85rem;padding:6px 2px}
+  .qprog{flex:1;height:6px;background:#e6e3d9;border-radius:3px;overflow:hidden}
+  .qprog i{display:block;height:100%;background:var(--navy);width:0;transition:.35s ease}
+  .qnum{font-size:.8rem;color:var(--gray);font-weight:700;min-width:34px;text-align:right}
+  .qcard{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px 22px 26px;
+         margin-top:16px;box-shadow:0 4px 20px rgba(0,0,0,.06);animation:pop .28s ease}
+  .qcard h2{font-size:1.18rem;line-height:1.65;font-weight:800;margin-bottom:10px}
+  .qcard .sub{font-size:.85rem;color:var(--gray);margin-bottom:24px}
+  .ans{display:grid;gap:12px}
+  .ans button{padding:17px;border-radius:13px;font-size:1.02rem;font-weight:800;transition:.12s;border:2px solid}
+  .ans .yes{background:var(--navy);border-color:var(--navy);color:#fff}
+  .ans .no{background:#fff;border-color:var(--line);color:var(--gray)}
+  .ans button:active{transform:scale(.97)}
+  .qhint{text-align:center;font-size:.76rem;color:var(--gray);margin-top:18px}
+
+  /* ===== analyzing ===== */
+  #analyzing{text-align:center;padding-top:26vh}
+  .dots{display:inline-flex;gap:8px;margin-bottom:22px}
+  .dots i{width:11px;height:11px;border-radius:50%;background:var(--navy);animation:b 1s infinite}
+  .dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+  @keyframes b{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(-7px);opacity:1}}
+  #analyzing p{font-size:.95rem;color:var(--gray);font-weight:700}
+
+  /* ===== result ===== */
+  #result{padding:0 0 130px}
+  .rband{color:#fff;padding:34px 22px 26px;border-radius:0 0 24px 24px}
+  .tchip{display:inline-block;background:#fff;font-size:.76rem;font-weight:800;padding:3px 13px;
+         border-radius:999px;margin-bottom:10px}
+  .rband .rt{font-size:.82rem;opacity:.85;margin-bottom:2px}
+  .rband h2{font-size:1.55rem;line-height:1.45;font-weight:800;margin-bottom:10px}
+  .rband .catch{font-size:.92rem;font-weight:700;opacity:.96;line-height:1.75}
+  .rbased{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.72);margin-top:12px}
+  .rin{padding:22px 20px 0}
+  .stageLead{font-size:.92rem;color:var(--gray);background:#fff;border:1px solid var(--line);
+             border-radius:14px;padding:14px 16px;margin-bottom:26px}
+  .sec{margin-bottom:34px}
+  .sec.alt{margin-left:-20px;margin-right:-20px;padding:28px 20px;background:var(--grayL);border-radius:0}
+  .sec.alt .voice,.sec.alt .faq,.sec.alt .vs{border-color:#e4e4e9}
+  .sec h3{display:flex;align-items:center;gap:9px;font-size:1.08rem;font-weight:800;margin-bottom:14px}
+  .num{display:inline-flex;align-items:center;justify-content:center;flex:none;width:27px;height:27px;
+       border-radius:50%;color:#fff;font-size:.9rem;font-weight:800}
+  .koe{border-left:4px solid;border-radius:0 12px 12px 0;padding:14px 16px;font-size:.92rem;
+       margin-bottom:16px;line-height:1.85}
+  .sec p{font-size:.94rem;margin-bottom:13px}
+  .hi{border-radius:12px;padding:14px 16px;font-size:.93rem;font-weight:800;line-height:1.8}
+  .more summary{list-style:none;color:var(--navy);font-size:.88rem;font-weight:700;padding:6px 0;cursor:pointer}
+  .more summary::-webkit-details-marker{display:none}
+  .more summary:after{content:"（タップで開く）";font-weight:400;color:var(--gray);font-size:.78rem}
+  .more[open] summary:after{content:""}
+  .gate{background:#fff;border:2px solid var(--navy);border-radius:18px;padding:20px 18px;margin-bottom:34px}
+  .gtitle{font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:12px}
+  .gtitle span{font-size:.8rem;color:var(--gray);font-weight:700}
+  .glist{list-style:none;margin:0 0 16px;padding:0}
+  .glist li{display:flex;align-items:center;gap:10px;font-size:.9rem;font-weight:700;padding:9px 0;
+    border-bottom:1px solid var(--grayL)}
+  .glist li:last-child{border-bottom:none}
+  .glist b{flex:none;min-width:34px;height:24px;display:inline-flex;align-items:center;justify-content:center;
+    background:var(--grayL);color:var(--navy);border-radius:7px;font-size:.72rem;font-weight:800;padding:0 6px}
+  .gbtn{display:block;text-align:center;background:var(--ok);color:#fff;text-decoration:none;
+    font-weight:700;border-radius:980px;padding:15px;font-size:.98rem;box-shadow:0 1px 10px rgba(6,199,85,.28)}
+  .gnote{font-size:.73rem;color:var(--gray);text-align:center;margin-top:9px}
+  .tool{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 16px;margin-bottom:10px}
+  .tool b{font-size:.95rem;color:var(--navy)}
+  .tag{display:inline-block;font-size:.71rem;font-weight:800;padding:2px 10px;border-radius:999px;margin-left:7px;vertical-align:2px}
+  .tool small{display:block;color:var(--gray);font-size:.82rem;margin-top:5px;line-height:1.7}
+  .note{font-size:.76rem;color:var(--gray);margin-bottom:12px}
+  .sci{background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy);
+       border-radius:0 13px 13px 0;padding:15px 16px;margin-top:14px}
+  .scilabel{font-size:.71rem;font-weight:800;letter-spacing:.08em;color:var(--navy);margin-bottom:10px}
+  .sciitem{margin-bottom:11px}
+  .sciitem:last-child{margin-bottom:0}
+  .sciitem b{font-size:.85rem;color:var(--ink);display:block;margin-bottom:2px}
+  .sciitem p{font-size:.82rem;color:var(--gray);margin:0;line-height:1.75}
+  .scimore summary{list-style:none;font-size:.8rem;font-weight:700;color:var(--navy);cursor:pointer;padding:4px 0}
+  .scimore summary::-webkit-details-marker{display:none}
+  .scimore summary:before{content:"＋ "}
+  .scimore[open] summary{display:none}
+  .scinote{font-size:.7rem;color:#a5a294;margin-top:12px;border-top:1px dashed var(--line);
+           padding-top:10px;line-height:1.7}
+  .profcard{display:flex;align-items:center;gap:12px;
+    background:#fff;border:1.5px solid var(--navy);border-radius:16px;padding:13px 16px;
+    text-decoration:none;margin-bottom:18px}
+  .pcface{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none}
+  .profcard .pcl{flex:1;font-size:.88rem;font-weight:700;color:var(--ink);line-height:1.5}
+  .profcard .pcl small{display:block;font-size:.72rem;font-weight:700;color:var(--gray)}
+  .profcard .pcr{font-size:.84rem;font-weight:700;color:var(--navy);white-space:nowrap}
+  .gallup{background:linear-gradient(180deg,#fff,#F4F8FD);border:1.5px solid #C9DDF3;border-radius:16px;
+          padding:22px 18px;margin-bottom:18px;text-align:center}
+  .gnum{font-size:3.1rem;font-weight:800;color:var(--navy);line-height:1;margin-bottom:10px}
+  .gline{font-size:.87rem;font-weight:700;text-align:left;margin-bottom:10px;line-height:1.8}
+  .gsub{font-size:.82rem;color:var(--gray);text-align:left;margin:0;line-height:1.8}
+  .vstats{display:flex;gap:8px;margin-bottom:12px}
+  .vs{flex:1;background:#fff;border:1px solid var(--line);border-radius:12px;text-align:center;padding:12px 4px}
+  .vs b{display:block;font-size:1.18rem;font-weight:800;color:var(--navy);line-height:1.3}
+  .vs b i{font-style:normal;font-size:.68rem}
+  .vs em{font-style:normal;font-size:.6rem;vertical-align:super}
+  .vs span{display:block;font-size:.7rem;color:var(--gray);font-weight:700;margin-top:3px;line-height:1.4}
+  .voice{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 16px;margin-bottom:10px}
+  .vwho{font-size:.74rem;color:var(--gray);font-weight:700;margin-bottom:5px}
+  .voice p{font-size:.88rem;margin:0}
+  .vnote{font-size:.73rem;color:#b7b4a8;margin-top:6px}
+  .faq{background:#fff;border:1px solid var(--line);border-radius:13px;margin-bottom:10px;overflow:hidden}
+  .faq summary{list-style:none;padding:15px 16px;font-size:.9rem;font-weight:800;cursor:pointer;position:relative;padding-right:38px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary:after{content:"＋";position:absolute;right:16px;top:13px;color:var(--navy);font-weight:400;font-size:1.1rem}
+  .faq[open] summary:after{content:"−"}
+  .faq p{padding:0 16px 15px;font-size:.87rem;color:var(--gray)}
+  .cta{border-radius:18px;padding:26px 20px;color:#fff;margin:6px 0 20px}
+  .cta .ctalabel{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.04em;
+    background:rgba(255,255,255,.16);border-radius:980px;padding:5px 13px;margin-bottom:12px}
+  .cta h3{font-size:1.2rem;font-weight:800;margin-bottom:10px}
+  .ctacost{font-size:.84rem;font-weight:700;opacity:.92;margin-bottom:14px}
+  .cta .clead{font-size:.9rem;opacity:.95;margin-bottom:14px}
+  .cta ul{list-style:none;font-size:.87rem;margin-bottom:16px}
+  .cta li{padding-left:1.4em;position:relative;margin-bottom:7px;line-height:1.7}
+  .cta li:before{content:"✓";position:absolute;left:0;font-weight:800}
+  .cta .push{font-size:.85rem;font-weight:700;background:rgba(255,255,255,.12);
+             border-radius:10px;padding:11px 13px;margin-bottom:14px;line-height:1.8}
+  .slots{background:rgba(255,255,255,.18);border:none;border-radius:12px;
+         text-align:center;font-size:.85rem;font-weight:800;padding:9px;margin-bottom:14px}
+  .linebtn{display:block;text-align:center;background:var(--ok);color:#fff;text-decoration:none;
+           font-weight:700;border-radius:980px;padding:16px;font-size:1.02rem;box-shadow:0 1px 10px rgba(6,199,85,.28)}
+  .linebtn small{display:block;font-size:.72rem;font-weight:700;opacity:.9;margin-top:2px}
+  .ctanote{text-align:center;font-size:.74rem;opacity:.85;margin-top:10px}
+  .redo{display:block;margin:22px auto 0;background:none;color:var(--gray);font-size:.82rem;text-decoration:underline}
+  .fin{text-align:center;font-size:.85rem;color:var(--gray);margin-top:30px;line-height:2}
+
+  /* sticky bar */
+  #sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(251,251,253,.85);
+          backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+          display:none;z-index:50}
+  #sticky .inner{max-width:480px;margin:0 auto}
+  #sticky a{display:block;text-align:center;background:var(--ok);color:#fff;text-decoration:none;
+            font-weight:700;border-radius:980px;padding:14px;font-size:.98rem}
+  @media print{#sticky,.redo,.gate{display:none!important}
+    body{background:#fff}.screen{display:none}.screen#result{display:block;padding-bottom:0}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== HERO ===== -->
+  <section class="screen on" id="hero">
+    <div class="hero">
+      <div class="eyebrow">新任リーダー・プレイングマネージャーのための30秒診断</div>
+      <h1>プレイヤーの頃は、<br><em>うまくいっていた</em>のに。</h1>
+      <p class="hsub">リーダーになった途端、頑張るほど空回りする。<br>その原因は、あなたの能力ではなく「構造」にあるのかもしれません。</p>
+      <div class="trust">経営・心理の文献と講師の現場経験に基づいて設計。受講生30名以上・満足度100%<span>（受講者アンケート・「価値があった」以上の回答割合）</span></div>
+    </div>
+    <div class="startWrap">
+      <div class="pains">
+        <div class="pt">たとえば、こんな悩み。<span>1つでも当てはまるなら、この診断はあなたのためのものです</span></div>
+        <div class="pill">部下の仕事を、つい巻き取ってしまう</div>
+        <div class="pill">感覚でやってきたことを、うまく教えられない</div>
+        <div class="pill">上司と部下の板挟みで、消耗している</div>
+        <div class="pill">「戦略を考えろ」と言われて、手が止まる</div>
+      </div>
+      <div class="merit">
+        <div class="mt">6つの質問に答えると、わかること</div>
+        <div class="mrow"><span class="mi">1</span>チームが伸び悩む「本当のボトルネック」（4タイプ判定）</div>
+        <div class="mrow"><span class="mi">2</span>その原因が、あなたのせいではない理由</div>
+        <div class="mrow"><span class="mi">3</span>明日から、どう動けばいいか。解き方の方向性と道具</div>
+      </div>
+      <button class="primary" onclick="startQuiz()">無料で、原因を確かめる（30秒）</button>
+      <p class="subnote">登録不要・結果はその場で表示。メールアドレス等の入力はありません。</p>
+    </div>
+  </section>
+
+  <!-- ===== QUIZ ===== -->
+  <section class="screen" id="quiz">
+    <div class="qhead">
+      <button class="back" onclick="prevQ()">←戻る</button>
+      <div class="qprog" role="progressbar" aria-label="診断の進み具合" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" id="qprog"><i id="qbar"></i></div>
+      <span class="qnum" id="qnum">1/6</span>
+    </div>
+    <div class="qcard" id="qcard">
+      <h2 id="qtext"></h2>
+      <p class="sub" id="qsub"></p>
+      <div class="ans">
+        <button class="yes" onclick="answer(true)">ある…</button>
+        <button class="no" onclick="answer(false)">ない</button>
+      </div>
+    </div>
+    <p class="qhint">直感で大丈夫です。正解はありません。</p>
+  </section>
+
+  <!-- ===== ANALYZING ===== -->
+  <section class="screen" id="analyzing" role="status" aria-live="polite">
+    <div class="dots"><i></i><i></i><i></i></div>
+    <p id="antext">回答を読み取っています…</p>
+  </section>
+
+  <!-- ===== RESULT ===== -->
+  <section class="screen" id="result"></section>
+</div>
+
+<div id="sticky"><div class="inner"><a id="stickyLine" href="#">LINEで、診断の続きを受け取る（無料）</a></div></div>
+
+<script>
+/* ======== 運用設定（ここだけ編集すればOK） ======== */
+const LINE_URL   = "https://line.me/R/ti/p/%40798sqegp";
+const LINE_ID    = "@798sqegp";
+
+/* 診断結果をLINEへ引き渡すためのURLを作る */
+function lineUrlWithResult(tid){
+  return "https://line.me/R/oaMessage/" + encodeURIComponent(LINE_ID)
+       + "/?" + encodeURIComponent("診断結果：" + TYPES[tid].name);
+}
+/* 「個別相談」が入力済みの状態でトーク画面を開くURL */
+const LINE_CONSULT_URL = "https://line.me/R/oaMessage/" + encodeURIComponent(LINE_ID)
+                       + "/?" + encodeURIComponent("個別相談");
+const SLOTS_LEFT = 3;                          /* 個別相談の月間受付人数 */
+/* ================================================ */
+
+const QUESTIONS = [{"cat": "A", "q": "「これ、自分でやった方が早いな」<br>そう思って、部下の仕事を巻き取ることがある", "sub": "気づけば部下の資料を、深夜に自分で作り直している"}, {"cat": "A", "q": "チームの成果が、自分の残業時間と<br>気合で支えられている気がする", "sub": "自分が止まったら、チームも止まる"}, {"cat": "B", "q": "感覚でやってきたことを、<br>部下にうまく言葉で教えられない", "sub": "「なんでできないの？」と思ってしまう自分がいる"}, {"cat": "B", "q": "「背中を見て学べ」になってしまい、<br>若手との距離を感じる", "sub": "育て方がわからないまま、退職の連絡だけが届く"}, {"cat": "C", "q": "上司は「結果」、部下は「プロセス」。<br>板挟みで消耗している", "sub": "どちらの言い分も分かるから、余計に苦しい"}, {"cat": "D", "q": "「戦略を考えろ」と言われるが、<br>結局目の前のタスクに逃げてしまう", "sub": "考え方を教わったことは、一度もない"}];
+const TYPES = {"A": {"name": "プレイヤーの呪縛", "main": "#185fa5", "dark": "#0c447c", "light": "#E6F1FB", "catch": "「自分でやった方が早い」は、あなたの弱さではなく、強さの後遺症です。", "koe": "「これ、自分でやったほうが早いな…」そう言って、今日も部下の仕事を巻き取り、一人で残業していませんか。チームの成果が、あなたの残業時間と気合だけで支えられていませんか。", "why": ["あなたはプレイヤーとして、感覚とスピードと自己完結力で成果を出してきました。それはエースとして最強の型です。", "問題は、マネージャーになった瞬間、その最強の型がそのまま裏返ることです。", "あなたが巻き取るほど、部下は経験を積む機会を失い、育ちません。育たないから、任せられない。", "任せられないから、また巻き取る。この自己強化ループが「プレイヤーの呪縛」です。", "意志や性格の問題ではなく、優秀だった人ほど深くはまる構造です。だから、根性や時間管理術だけでは、なかなか抜け出せないのです。"], "dirLead": "解決の方向は、「もっと頑張る」の逆側にあります。", "dirs": ["鍵は、あなたの中にある「成果の型」を、あなたの外＝チームに移植することです。ただし、いきなり「任せる」から始めると、つまずきやすくなります。", "何をどこまで任せられるかが見えないまま任せると、丸投げになってしまいがちだからです。", "順序にコツがあります。まず、巻き取りがチームのどのプロセスで発生しているかを構造で特定する。", "次に、その業務であなたが感覚でやっていることを言語化する。最後に、任せて、対話で支える。", "この3段階を踏むと、チームはあなたの分身ではなく、あなたを超える仕組みになっていきます。"], "dirHi": "頑張りを増やすのではなく、あなたの「感覚」を、チームが再現できる「仕組み」に変える。", "tools": [["商売の基本サイクル／バリューチェーン", "チームの業務を「創る・作る・売る」の流れで分解し、巻き取りの発生箇所を地図にする道具", "勉強会 第1回"], ["ボトルネック特定の現状分析", "分解→絞り込み→深掘りの手順で、数ある問題から「本当に効く一点」を特定する型", "勉強会 第1回"], ["対話の技術", "任せた後、部下を放置せず・巻き取り直さずに支えるための、教えないコミュニケーション技術", "勉強会 第3・4回"]]}, "B": {"name": "言語化の壁", "main": "#0f6e56", "dark": "#085041", "light": "#E1F5EE", "catch": "「なんでできないの？」と思ってしまうのは、指導力不足ではなく、感覚で出来すぎてきたからです。", "koe": "「背中を見て学べ」が通用せず、若手が次々と辞めていく。どう教えたらいいのか分からない。心のどこかで「自分の指導力が足りないのでは」と、自分を責めていませんか。", "why": ["先に結論を言うと、原因はコミュニケーション不足でも、最近の若者の気質でもありません。あなたは感覚で成果を出せてしまったため、あなたの中の「うまくいくやり方」は、一度も言葉になったことがないのです。", "言葉になっていないものは、教えられません。教えられないから「見て学べ」になり、背中から読み取れなかった若手は「ここでは成長できない」と静かに離れていきます。", "つまり壁の正体は、指導力ではなく言語化です。やっかいなのは、本人にとって暗黙知は「当たり前」すぎて、自分ひとりでは見えないことです。"], "dirLead": "解決の方向は、「教え方を磨く」ことではありません。", "dirs": ["上手な説明の仕方やマニュアル作りに向かうと、遠回りになりがちです。自分では見えない暗黙知は、適切な「問い」を投げてくれる相手とのやり取りの中でしか、言葉になりません。", "方向性は「教える」から「引き出し合う」への転換です。", "さらに、部下との関係においても同じ転換が起きます。あなたが問いによって部下の考えを引き出せるようになると、部下は「答えを与えられる人」から「自分で考えられる人」に変わります。", "言語化の技術は、あなた自身の暗黙知を掘り出す道具であると同時に、部下育成の道具そのものなのです。"], "dirHi": "「うまく教える」を捨て、「問いで引き出し合う」へ。言語化はセンスではなく、技術です。", "tools": [["対話の技術（スタンス編）", "評価や解釈を挟まずに相手の話を受け取る姿勢。本音と暗黙知が言葉になり始める土台", "勉強会 第3回"], ["問いの設計（スキル編）", "相手がまだ言語化できていない思考に触れるための、問いの立て方・掘り方の技術", "勉強会 第4回"], ["関係性を動かす承認の技法", "離れかけた若手との関係を立て直す、注目の切り口を変える具体的テクニック", "勉強会 第4回"]]}, "C": {"name": "適応課題（価値観のズレ）", "main": "#d85a30", "dark": "#712b13", "light": "#FAECE7", "catch": "その板挟みが解けないのは、あなたのせいではなく、課題の“種類”が違うからです。", "koe": "上司からは「戦略を立てろ」「結果を出せ」。部下からは「現場を見てください」「プロセスも評価してほしい」。板挟みのまま、どちらの顔も立てられず、一人で消耗していませんか。", "why": ["課題には2種類あります。1つは「技術的課題」。", "明確な解決策があり、マニュアルやツールや権限で解決できるもの。もう1つは「適応課題」。", "当事者の価値観や関係性が変わらない限り、固定的な解決策が存在しないものです。", "上司の「結果重視」と部下の「プロセス重視」の対立は、典型的な適応課題です。そして現場の課題の約9割は、実はこちらに属します。", "あなたが消耗してきたのは、適応課題に対して、ルール整備・マニュアル・正論という技術的課題用の打ち手を打ち続けてきたからです。努力が足りないのではなく、武器の種類が課題と噛み合っていなかった。", "それだけのことです。"], "dirLead": "解決の方向は、「どちらが正しいか」を決めることではありません。", "dirs": ["適応課題は、正解を示しても、多数決をとっても、間をとっても解けません。当事者同士が、互いの認識と関係性を変えていくプロセスそのものが解決だからです。", "その唯一の手段が「対話」です。ただしこれは、日常会話とも、いわゆる傾聴とも別物の、明確なやり方とあり方を持つ技術です。", "入口はシンプルで、「相手が本当に大事にしていること（関心事）」に触れることから始まります。対立している相手の関心事を、相手の言葉で言えるでしょうか。", "ほとんどの膠着は、ここが見えていないまま、お互いが自分の正しさを主張し合うことで固まっています。"], "dirHi": "対立を「解く」のではなく、対話を通じて、対立の前提になっている認識と関係性を変える。", "tools": [["技術的課題／適応課題の見極め", "目の前の課題がどちらの種類かを判別し、打ち手の空振りを止める最初の判断軸", "勉強会 第3回"], ["対話アプローチ（察知→理解→共創）", "ズレを感じ取り、背景の価値観を理解し、両者で解決策を創る3段階のプロセス", "勉強会 第3・4回"], ["聴くための基本スタンス", "相手を変えようとせずに聴く姿勢。板挟みの膠着が動き出す起点になる構え", "勉強会 第3回"]]}, "D": {"name": "戦略の欠如", "main": "#534ab7", "dark": "#3c3489", "light": "#EEEDFE", "catch": "「戦略を考えろ」と言われて手が止まるのは、能力の問題ではなく、手順を教わっていないだけです。", "koe": "上司からは「現場の作業員ではなくマネージャーなんだから、チームの戦略と仕組みを考えろ」。でも、考え方を教わったことは一度もない。結局、目の前のタスク処理に逃げてしまう自分に、焦りを感じていませんか。", "why": ["思い出してください。あなたは営業や開発など、プレイヤーとしての「やり方」は教わってきたはずです。", "しかし「チームの現状を分析し、戦略を立てる手順」を、体系立てて教わったことがあるでしょうか。ほとんどの新任リーダーは、教わらないまま「考えろ」とだけ言われています。", "教わっていないことが出来ないのは、当然です。手が止まり、確実に成果の見えるタスク消化に逃げるのは、怠慢ではなく自然な防衛反応です。", "そしてもう1つ。型を持たないまま「うちの一番の問題は何か」を考えると、答えはほぼ例外なく「最近一番イラッとしたこと」になります。", "印象で問題を掴むと、打ち手はどうしてもズレてしまいます。ここが、頑張っても成果につながらない分岐点です。"], "dirLead": "解決の方向は、ひらめきを待つことではありません。", "dirs": ["戦略は、センスやひらめきではなく、順番の決まった手順です。鉄則は1つです。", "現状分析なくして、戦略もアクションプランもあり得ない。順序は、現状分析で構造的にボトルネックを掴む、目的・目標を定める、戦略の方向性を決める、打ち手に分解する。", "この流れだけです。", "逆に言えば、最初の現状分析さえ型通りにできれば、その先は驚くほど機械的に立ち上がります。多くの人がつまずくのは戦略の発想力ではなく、その手前の、分解の軸の取り方です。", "ここには定石があり、この軸の感覚だけは、独学ではなかなか身につきません。"], "dirHi": "ひらめきではなく手順。「現状分析 → 目的・目標 → 戦略 → 打ち手」の一本道を、型で進む。", "tools": [["現状分析の型（分解→絞り込み）", "印象ではなく構造でチームの問題を特定する、戦略のすべての起点になる手順", "勉強会 第1回"], ["戦略の方向性（3つの要素）・戦略5原則", "誰に・何を・どう提供するかを整理し、チームの「選ばれる理由」を言語化する骨格", "勉強会 第2回"], ["商売の基本サイクル", "戦略を「創る・作る・売る」の打ち手に分解し、明日の行動まで落とし込む道具", "勉強会 第2回"]]}};
+const STAGE_LEAD = {"1": "まだ小さな違和感かもしれません。でも、この段階で気づけたのは、とても良いタイミングだと思います。", "2": "頑張っているのに空回りする。その感覚には、はっきりした理由があります。", "3": "もしかすると、しんどさを誰にも言えないまま、今日まで来られたのかもしれません。この結果は、あなたを責めるためのものではなく、抱えているものを少し軽くするためのものです。"};
+const SCIENCE = {"A": [["優秀なプレイヤーほど、転換でつまずきやすい", "一流プレイヤーほど「自分で成果を出す」成功法則が染みついており、「人を通じて成果を出す」役割への転換でつまずきやすい、と言われています。（参考：リンダ・ヒルの新任マネージャー研究）"], ["細かな介入は、部下のやる気を下げる", "人の意欲は「自分で決めている感覚（自律性）」で高まり、細かな介入や巻き取りは内発的な意欲を下げやすい、と言われています。（参考：デシ＆ライアン「自己決定理論」）"], ["成果は「一番詰まっている一点」で決まる", "チーム全体の成果は、最も詰まっている一点（ボトルネック）で決まる、という考え方があります。（参考：ゴールドラット『ザ・ゴール』制約理論）"]], "B": [["できる人ほど、できない人の視界が見えなくなる", "一度できるようになると「できない人に世界がどう見えるか」を想像しにくくなる、と言われています（いわゆる「知識の呪い」）。（参考：E.ニュートンのタッピング実験）"], ["人は、語れる以上のことを知っている", "感覚で成果を出す人の知は、本人にも言葉にしにくい形で蓄積される、と言われています。（参考：M.ポランニー『暗黙知の次元』）"], ["暗黙知は、対話を通じて言葉になる", "暗黙知は、対話のプロセスを通じてはじめて形式知に変わっていく、と整理されています。（参考：野中郁次郎「SECIモデル」）"]], "C": [["課題には「2つの種類」がある", "課題は、正解やルールで解ける「技術的問題」と、当事者の認識・関係性が変わらないと解けない「適応課題」に分かれる、と言われています。（参考：R.ハイフェッツの適応課題論）"], ["チームの成果を分けるのは「安心して話せるか」", "成果の高いチームの共通点は、メンバーの能力よりも「心理的安全性」だった、という調査が知られています。（参考：エドモンドソン／Google「Project Aristotle」）"], ["評価せずに聴くことが、変化の入口になる", "評価・判断をせずに聴く姿勢が、相手の変化の前提になる、と言われています。（参考：ロジャーズの傾聴論、『まず、ちゃんと聴く』櫻井将）"]], "D": [["戦略の定石は「全部やる」ではなく「一点集中」", "全体の成果は最も弱い一点で決まるため、まず分解して絞り込むことが先、という考え方があります。（参考：ゴールドラット『ザ・ゴール』）"], ["忙しさと、サイクルが回っていることは別", "不振の現場は忙しく働いているのに、商品単位で見るとサイクルが回っていないことがある、と言われています。（参考：三枝匡「商売の基本サイクル」）"], ["戦略の立て方は、教わらないまま任される", "多くの企業で、マネジメントへの移行は体系的な訓練のない実地任せになりがち、と指摘されています。（参考：新任マネージャーに関する各種研究）"]]};
+const GALLUP = {"num": "70%", "line": "チームのエンゲージメント（仕事への熱意）のばらつきの約70%は「マネージャー」によって決まる、と言われています。（参考：米Gallup社の調査）", "sub": "もしそうなら、チームを一番大きく変えられるのは、あなた自身の変化です。目指すのは特別な誰かになることではなく、プレイヤーの頃に持っていたあの手応えを、リーダーとして取り戻すこと。ただ、暗黙知の言語化も適応課題も、一人では完結しにくいと言われています。話す相手がいるだけで、前に進みやすくなります。"};
+const VOICES = {"A": [["AI系テック企業・CSチーム", "「難しいスキルではなく、『すぐにでも変えられる（取りかかれる）』ことが成果でした。課題への向き合い方、対話のスキルなど、相手や感情との向き合い方が印象に残っています」"], ["AI系テック企業・CSチーム", "「手が動かないときは、落ち着いて要素分解とステップを考える。そして、あらゆる論理やスキルの大前提として、マインドセットと関係性が重要だと学びました」"]], "B": [["AI系テック企業・CSチーム", "「漠然と疑問に思っていたことが言語化されて、理解が深まりました。何を意識して業務にあたるか、とても良い指針になりました」"], ["30代・CS職", "「8割はなんとなく知っていたことでした。でも忙しさの中で整理できていなかった。体系になったことで初めて思い出せて、日々の仕事とコミュニケーションで使えるようになりました」"]], "C": [["30代・CS職", "「学んだ『ジャッジせずに聴く』を実践し、会議のあと上司に『今日は話を聴いてくださって、考えが整理できました』と具体的に伝えました。それ以来、上司との関係とコミュニケーションに、小さいけれど確かな変化が起きています」"], ["AI系テック企業・CSチーム", "「自分の聞きたいことだけでなく、相手の状況や話したいことを整理しながら理解する気持ちを持って聴きたい、と思えるようになりました」"]], "D": [["AI系テック企業・CSチーム", "「『まずどこから着手するか』の一歩が踏み出せないことが多かったのですが、体系的に学ぶことで、その一歩のハードルを極限まで低くする。行動できるところまで分解する考え方を学べました」"], ["AI系テック企業・CSチーム", "「現状を分解して解像度を上げ、ボトルネックを特定して、優先的に改善することを整理する。問題解決に向けた整理の方法を学べました」"]]};
+const CTA = {"lead": "どの道具を、どの順番で使うかは、チームの状況によってまったく違います。だから、60分の個別相談を用意しました。", "get": ["あなたの現場の状況を伺い、「どこから手を付けるか」の見立てを、その場で必ずお渡しします", "選ぶのは、まだ先で大丈夫。勉強会と1on1のどちらが合うか（まだ不要かも含めて）、こちらから正直にお伝えします", "売り込みは一切なし。忙しさで後回しになりがちな「立ち止まって考える60分」としてお使いください"]};
+
+let qi = 0; const answers = [];
+const $ = id => document.getElementById(id);
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on'); window.scrollTo(0,0); }
+
+function startQuiz(){ qi = 0; answers.length = 0; renderQ(); show('quiz'); }
+function renderQ(){
+  const q = QUESTIONS[qi];
+  $('qtext').innerHTML = q.q;
+  $('qsub').textContent = q.sub;
+  const prev = answers[qi];
+  document.querySelector('.ans .yes').style.opacity = (prev===false) ? '.45' : '1';
+  document.querySelector('.ans .no').style.opacity  = (prev===true)  ? '.45' : '1';
+  $('qnum').textContent = qi>=4 ? ('あと'+(6-qi)+'問') : (qi+1)+'/6';
+  $('qbar').style.width = Math.round((qi+0.4)/6*100)+'%';
+  $('qprog').setAttribute('aria-valuenow', qi);
+  const card = $('qcard'); card.style.animation='none'; void card.offsetWidth; card.style.animation='';
+}
+function answer(yes){
+  answers[qi] = yes;
+  if(qi < 5){ qi++; renderQ(); }
+  else { $('qbar').style.width='100%'; analyze(); }
+}
+function prevQ(){ if(qi===0){ show('hero'); } else { qi--; renderQ(); } }
+
+function analyze(){
+  show('analyzing');
+  const msgs = ['回答を読み取っています…','課題分類の理論と照合しています…','あなたのボトルネックを特定しました'];
+  let i = 0; $('antext').textContent = msgs[0];
+  const t = setInterval(()=>{ i++; if(i<msgs.length){ $('antext').textContent = msgs[i]; } else { clearInterval(t); showResult(); } }, 650);
+}
+
+function judge(){
+  const tally = {A:0,B:0,C:0,D:0}; let n = 0;
+  answers.forEach((yes,i)=>{ if(yes){ tally[QUESTIONS[i].cat]++; n++; } });
+  const order = ['A','D','B','C'];
+  let tid = order[0], best = -1;
+  order.forEach(k=>{ if(tally[k]>best){ best=tally[k]; tid=k; } });
+  const stage = n===0 ? 1 : n<=2 ? 1 : n<=4 ? 2 : 3;
+  return {tid, stage, n};
+}
+
+let currentTid = null;
+function sheetHTML(tid, stage, forDownload){
+  const t = TYPES[tid];
+  const whyAll = t.why.map(p=>`<p>${p}</p>`).join('');
+  const gets = CTA.get.map(g=>`<li>${g}</li>`).join('');
+  const dl = forDownload;
+  return `
+  <div class="rband" style="background:${t.main}">
+    <span class="tchip" style="color:${t.main}">診断結果：タイプ${tid}</span>
+    <div class="rt">あなたのボトルネック</div>
+    <h2>${t.name}</h2>
+    <div class="catch">${t.catch}</div>
+    <div class="rbased">あなたの6つの回答パターンから判定しています</div>
+  </div>
+  <div class="rin">
+    <div class="stageLead">${STAGE_LEAD[stage]}</div>
+
+    <div class="sec">
+      <h3><span class="num" style="background:${t.main}">1</span>なぜ、そうなっているのか</h3>
+      <div class="koe" style="background:${t.light};border-color:${t.main};color:${t.dark}">${t.koe}</div>
+      ${whyAll}
+      <div class="hi" style="background:var(--grayL);color:var(--navy)">原因は、あなたの意志や能力ではなく「構造」。まずここを掴むことが、すべての出発点です。</div>
+      <div class="sci">
+        <div class="scilabel">参考｜こんな研究・考え方が知られています</div>
+        <div class="sciitem"><b>${SCIENCE[tid][0][0]}</b><p>${SCIENCE[tid][0][1]}</p></div>
+        ${dl ? SCIENCE[tid].slice(1).map(s=>`<div class="sciitem"><b>${s[0]}</b><p>${s[1]}</p></div>`).join('')
+             : `<details class="scimore"><summary>他の参考も見る（あと${SCIENCE[tid].length-1}件）</summary>${SCIENCE[tid].slice(1).map(s=>`<div class="sciitem"><b>${s[0]}</b><p>${s[1]}</p></div>`).join('')}</details>`}
+        <p class="scinote">※本診断の判定・解説は、上記の文献等を参考にしつつ、講師自身の現場経験に基づいてまとめたものです。</p>
+      </div>
+    </div>
+
+    <div class="gate">
+      <div class="gtitle">続きは、LINEでお渡しします<span>（無料）</span></div>
+      <ul class="glist">
+        <li><b>2</b>解決するための考え方（${t.name}タイプ専用）</li>
+        <li><b>3</b>そのために使う、3つの道具</li>
+        <li><b>PDF</b>この診断結果のまとめ（保存版）</li>
+      </ul>
+      <a class="gbtn" href="${lineUrlWithResult(tid)}">友だち追加して、続きを受け取る</a>
+      <p class="gnote">追加後、すぐ自動で届きます。配信の停止は、いつでもできます。</p>
+    </div>
+
+    ${dl ? '' : `
+    <div class="sec alt">
+      <h3><span class="num" style="background:${t.main}">声</span>あなたと同じ悩みから始めた人の、変化</h3>
+      <div class="vstats">
+        <div class="vs"><b>30<i>名以上</i></b><span>受講生（2026年7月時点）</span></div>
+        <div class="vs"><b>100<i>%</i></b><span>受講者満足度<em>※</em></span></div>
+        <div class="vs"><b>企業研修</b><span>導入実績あり</span></div>
+      </div>
+      ${VOICES[tid].map(v=>`<div class="voice"><div class="vwho">${v[0]}</div><p>${v[1]}</p></div>`).join('')}
+      <p class="vnote">あなたの診断タイプに近い受講者の声を表示しています。<br>※満足度は受講者アンケートで「価値があった」以上と回答した割合。感想は一部要約・和訳しています。<br>※企業研修は実績のご紹介です。勉強会・1on1・個別相談は、個人でそのままお申し込みいただけます。</p>
+    </div>
+
+    <div class="sec alt">
+      <h3><span class="num" style="background:${t.main}">Q</span>相談の前に、よくあるご質問</h3>
+      <details class="faq"><summary>個人でも申し込めますか？</summary><p>はい、もちろんです。会社を通す必要はなく、勉強会も1on1も、個別相談も、個人のままお申し込みいただけます。「企業研修 導入実績あり」と書いているのは実績のご紹介で、法人限定という意味ではありません。</p></details><details class="faq"><summary>この診断は、何を根拠にしていますか？</summary><p>経営・心理の文献（適応課題、暗黙知、制約理論など）を参考にしつつ、講師自身がリーダー支援の現場で得た経験に基づいて設計したものです。厳密な診断テストではなく、ご自身の状況を整理するためのセルフチェックとしてお使いください。</p></details><details class="faq"><summary>本やネットで学べる内容では？</summary><p>正直に言うと、8割は「聞いたことがある」話かもしれません。実際、受講者の方にもそう言われます。ただ、その方はこう続けました。「忙しさの中で整理できていなかったことが体系になり、初めて仕事で使えるようになった」。「知っている」と「現場で使える」の間にある溝を、一緒に埋めさせてください。</p></details><details class="faq"><summary>相談が有料（3,000円）なのは、なぜですか？</summary><p>おひとりずつ枠を確保して、本気で変えたい方との時間を守るためです。内容は、勉強会や1on1で行っている「見立て」と同じプロセスなので、無料の営業面談ではなく、中身のある60分としてご提供します。なお、勉強会・1on1は別のプログラム（別料金）です。相談だけで終えていただいて、もちろん構いません。お支払いのご案内は、ご予約の確認後にお送りします（オンライン決済）。</p></details><details class="faq"><summary>本当に売り込まれませんか？</summary><p>しません。相談の目的は「見立て」をお渡しすることです。勉強会や1on1は、その手段が合う方にだけご提案し、合わない方には「まだ不要です」と正直にお伝えしています。</p></details><details class="faq"><summary>何を話せばいいか、まとまっていません</summary><p>まとまっていなくて大丈夫です。診断結果を見せていただければ、こちらから質問しながら一緒に整理します。「うまく話す」準備は要りません。</p></details><details class="faq"><summary>相談しても、何も変わらなかったら？</summary><p>そう感じたら、遠慮なくそこで終わりにしてください。それでも最低限、「自分のチームのボトルネックはこれだ」という言語化は持ち帰れます。その一言があるだけで、上司への説明や、同僚への相談の解像度が変わります。</p></details><details class="faq"><summary>オンラインですか？時間は選べますか？</summary><p>オンライン（Zoom等）で、平日夜・土日も枠があります。LINEで「個別相談」と送っていただくと、日程候補をお送りします。</p></details>
+    </div>`}
+
+    ${dl ? '' : `<a class="profcard" href="./profile.html">
+      <img class="pcface" src="./tamaoka.jpg" alt="講師 玉岡諒太" onerror="this.style.display='none'">
+      <span class="pcl">相談相手は、どんな人？<small>玉岡 諒太（maido&crafts strategy 代表）</small></span>
+      <span class="pcr">プロフィール →</span>
+    </a>`}
+
+    <div class="gallup">
+      <div class="gnum">${GALLUP.num}</div>
+      <p class="gline">${GALLUP.line}</p>
+      <p class="gsub">${GALLUP.sub}</p>
+    </div>
+
+    <div class="cta" style="background:${t.dark}">
+      <div class="ctalabel">個別相談｜60分・3,000円・オンライン</div>
+      <h3>あなたのチームの「見立て」を、持ち帰りませんか</h3>
+      <p class="clead">診断でわかるのは、ここまでです。あなたのチームの何から手を付けるかは、実際にお話を聴かないと見立てられません。変えていく主役はあなたで、私たちの仕事は、その地図を描くお手伝いです。</p>
+      <ul>${gets}</ul>
+      <p class="ctacost">診断で見えたものは、明日からの忙しさの中で、また見えなくなりがちです。見えている今のうちに、一度だけ話してみませんか。</p>
+      ${dl
+        ? `<p style="font-weight:800">ご予約は、LINEで「個別相談」と送るだけ（60分・3,000円）。相談だけで終えていただいて構いません。</p>`
+        : `<div class="slots">おひとりずつじっくりお聴きするため、個別相談は月 ${SLOTS_LEFT} 名までとしています</div>
+           <p class="push">うまく話せるか不安でも、大丈夫。まとまっていないまま、来てください。整理するところから、一緒にやります。</p>
+           <a class="linebtn" href="${LINE_CONSULT_URL}">LINEで「個別相談」と送る<small>「個別相談」の4文字を送るだけ・約30秒</small></a>
+           <p class="ctanote">送ったあとの流れ：予約フォームが届く → 枠を選ぶだけ（お支払いのご案内は予約確認後にお送りします）<br>売り込みなし・合わなければそこで終わりにして大丈夫・平日夜/土日枠あり</p>`}
+    </div>
+
+    ${dl ? '' : `
+    <button class="redo" onclick="location.reload()">診断をやり直す</button>
+    <p class="fin">ここまで読んでくださって、ありがとうございました。<br>それ自体が、もう最初の一歩だと思います。</p>`}
+  </div>`;
+}
+
+function showResult(){
+  const {tid, stage, n} = judge();
+  if(n === 0){
+    $('result').innerHTML = `
+    <div class="rband" style="background:var(--navy)">
+      <span class="tchip" style="color:var(--navy)">診断結果</span>
+      <h2>大きなボトルネックは<br>見つかりませんでした</h2>
+      <div class="catch">今のマネジメント、良い状態のようです。</div>
+    </div>
+    <div class="rin">
+      <div class="stageLead">6つの「新任リーダーがつまずきやすいポイント」に、いまのあなたは当てはまりませんでした。きっと、日々のチームとの関わりを大切にされているのだと思います。</div>
+      <div class="sec"><p>もし今後、「部下の仕事を巻き取りがち」「教え方に迷う」「板挟みがつらい」と感じる場面が出てきたら、それは能力の問題ではなく「構造」のサインです。そのときは、またここに戻ってきてください。</p>
+      <p>また、身近に当てはまりそうなリーダー仲間がいたら、この診断を教えてあげてください。早い段階で構造に気づけるほど、軽い手当てで済みます。</p></div>
+      <div class="cta" style="background:var(--navy)">
+        <h3>今後のために、つながっておきませんか</h3>
+        <p class="clead">リーダーの悩みは、ある日とつぜん始まります。そのときすぐ思い出せるように、LINEでつながっておいてください。役に立つときまで、静かにしています。</p>
+        <a class="linebtn" href="${LINE_URL}">LINEで友だち追加する<small>配信の停止は、いつでもできます</small></a>
+      </div>
+      <button class="redo" onclick="location.reload()">診断をやり直す</button>
+    </div>`;
+    show('result');
+    return;
+  }
+  currentTid = tid; currentStage = stage;
+  $('result').innerHTML = sheetHTML(tid, stage, false);
+  show('result');
+  $('stickyLine').href = lineUrlWithResult(tid);
+  setTimeout(()=>{ $('sticky').style.display='block'; }, 1200);
+}
+let currentStage = 1;
+
+</script>
+</body>
+</html>
