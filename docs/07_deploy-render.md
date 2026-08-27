@@ -169,10 +169,50 @@ Render の Dashboard を見ると、数分後に新しいデプロイが「Live�
    - Node のバージョン違い → `render.yaml` の `NODE_VERSION` を確認する
 3. 手元で `npm run build` が成功するかを先に確認すると、原因を切り分けやすくなります
 
-### Blueprint が見つからない・エラーになる
+### 「ブループリントの同期に失敗しました」というメールが届いた
 
-`render.yaml` がリポジトリの**一番上の階層**にあるか確認してください。
-サブフォルダの中にあると Render は検出できません。
+`render.yaml` の書き方に問題があると、このメールが届きます。
+**メールには詳しい原因が書かれていません。** 実際のエラー内容は Render の画面で確認します。
+
+#### まず、本当のエラーメッセージを見る
+
+1. https://dashboard.render.com にログインする
+2. 左メニューの **「Blueprints」** を開く
+3. 対象の Blueprint(`company-website` など)をクリックする
+4. 赤い帯や **「Sync failed」** の表示をクリックすると、**何行目の何が問題か**が表示されます
+
+#### よくある原因
+
+| 原因 | 対処 |
+|---|---|
+| `region` や `plan` を書いている | 静的サイトはグローバルCDN配信のため、この2つは**指定できません**。書いてあると同期に失敗します(現在の `render.yaml` からは削除済み) |
+| `branch: main` と書いてあるが、GitHub 側に `main` ブランチがない | GitHub のリポジトリ画面でブランチ名を確認する。`master` になっている場合は下記のコマンドで `main` に統一する |
+| `render.yaml` がサブフォルダにある | リポジトリの**一番上の階層**に置く。サブフォルダにあると検出されません |
+| インデントに全角スペースやタブが混じっている | 半角スペース2つでそろえる |
+
+GitHub 側のブランチ名が `master` になっていた場合:
+
+```powershell
+cd "$env:USERPROFILE\OneDrive\デスクトップ\Dev\company-website"
+git branch -m master main          # ローカルを main に変更(すでに main なら不要)
+git push -u origin main            # main を GitHub に送る
+git push origin --delete master    # 古い master を削除(任意)
+```
+
+そのあと GitHub のリポジトリ画面 → **Settings** → **General** → **Default branch** を `main` に変更してください。
+
+#### 修正したあとの再実行
+
+`render.yaml` を直したら、GitHub に push すれば Render が自動で再同期します。
+
+```powershell
+git add render.yaml
+git commit -m "fix: Render Blueprint の設定を修正"
+git push
+```
+
+それでも直らない場合は、Blueprints 画面で該当の Blueprint を一度削除し、STEP 2 からやり直すのが確実です。
+急ぐ場合は、次の「Blueprint を使わず、手動で設定する場合」に進んでも同じサイトが公開できます。
 
 ### Blueprint を使わず、手動で設定する場合
 
@@ -193,6 +233,11 @@ Render の Dashboard を見ると、数分後に新しいデプロイが「Live�
    - `NODE_VERSION` = `22.11.0`
    - `SITE_URL` = 公開後のURL(いったん空欄で作成し、STEP 3 で設定してもよい)
 5. 「Create Static Site」を押す
+
+> 手動で作成した場合、`render.yaml` の内容は使われません。
+> セキュリティヘッダも設定したい場合は、作成後に **Settings** → **Headers** から
+> `render.yaml` に書いてある4つ(`X-Content-Type-Options` など)を同じ内容で追加してください。
+> 未設定でもサイトは正常に表示されます。
 
 ---
 

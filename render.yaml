@@ -1,12 +1,12 @@
 # Render Blueprint — このファイルがあれば Render 側の設定入力はほぼ不要になる
 # 手順は docs/07_deploy-render.md を参照
+#
+# 注意: 静的サイト(runtime: static)は Render のグローバルCDNから配信されるため、
+# `region` と `plan` は指定できない(指定すると Blueprint の同期に失敗する)。
 services:
   - type: web
     runtime: static
     name: maido-crafts-website
-    # 静的サイト(Static Site)は Render の無料プランで運用できる
-    plan: free
-    region: singapore
     branch: main
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
