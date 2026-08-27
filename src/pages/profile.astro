@@ -1,0 +1,168 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+import Section from '../components/layout/Section.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import CtaSection from '../components/sections/CtaSection.astro';
+import { SITE } from '../lib/site';
+import tamaoka from '../assets/tamaoka.jpg';
+
+// 歩んできた道(profile.html のタイムラインを移植)
+const timeline = [
+  {
+    title: '大阪生まれ、大阪育ち',
+    body: '商店街の「まいど！」文化の中で育つ。大学卒業を機に上京',
+    now: false,
+  },
+  { title: '富士通', body: '新卒入社。金融システムのSEとしてキャリアを始める', now: false },
+  {
+    title: 'ベイカレント・コンサルティング',
+    body: 'IT・業務・戦略案件に従事。大企業の課題解決の最前線へ',
+    now: false,
+  },
+  {
+    title: 'RPAテクノロジーズ(ベンチャー)',
+    body: '急成長ベンチャーで、意思決定の速さと変化の激しさを肌で知る',
+    now: false,
+  },
+  {
+    title: 'NEC',
+    body: 'カスタマーサクセス専門職として参画。顧客の成果に伴走する仕事へ',
+    now: false,
+  },
+  { title: '2025年1月 独立', body: `${SITE.companyName}を設立`, now: true },
+];
+
+const values = [
+  {
+    title: '先生の顔をしない(対話型)',
+    body: '「コンサルタントが、こうです！と教えるスタイルではありません」。1つの課題を同じ側から一緒に見て、お互いの知見で解決策を共創します。まいど！の精神=横の関係です。',
+  },
+  {
+    title: '行動がすべて(行動重視)',
+    body: '「1万回分析しても、1万枚スライドを書いても、行動しなければ成果はゼロ」。行動を起こしてくれるクライアントに、全力で伴走します。',
+  },
+  {
+    title: '釣りを教える(自走支援)',
+    body: '業務の代行はしません。あなた自身が再現できるスキルと手法を残すことが支援のゴール。最終的に私が不要になる状態を目指します。',
+  },
+];
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: '玉岡 諒太',
+  jobTitle: '代表取締役・創業者',
+  worksFor: { '@type': 'Organization', name: SITE.companyName },
+  image: new URL(tamaoka.src, Astro.site).toString(),
+};
+---
+
+<Base
+  title="代表プロフィール"
+  description="大阪の商店街で育ち、富士通・ベイカレント・ベンチャー・NECを経て独立。「人は数字ではない。しかし、数字を何倍にもする。」戦略と対話で伴走する代表 玉岡諒太のプロフィールです。"
+  jsonLd={[personLd]}
+>
+  <Breadcrumb items={[{ label: '代表プロフィール' }]} />
+
+  <div class="mx-auto max-w-[800px] px-5 pt-8 pb-16 text-center md:pt-12 md:pb-24 lg:px-10">
+    <Image
+      src={tamaoka}
+      alt="代表取締役 玉岡諒太の写真"
+      width={320}
+      height={320}
+      class="mx-auto h-36 w-36 rounded-full border-4 border-primary-100 object-cover md:h-44 md:w-44"
+      loading="eager"
+    />
+    <h1 class="mt-6 text-[28px] font-bold md:text-4xl">玉岡 諒太</h1>
+    <p class="mt-1 text-xs tracking-[0.2em] text-muted">TAMAOKA RYOTA</p>
+    <p class="mt-4 text-sm font-bold text-primary-700">
+      {SITE.companyName}<br />代表取締役・創業者
+    </p>
+    <div class="mt-10 rounded-lg border border-edge bg-white p-8">
+      <p class="text-lg font-bold leading-relaxed md:text-xl">
+        人は数字ではない。<br />しかし、数字を何倍にもする。
+      </p>
+      <p class="mt-3 text-xs text-muted">── maido&amp;crafts strategy 経営理念より</p>
+    </div>
+  </div>
+
+  <Section tone="subtle" narrow>
+    <SectionTitle>原点は、大阪の商店街</SectionTitle>
+    <p class="mb-4">
+      「まいど！」が飛び交う大阪の商店街で育ちました。八百屋のおっちゃんは「今日は何しましょ？」だけでなく、「最近、元気ないな？」と体調まで気遣ってくれる。魚屋さんは「ええの入ってるで！」と自慢する一方で、「兄ちゃん、大きくなったなぁ」と成長を喜んでくれる。
+    </p>
+    <p class="mb-4">
+      そこにあったのは売買関係ではなく、<strong>互いに認め合い、成長を喜び合う、人間本来の温かなつながり</strong>でした。
+    </p>
+    <p>
+      社会に出て気づいたのは、どんな設備・資金・情報があっても、それを活かすのは「人」だということ。人は数字ではなく、他のあらゆる資源の価値を何倍にもする「係数」として機能する。この確信が、社名と事業の原点です。
+    </p>
+  </Section>
+
+  <Section narrow>
+    <SectionTitle>歩んできた道</SectionTitle>
+    <ol class="ml-2 space-y-0 border-l-2 border-edge pl-6">
+      {timeline.map((item) => (
+        <li class="relative pb-6 last:pb-0">
+          <span
+            class:list={[
+              'absolute top-2 -left-[31px] h-2.5 w-2.5 rounded-full',
+              item.now
+                ? 'bg-brand-orange shadow-[0_0_0_4px_rgba(243,152,0,0.22)]'
+                : 'bg-primary-700',
+            ]}
+            aria-hidden="true"
+          ></span>
+          <p class="font-bold">{item.title}</p>
+          <p class="text-sm text-muted">{item.body}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="mt-8 rounded-lg border border-edge bg-white p-5 text-center text-sm font-bold text-primary-700">
+      大手SE、戦略コンサル、ベンチャー、カスタマーサクセス。<br />
+      「作る側」と「支える側」、その両方を歩いてきました。
+    </p>
+  </Section>
+
+  <Section tone="subtle" narrow>
+    <SectionTitle>支援で大切にしていること</SectionTitle>
+    <ul class="space-y-4">
+      {values.map((value) => (
+        <li class="rounded-lg border border-edge bg-white p-6">
+          <h3 class="mb-2 font-semibold text-primary-700">{value.title}</h3>
+          <p class="text-sm text-muted">{value.body}</p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section narrow>
+    <SectionTitle>「はい、わかりました」とは言いません</SectionTitle>
+    <blockquote class="rounded-r-lg border-l-4 border-primary-700 bg-primary-100 p-6 text-primary-900">
+      <p class="mb-4">
+        依頼をそのまま引き受けて代行することは、あなたの成長機会を奪うことだと考えています。
+      </p>
+      <p>
+        なので、こう答えるようにしています。「一緒に作りましょう。まず目的と構成を30分話して、作り方をお伝えします。<strong>次回からは、ご自身で作れるようになります</strong>」
+      </p>
+    </blockquote>
+  </Section>
+
+  <Section tone="subtle" narrow>
+    <SectionTitle>あなたへのメッセージ</SectionTitle>
+    <div class="rounded-lg border border-edge bg-white p-6 md:p-8">
+      <p class="mb-4">
+        やりたいことも、センスもスキルも、人それぞれ違います。全員が4番バッターになる必要はありません。人も組織も、思い通りには動きません。
+      </p>
+      <p class="mb-4">
+        だからこそ、あきらめずに、小さな一歩を積み重ねてほしい。当たり前に見える小さな行動が、3か月後、半年後、1年後の大きな成果と成長に、必ずつながります。
+      </p>
+      <p class="mb-6">まとまっていなくて構いません。まず、聴かせてください。</p>
+      <p class="text-right font-bold">玉岡 諒太</p>
+    </div>
+  </Section>
+
+  <CtaSection heading="まず、聴かせてください" />
+</Base>

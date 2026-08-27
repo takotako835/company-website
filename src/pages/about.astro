@@ -1,0 +1,121 @@
+﻿---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+import Section from '../components/layout/Section.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import Button from '../components/ui/Button.astro';
+import CtaSection from '../components/sections/CtaSection.astro';
+import MethodSteps from '../components/sections/MethodSteps.astro';
+import Positioning from '../components/sections/Positioning.astro';
+import VoicesStats from '../components/sections/VoicesStats.astro';
+import { SITE } from '../lib/site';
+
+// 会社概要テーブル(docs/content/about.md §6)
+// TODO: 所在地は記載するか要確認(バーチャルオフィス等の場合の方針含む)
+const overview = [
+  ['社名', SITE.companyName],
+  ['代表', '玉岡 諒太(代表取締役・創業者)'],
+  ['設立', '2025年1月'],
+  [
+    '事業内容',
+    '個人向け: ポータブルスキル勉強会、1on1コーチング、個別相談 / 法人向け: チーム研修、プロジェクト伴走支援・コンサルティング',
+  ],
+  ['ミッション', SITE.mission],
+];
+---
+
+<Base
+  title="会社案内"
+  description="「まいど！」の温かさを現代の組織に。教育×実践×リフレクションで、「知っている」を「現場で使える」に変える伴走支援を行う、maido&crafts strategy株式会社の会社案内です。"
+>
+  <Breadcrumb items={[{ label: '会社案内' }]} />
+
+  <div class="mx-auto max-w-[1120px] px-5 pt-8 pb-16 md:pt-12 md:pb-24 lg:px-10">
+    <h1 class="text-[28px] font-bold md:text-4xl">会社案内</h1>
+    <p class="mt-6 text-xl font-bold text-primary-700 md:text-2xl">
+      人の成長が、価値を倍増させる。
+    </p>
+    <p class="mt-4 max-w-[42em] text-muted">
+      私たちは、人が「係数」として機能することを信じています。同じ予算・設備・情報でも、成果は「人」で何倍にも変わる。だから、人の成長に投資します。
+    </p>
+  </div>
+
+  <Section tone="subtle" narrow>
+    <SectionTitle>「まいど！」に込めた想い</SectionTitle>
+    <div class="rounded-lg border border-edge bg-white p-6 md:p-8">
+      <p class="mb-4 text-lg font-bold text-primary-700">「まいど！最近、元気ないな？」</p>
+      <p class="mb-4">
+        代表の玉岡が育った大阪の商店街では、こんな声が毎日飛び交っていました。八百屋さんは体調を気遣い、魚屋さんは「兄ちゃん、大きくなったなぁ」と成長を喜んでくれる。そこにあったのは、売買を超えて<strong>互いの成長を喜び合う文化</strong>でした。
+      </p>
+      <p>
+        この温かさを、現代の組織に再現したい。商店街のおっちゃん、おばちゃんが若者を見守り育てたように、私たちは組織と個人の持続的な成長を支援します。
+      </p>
+    </div>
+  </Section>
+
+  <Section narrow>
+    <SectionTitle>なぜ「ポータブルスキル」なのか</SectionTitle>
+    <p class="mb-4">
+      成果を出せない真の原因は、多くの場合、専門知識ではなく<strong>ポータブルスキルの欠如</strong>にあります。現状分析力、問題解決力、目標設定力、コミュニケーション力。業種や職種が変わっても持ち運べる、価値を生み出す実践的能力です。
+    </p>
+    <p class="mb-4">
+      専門知識は仕事をすれば自然と身につきます。しかしポータブルスキルは、自ら機会をつくらない限り、いつまでも身につきません。私たちはこの「土台」を、専門知識の<strong>価値倍増装置</strong>として育てます。
+    </p>
+    <p class="text-xs text-muted">
+      ※「ポータブルスキル」は厚生労働省も定義・推進する概念です(業種や職種が変わっても持ち運びができる職務遂行上のスキル)。
+    </p>
+  </Section>
+
+  <Section tone="subtle">
+    <SectionTitle>私たちのやり方</SectionTitle>
+    <p class="mb-8 max-w-[42em] text-muted">
+      知識を教えて終わりにはしません。教育 × 実践 × リフレクションの循環で、「わかる」を「できる」に変えます。
+    </p>
+    <MethodSteps />
+    <p class="mt-6 text-sm text-muted">
+      受講アンケートには「毎回楽しく参加できた」という声が並びます。学びは、しかめっ面でやるものではないと思っています。
+    </p>
+  </Section>
+
+  <Section>
+    <SectionTitle>研修でも、コンサルでもなく</SectionTitle>
+    <Positioning />
+  </Section>
+
+  <Section tone="subtle">
+    <SectionTitle>数字と、声。</SectionTitle>
+    <VoicesStats />
+  </Section>
+
+  <Section narrow>
+    <SectionTitle>会社概要</SectionTitle>
+    <table class="w-full overflow-hidden rounded-lg border border-edge bg-white text-sm">
+      <tbody>
+        {overview.map(([label, value]) => (
+          <tr class="border-b border-edge last:border-b-0">
+            <th
+              scope="row"
+              class="w-[30%] bg-paper-subtle px-4 py-3 text-left align-top font-bold text-muted"
+            >
+              {label}
+            </th>
+            <td class="px-4 py-3">{value}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <div class="mt-16 text-center">
+      <p class="leading-loose text-muted">
+        想いから始まる、すべて。<br />
+        理性を超えた情熱が行動を生み、人から人へと響き合う。<br />
+        私たちが、その架け橋になります。
+      </p>
+      <p class="mt-10">
+        <Button href="/profile/" variant="secondary">代表プロフィールを見る</Button>
+      </p>
+    </div>
+  </Section>
+
+  <CtaSection />
+</Base>

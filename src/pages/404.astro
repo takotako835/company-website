@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<Base
+  title="ページが見つかりません"
+  description="お探しのページは見つかりませんでした。URLが変更されたか、削除された可能性があります。"
+>
+  <div class="mx-auto max-w-[800px] px-5 py-24 text-center md:py-32 lg:px-10">
+    <p class="text-sm font-bold tracking-widest text-muted">404 Not Found</p>
+    <h1 class="mt-4 text-[28px] font-bold md:text-4xl">ページが見つかりません</h1>
+    <p class="mx-auto mt-6 max-w-[36em] text-muted">
+      お探しのページは、URLが変更されたか、削除された可能性があります。お手数ですが、トップページからお探しください。
+    </p>
+    <div class="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+      <Button href="/">トップページへ</Button>
+      <Button href="/contact/" variant="secondary">個別相談・お問い合わせ</Button>
+    </div>
+  </div>
+</Base>
