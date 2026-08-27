@@ -28,6 +28,11 @@ services:
         value: 22.11.0
       - key: NODE_ENV
         value: production
+      # ★必須。これがないと Astro のサーバーは localhost だけで待ち受け、
+      #   Render から到達できず「No open ports detected on 0.0.0.0」で失敗する
+      - key: HOST
+        value: 0.0.0.0
+      # PORT は Render が自動で渡すため、ここでは指定しない
       # 公開URL。canonical / OGP / sitemap / robots.txt に反映される。
       # 初回デプロイ後に実際のURLを確認し、独自ドメイン設定時はその値に変更する
       - key: SITE_URL
