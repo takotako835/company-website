@@ -128,9 +128,12 @@ GA4は後から併用も可能。まず自前計測を土台にする。
 
 1. https://supabase.com/dashboard → **New project**(名前: `maido-analytics` 等。リージョンは Tokyo)
 2. 作成後、左メニュー **SQL Editor** → リポジトリの `supabase/schema.sql` の中身を貼り付けて **Run**
-3. **Project Settings → API** を開き、次の2つを控える
-   - Project URL(`https://xxxx.supabase.co`)
-   - `service_role` キー(★秘密。anon ではない方)
+3. 次の2つの値を控える(新旧どちらのキー画面でも可):
+   - **Project URL**: Settings → **Data API** に表示される `https://xxxx.supabase.co`
+   - **Secret key**: Settings → **API Keys** → 下段「Secret keys」の default(`sb_secret_...`)。
+     目のアイコンで表示してコピー。★秘密の値
+   - ※旧方式の画面の場合は、Project URL と `service_role` キーが同じ役割
+   - ※上段の Publishable key(`sb_publishable_...` = 旧 anon)は使わない
 
 ### 8-2. Render の環境変数(約5分)
 
@@ -139,7 +142,7 @@ GA4は後から併用も可能。まず自前計測を土台にする。
 | Key | 値 |
 |---|---|
 | `SUPABASE_URL` | 8-1のProject URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | 8-1のservice_roleキー(★秘密) |
+| `SUPABASE_SERVICE_ROLE_KEY` | 8-1のSecret key(`sb_secret_...`。旧方式なら service_role)(★秘密) |
 | `ADMIN_PASSWORD` | 管理画面のパスワード(長いものを) |
 | `ANALYZE_SECRET` | 長い乱数(RenderのGenerateでよい) |
 | `ANTHROPIC_API_KEY` | https://console.anthropic.com で発行(未設定でも数値レポートは動く) |
