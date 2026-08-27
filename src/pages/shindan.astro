@@ -83,7 +83,7 @@ import Breadcrumb from '../components/layout/Breadcrumb.astro';
     <!-- ===== QUIZ ===== -->
     <section id="s-quiz" hidden>
       <div class="flex items-center gap-3">
-        <button type="button" id="backBtn" class="py-2 text-sm text-muted">←戻る</button>
+        <button type="button" id="backBtn" class="inline-flex min-h-11 items-center px-2 text-sm text-muted">←戻る</button>
         <div
           class="h-1.5 flex-1 overflow-hidden rounded-full bg-edge"
           role="progressbar"
@@ -97,7 +97,7 @@ import Breadcrumb from '../components/layout/Breadcrumb.astro';
         </div>
         <span class="min-w-[3.5em] text-right text-xs font-bold text-muted" id="qnum">1/6</span>
       </div>
-      <div class="mt-4 rounded-lg border border-edge bg-white p-7">
+      <div class="mt-4 rounded-lg border border-edge bg-white p-7" aria-live="polite">
         <h2 id="qtext" class="text-lg leading-relaxed font-bold"></h2>
         <p class="mt-2 mb-6 text-sm text-muted" id="qsub"></p>
         <div class="grid gap-3">
@@ -453,9 +453,9 @@ import Breadcrumb from '../components/layout/Breadcrumb.astro';
         あなたと同じ悩みから始めた人の、変化
       </h3>
       <div class="mb-4 grid grid-cols-3 gap-2">
-        <div class="${card} px-1 py-3 text-center"><b class="block text-lg font-bold text-primary-700">30<i class="text-xs not-italic">名以上</i></b><span class="mt-0.5 block text-[10px] font-bold text-muted">受講生(2026年7月時点)</span></div>
-        <div class="${card} px-1 py-3 text-center"><b class="block text-lg font-bold text-primary-700">100<i class="text-xs not-italic">%</i></b><span class="mt-0.5 block text-[10px] font-bold text-muted">受講者満足度※</span></div>
-        <div class="${card} px-1 py-3 text-center"><b class="block text-lg font-bold text-primary-700">企業研修</b><span class="mt-0.5 block text-[10px] font-bold text-muted">導入実績あり</span></div>
+        <div class="${card} px-1 py-3 text-center"><b class="block text-lg font-bold text-primary-700">30<i class="text-xs not-italic">名以上</i></b><span class="mt-0.5 block text-xs font-bold text-muted">受講生(2026年7月時点)</span></div>
+        <div class="${card} px-1 py-3 text-center"><b class="block text-lg font-bold text-primary-700">100<i class="text-xs not-italic">%</i></b><span class="mt-0.5 block text-xs font-bold text-muted">受講者満足度※</span></div>
+        <div class="${card} px-1 py-3 text-center"><b class="block text-lg font-bold text-primary-700">企業研修</b><span class="mt-0.5 block text-xs font-bold text-muted">導入実績あり</span></div>
       </div>
       ${VOICES[tid]!.map(([who, body]) => `<div class="${card} mb-2.5 p-4"><p class="mb-1 text-xs font-bold text-muted">${who}</p><p class="text-sm">${body}</p></div>`).join('')}
       <p class="mt-3 text-xs leading-relaxed text-muted">あなたの診断タイプに近い受講者の声を表示しています。</p>

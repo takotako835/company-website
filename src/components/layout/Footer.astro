@@ -1,6 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import { LEGAL_NAV, NAV, SITE } from '../../lib/site';
-import symbolWhite from '../../assets/maido_symbol_white.svg';
+import symbolWhite from '../../assets/maido_symbol_white.png';
 
 // 電話番号は特商法表記のとおり「請求があれば遅滞なく開示」の運用のため、サイトには掲載しない
 ---
@@ -10,7 +11,7 @@ import symbolWhite from '../../assets/maido_symbol_white.svg';
     <div class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
       <div>
         <div class="flex items-center gap-3">
-          <img src={symbolWhite.src} alt="" width="40" height="41" class="h-10 w-auto" loading="lazy" />
+          <Image src={symbolWhite} alt="" width={80} class="h-10 w-auto" loading="lazy" />
           <div>
             <p class="font-bold">{SITE.companyName}</p>
             <p class="text-xs tracking-widest text-primary-100/80">{SITE.companyNameEn}</p>
@@ -23,22 +24,22 @@ import symbolWhite from '../../assets/maido_symbol_white.svg';
       </div>
 
       <nav aria-label="フッターナビゲーション">
-        <ul class="grid grid-cols-2 gap-x-10 gap-y-3 text-sm">
-          <li><a href="/" class="py-1 transition-colors duration-200 hover:text-primary-100">トップ</a></li>
+        <ul class="grid grid-cols-2 gap-x-10 text-sm">
+          <li><a href="/" class="inline-flex min-h-11 items-center transition-colors duration-200 hover:text-primary-100">トップ</a></li>
           {NAV.map((item) => (
             <li>
-              <a href={item.href} class="py-1 transition-colors duration-200 hover:text-primary-100">
+              <a href={item.href} class="inline-flex min-h-11 items-center transition-colors duration-200 hover:text-primary-100">
                 {item.label}
               </a>
             </li>
           ))}
           <li>
-            <a href="/portable-skills/" class="py-1 transition-colors duration-200 hover:text-primary-100">
+            <a href="/portable-skills/" class="inline-flex min-h-11 items-center transition-colors duration-200 hover:text-primary-100">
               ポータブルスキルとは
             </a>
           </li>
           <li>
-            <a href="/contact/" class="py-1 transition-colors duration-200 hover:text-primary-100">
+            <a href="/contact/" class="inline-flex min-h-11 items-center transition-colors duration-200 hover:text-primary-100">
               個別相談・お問い合わせ
             </a>
           </li>
@@ -47,12 +48,12 @@ import symbolWhite from '../../assets/maido_symbol_white.svg';
     </div>
 
     <div class="mt-16 border-t border-white/15 pt-8">
-      <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs">
+      <ul class="flex flex-wrap justify-center gap-x-6 text-xs">
         {LEGAL_NAV.map((item) => (
           <li>
             <a
               href={item.href}
-              class="py-1 text-primary-100/80 underline-offset-4 transition-colors duration-200 hover:text-white hover:underline"
+              class="inline-flex min-h-11 items-center text-primary-100/80 underline-offset-4 transition-colors duration-200 hover:text-white hover:underline"
             >
               {item.label}
             </a>

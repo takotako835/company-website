@@ -34,6 +34,10 @@
   /* システムフォント構成(Webフォント読み込みなし=高速) */
   --font-sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
     "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+
+  /* 最小の文字サイズはキャプション規定の13px(02_design-system §3)。12pxは使わない */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.6;
 }
 
 @layer base {

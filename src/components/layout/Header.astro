@@ -11,7 +11,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
 
 <header class="sticky top-0 z-50 border-b border-edge bg-white/90 backdrop-blur">
   <div class="mx-auto flex h-14 max-w-[1120px] items-center justify-between px-5 md:h-16 lg:px-10">
-    <a href="/" class="flex items-center gap-2">
+    <a href="/" class="flex min-h-11 items-center gap-2">
       <Image
         src={symbolOrange}
         alt=""
@@ -31,7 +31,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
           href={item.href}
           aria-current={isCurrent(item.href) ? 'page' : undefined}
           class:list={[
-            'py-2 text-sm transition-colors duration-200 hover:text-primary-700',
+            'inline-flex min-h-11 items-center text-sm transition-colors duration-200 hover:text-primary-700',
             isCurrent(item.href)
               ? 'font-bold text-primary-700 underline decoration-brand-orange decoration-2 underline-offset-8'
               : 'text-ink',

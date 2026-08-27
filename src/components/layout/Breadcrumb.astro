@@ -32,7 +32,7 @@ const breadcrumbLd = {
       <li class="flex items-center gap-2">
         {i > 0 && <span aria-hidden="true">/</span>}
         {crumb.href ? (
-          <a href={crumb.href} class="py-1 underline-offset-4 hover:underline">
+          <a href={crumb.href} class="inline-flex min-h-11 items-center underline-offset-4 hover:underline">
             {crumb.label}
           </a>
         ) : (
