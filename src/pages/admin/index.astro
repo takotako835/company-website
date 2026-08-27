@@ -1,7 +1,14 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { checkPassword, createSessionCookie, isAuthenticated } from '../../lib/analytics/auth';
-import { fetchEvents, readAnalyticsConfig, sbFetch } from '../../lib/analytics/db';
+import {
+  diagnose,
+  diagnoseWrite,
+  fetchEvents,
+  readAnalyticsConfig,
+  sbFetch,
+  type TableDiagnosis,
+} from '../../lib/analytics/db';
 import { buildDashboard, type Dashboard, type EventRow } from '../../lib/analytics/stats';
 
 // 管理画面。ADMIN_PASSWORD で保護し、検索エンジンには載せない
@@ -30,12 +37,18 @@ const DAYS = 14;
 let dashboard: Dashboard | null = null;
 let reports: { period_start: string; period_end: string; summary_md: string }[] = [];
 let abConfigNote = '';
+let diagnostics: TableDiagnosis[] = [];
 
 if (authed && analyticsReady) {
   const config = readAnalyticsConfig()!;
   const since = new Date(Date.now() - DAYS * 86400000).toISOString();
   const events = (await fetchEvents(config, since)) as unknown as EventRow[];
   dashboard = buildDashboard(events);
+
+  // データが0件のときは、つながらない理由を突き止めて画面に出す
+  if (events.length === 0) {
+    diagnostics = [...(await diagnose(config)), await diagnoseWrite(config)];
+  }
 
   const reportRows = await sbFetch(config, 'reports?select=period_start,period_end,summary_md&order=created_at.desc&limit=8');
   if (reportRows.ok) reports = reportRows.rows as typeof reports;
@@ -95,6 +108,30 @@ const td = 'px-3 py-2 border-t border-edge';
             <h1 class="text-2xl font-bold">管理画面</h1>
             <p class="mt-1 text-sm text-muted">直近{DAYS}日間の計測(ボットは除外済み)</p>
           </div>
+
+          {diagnostics.length > 0 && (
+            <section aria-label="接続診断" class="rounded-lg border-2 border-error bg-white p-6">
+              <h2 class="text-lg font-bold text-error">データが0件です — 接続診断</h2>
+              <p class="mt-1 mb-4 text-sm text-muted">
+                Supabase との通信を実際に試した結果です。NGの行の内容にしたがって設定を直してください。
+              </p>
+              <ul class="space-y-2 text-sm">
+                {diagnostics.map((d) => (
+                  <li class="flex flex-col gap-1 border-t border-edge pt-2 sm:flex-row sm:items-baseline sm:gap-3">
+                    <span class={`flex-none font-bold ${d.ok ? 'text-success' : 'text-error'}`}>
+                      {d.ok ? 'OK' : 'NG'}
+                    </span>
+                    <span class="flex-none font-bold">{d.table}</span>
+                    <span class="flex-none text-muted tabular-nums">HTTP {d.status}</span>
+                    <span class="text-muted">{d.detail}</span>
+                  </li>
+                ))}
+              </ul>
+              <p class="mt-4 text-xs text-muted">
+                すべてOKなのに0件の場合は、まだ誰もサイトを訪問していないだけです(自分でサイトを開いて確認してください)。
+              </p>
+            </section>
+          )}
 
           <section aria-label="サマリー">
             <div class="grid grid-cols-2 gap-3 md:grid-cols-6">
