@@ -1,0 +1,546 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+
+// 30秒診断。設問・判定ロジック・解説文はすべて既存LP(docs/assets/reference/index.html)から
+// 忠実に移植したもの(文言の創作・改変はしない)。見た目のみ本サイトのデザインシステムに統一。
+// タイプ別のアクセント色(4色)は既存LPの一次資料から継承した診断専用の色で、
+// このページのスコープ内でのみ使用する
+---
+
+<Base
+  title="新任リーダー30秒診断"
+  description="6つの質問に「ある/ない」で答えるだけ。チームが伸び悩む本当のボトルネックと、解き方の方向性がわかります。登録不要・無料・30秒。"
+>
+  <Breadcrumb items={[{ label: '30秒診断' }]} />
+
+  <div class="mx-auto max-w-[560px] px-5 pt-6 pb-16 md:pb-24">
+    <!-- ===== HERO ===== -->
+    <section id="s-hero">
+      <div class="rounded-2xl bg-primary-700 px-6 py-10 text-white">
+        <p class="mb-4 inline-block rounded-full bg-white/15 px-4 py-1.5 text-xs font-bold tracking-wide">
+          新任リーダー・プレイングマネージャーのための30秒診断
+        </p>
+        <h1 class="text-[26px] leading-relaxed font-bold md:text-3xl">
+          プレイヤーの頃は、<br />
+          <em class="not-italic text-primary-100 underline decoration-primary-100/50 decoration-[3px] underline-offset-[6px]">うまくいっていた</em>のに。
+        </h1>
+        <p class="mt-4 text-sm opacity-90">
+          リーダーになった途端、頑張るほど空回りする。<br />
+          その原因は、あなたの能力ではなく「構造」にあるのかもしれません。
+        </p>
+        <p class="mt-5 border-t border-white/20 pt-4 text-xs font-bold leading-relaxed text-primary-100">
+          経営・心理の文献と講師の現場経験に基づいて設計。受講生30名以上・満足度100%<span class="font-normal opacity-75">(受講者アンケート・「価値があった」以上の回答割合)</span>
+        </p>
+      </div>
+
+      <div class="mt-6 rounded-lg border border-edge bg-white p-6">
+        <p class="text-sm font-bold">
+          たとえば、こんな悩み。
+          <span class="mt-0.5 block text-xs font-bold text-primary-700">1つでも当てはまるなら、この診断はあなたのためのものです</span>
+        </p>
+        <ul class="mt-4 space-y-2">
+          {[
+            '部下の仕事を、つい巻き取ってしまう',
+            '感覚でやってきたことを、うまく教えられない',
+            '上司と部下の板挟みで、消耗している',
+            '「戦略を考えろ」と言われて、手が止まる',
+          ].map((pain) => (
+            <li class="rounded-md bg-paper-subtle px-4 py-2.5 text-sm font-bold">{pain}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="mt-4 rounded-lg border border-primary-100 bg-primary-100/40 p-6">
+        <p class="mb-3 text-sm font-bold text-primary-700">6つの質問に答えると、わかること</p>
+        <ol class="space-y-2">
+          {[
+            'チームが伸び悩む「本当のボトルネック」(4タイプ判定)',
+            'その原因が、あなたのせいではない理由',
+            '明日から、どう動けばいいか。解き方の方向性と道具',
+          ].map((merit, i) => (
+            <li class="flex items-start gap-3 text-sm font-bold">
+              <span class="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-full bg-primary-700 text-xs font-bold text-white" aria-hidden="true">{i + 1}</span>
+              {merit}
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <button
+        type="button"
+        id="startBtn"
+        class="mt-6 block w-full rounded-full bg-primary-700 px-8 py-4 text-center text-lg font-bold text-white transition-colors duration-200 hover:bg-primary-900"
+      >
+        無料で、原因を確かめる(30秒)
+      </button>
+      <p class="mt-3 text-center text-xs text-muted">
+        登録不要・結果はその場で表示。メールアドレス等の入力はありません。
+      </p>
+    </section>
+
+    <!-- ===== QUIZ ===== -->
+    <section id="s-quiz" hidden>
+      <div class="flex items-center gap-3">
+        <button type="button" id="backBtn" class="py-2 text-sm text-muted">←戻る</button>
+        <div
+          class="h-1.5 flex-1 overflow-hidden rounded-full bg-edge"
+          role="progressbar"
+          aria-label="診断の進み具合"
+          aria-valuemin="0"
+          aria-valuemax="6"
+          aria-valuenow="0"
+          id="qprog"
+        >
+          <i id="qbar" class="block h-full w-0 bg-primary-700 transition-[width] duration-300"></i>
+        </div>
+        <span class="min-w-[3.5em] text-right text-xs font-bold text-muted" id="qnum">1/6</span>
+      </div>
+      <div class="mt-4 rounded-lg border border-edge bg-white p-7">
+        <h2 id="qtext" class="text-lg leading-relaxed font-bold"></h2>
+        <p class="mt-2 mb-6 text-sm text-muted" id="qsub"></p>
+        <div class="grid gap-3">
+          <button type="button" id="yesBtn" class="rounded-lg border-2 border-primary-700 bg-primary-700 px-6 py-4 text-base font-bold text-white transition-opacity duration-200">ある…</button>
+          <button type="button" id="noBtn" class="rounded-lg border-2 border-edge bg-white px-6 py-4 text-base font-bold text-muted transition-opacity duration-200">ない</button>
+        </div>
+      </div>
+      <p class="mt-4 text-center text-xs text-muted">直感で大丈夫です。正解はありません。</p>
+    </section>
+
+    <!-- ===== ANALYZING ===== -->
+    <section id="s-analyzing" hidden role="status" aria-live="polite" class="pt-[22vh] text-center">
+      <span class="dots mb-5 inline-flex gap-2" aria-hidden="true"><i></i><i></i><i></i></span>
+      <p id="antext" class="text-sm font-bold text-muted">回答を読み取っています…</p>
+    </section>
+
+    <!-- ===== RESULT ===== -->
+    <section id="s-result" hidden></section>
+  </div>
+</Base>
+
+<style>
+  /* 判定中のドット(opacity/transformのみ・reduce時は無効) */
+  .dots i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-primary-700);
+    display: inline-block;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .dots i {
+      animation: bounce 1s infinite;
+    }
+    .dots i:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+    .dots i:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+    @keyframes bounce {
+      0%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.35;
+      }
+      50% {
+        transform: translateY(-6px);
+        opacity: 1;
+      }
+    }
+  }
+</style>
+
+<script>
+  // ===== 設問・判定・文言はすべて既存LPから移植(改変しない) =====
+  const LINE_URL = 'https://line.me/R/ti/p/%40798sqegp';
+  const LINE_ID = '@798sqegp';
+
+  function lineUrlWithResult(tid: string): string {
+    // ★区切りは既存LPと同じ全角コロンを維持すること。
+    //   LINE側でこの文言をキーワードに自動応答している場合、変えると反応しなくなる
+    return (
+      'https://line.me/R/oaMessage/' +
+      encodeURIComponent(LINE_ID) +
+      '/?' +
+      encodeURIComponent('診断結果：' + TYPES[tid].name)
+    );
+  }
+  const LINE_CONSULT_URL =
+    'https://line.me/R/oaMessage/' + encodeURIComponent(LINE_ID) + '/?' + encodeURIComponent('個別相談');
+  const SLOTS_LEFT = 3;
+
+  interface QType {
+    name: string;
+    main: string;
+    dark: string;
+    light: string;
+    catch: string;
+    koe: string;
+    why: string[];
+    tools: [string, string, string][];
+  }
+
+  const QUESTIONS: { cat: string; q: string; sub: string }[] = [
+    { cat: 'A', q: '「これ、自分でやった方が早いな」<br>そう思って、部下の仕事を巻き取ることがある', sub: '気づけば部下の資料を、深夜に自分で作り直している' },
+    { cat: 'A', q: 'チームの成果が、自分の残業時間と<br>気合で支えられている気がする', sub: '自分が止まったら、チームも止まる' },
+    { cat: 'B', q: '感覚でやってきたことを、<br>部下にうまく言葉で教えられない', sub: '「なんでできないの?」と思ってしまう自分がいる' },
+    { cat: 'B', q: '「背中を見て学べ」になってしまい、<br>若手との距離を感じる', sub: '育て方がわからないまま、退職の連絡だけが届く' },
+    { cat: 'C', q: '上司は「結果」、部下は「プロセス」。<br>板挟みで消耗している', sub: 'どちらの言い分も分かるから、余計に苦しい' },
+    { cat: 'D', q: '「戦略を考えろ」と言われるが、<br>結局目の前のタスクに逃げてしまう', sub: '考え方を教わったことは、一度もない' },
+  ];
+
+  const TYPES: Record<string, QType> = {
+    A: {
+      name: 'プレイヤーの呪縛', main: '#185fa5', dark: '#0c447c', light: '#E6F1FB',
+      catch: '「自分でやった方が早い」は、あなたの弱さではなく、強さの後遺症です。',
+      koe: '「これ、自分でやったほうが早いな…」そう言って、今日も部下の仕事を巻き取り、一人で残業していませんか。チームの成果が、あなたの残業時間と気合だけで支えられていませんか。',
+      why: [
+        'あなたはプレイヤーとして、感覚とスピードと自己完結力で成果を出してきました。それはエースとして最強の型です。',
+        '問題は、マネージャーになった瞬間、その最強の型がそのまま裏返ることです。',
+        'あなたが巻き取るほど、部下は経験を積む機会を失い、育ちません。育たないから、任せられない。',
+        '任せられないから、また巻き取る。この自己強化ループが「プレイヤーの呪縛」です。',
+        '意志や性格の問題ではなく、優秀だった人ほど深くはまる構造です。だから、根性や時間管理術だけでは、なかなか抜け出せないのです。',
+      ],
+      tools: [
+        ['商売の基本サイクル/バリューチェーン', 'チームの業務を「創る・作る・売る」の流れで分解し、巻き取りの発生箇所を地図にする道具', '勉強会 第1回'],
+        ['ボトルネック特定の現状分析', '分解→絞り込み→深掘りの手順で、数ある問題から「本当に効く一点」を特定する型', '勉強会 第1回'],
+        ['対話の技術', '任せた後、部下を放置せず・巻き取り直さずに支えるための、教えないコミュニケーション技術', '勉強会 第3・4回'],
+      ],
+    },
+    B: {
+      name: '言語化の壁', main: '#0f6e56', dark: '#085041', light: '#E1F5EE',
+      catch: '「なんでできないの?」と思ってしまうのは、指導力不足ではなく、感覚で出来すぎてきたからです。',
+      koe: '「背中を見て学べ」が通用せず、若手が次々と辞めていく。どう教えたらいいのか分からない。心のどこかで「自分の指導力が足りないのでは」と、自分を責めていませんか。',
+      why: [
+        '先に結論を言うと、原因はコミュニケーション不足でも、最近の若者の気質でもありません。あなたは感覚で成果を出せてしまったため、あなたの中の「うまくいくやり方」は、一度も言葉になったことがないのです。',
+        '言葉になっていないものは、教えられません。教えられないから「見て学べ」になり、背中から読み取れなかった若手は「ここでは成長できない」と静かに離れていきます。',
+        'つまり壁の正体は、指導力ではなく言語化です。やっかいなのは、本人にとって暗黙知は「当たり前」すぎて、自分ひとりでは見えないことです。',
+      ],
+      tools: [
+        ['対話の技術(スタンス編)', '評価や解釈を挟まずに相手の話を受け取る姿勢。本音と暗黙知が言葉になり始める土台', '勉強会 第3回'],
+        ['問いの設計(スキル編)', '相手がまだ言語化できていない思考に触れるための、問いの立て方・掘り方の技術', '勉強会 第4回'],
+        ['関係性を動かす承認の技法', '離れかけた若手との関係を立て直す、注目の切り口を変える具体的テクニック', '勉強会 第4回'],
+      ],
+    },
+    C: {
+      name: '適応課題(価値観のズレ)', main: '#d85a30', dark: '#712b13', light: '#FAECE7',
+      catch: 'その板挟みが解けないのは、あなたのせいではなく、課題の"種類"が違うからです。',
+      koe: '上司からは「戦略を立てろ」「結果を出せ」。部下からは「現場を見てください」「プロセスも評価してほしい」。板挟みのまま、どちらの顔も立てられず、一人で消耗していませんか。',
+      why: [
+        '課題には2種類あります。1つは「技術的課題」。',
+        '明確な解決策があり、マニュアルやツールや権限で解決できるもの。もう1つは「適応課題」。',
+        '当事者の価値観や関係性が変わらない限り、固定的な解決策が存在しないものです。',
+        '上司の「結果重視」と部下の「プロセス重視」の対立は、典型的な適応課題です。そして現場の課題の約9割は、実はこちらに属します。',
+        'あなたが消耗してきたのは、適応課題に対して、ルール整備・マニュアル・正論という技術的課題用の打ち手を打ち続けてきたからです。努力が足りないのではなく、武器の種類が課題と噛み合っていなかった。',
+        'それだけのことです。',
+      ],
+      tools: [
+        ['技術的課題/適応課題の見極め', '目の前の課題がどちらの種類かを判別し、打ち手の空振りを止める最初の判断軸', '勉強会 第3回'],
+        ['対話アプローチ(察知→理解→共創)', 'ズレを感じ取り、背景の価値観を理解し、両者で解決策を創る3段階のプロセス', '勉強会 第3・4回'],
+        ['聴くための基本スタンス', '相手を変えようとせずに聴く姿勢。板挟みの膠着が動き出す起点になる構え', '勉強会 第3回'],
+      ],
+    },
+    D: {
+      name: '戦略の欠如', main: '#534ab7', dark: '#3c3489', light: '#EEEDFE',
+      catch: '「戦略を考えろ」と言われて手が止まるのは、能力の問題ではなく、手順を教わっていないだけです。',
+      koe: '上司からは「現場の作業員ではなくマネージャーなんだから、チームの戦略と仕組みを考えろ」。でも、考え方を教わったことは一度もない。結局、目の前のタスク処理に逃げてしまう自分に、焦りを感じていませんか。',
+      why: [
+        '思い出してください。あなたは営業や開発など、プレイヤーとしての「やり方」は教わってきたはずです。',
+        'しかし「チームの現状を分析し、戦略を立てる手順」を、体系立てて教わったことがあるでしょうか。ほとんどの新任リーダーは、教わらないまま「考えろ」とだけ言われています。',
+        '教わっていないことが出来ないのは、当然です。手が止まり、確実に成果の見えるタスク消化に逃げるのは、怠慢ではなく自然な防衛反応です。',
+        'そしてもう1つ。型を持たないまま「うちの一番の問題は何か」を考えると、答えはほぼ例外なく「最近一番イラッとしたこと」になります。',
+        '印象で問題を掴むと、打ち手はどうしてもズレてしまいます。ここが、頑張っても成果につながらない分岐点です。',
+      ],
+      tools: [
+        ['現状分析の型(分解→絞り込み)', '印象ではなく構造でチームの問題を特定する、戦略のすべての起点になる手順', '勉強会 第1回'],
+        ['戦略の方向性(3つの要素)・戦略5原則', '誰に・何を・どう提供するかを整理し、チームの「選ばれる理由」を言語化する骨格', '勉強会 第2回'],
+        ['商売の基本サイクル', '戦略を「創る・作る・売る」の打ち手に分解し、明日の行動まで落とし込む道具', '勉強会 第2回'],
+      ],
+    },
+  };
+
+  const STAGE_LEAD: Record<number, string> = {
+    1: 'まだ小さな違和感かもしれません。でも、この段階で気づけたのは、とても良いタイミングだと思います。',
+    2: '頑張っているのに空回りする。その感覚には、はっきりした理由があります。',
+    3: 'もしかすると、しんどさを誰にも言えないまま、今日まで来られたのかもしれません。この結果は、あなたを責めるためのものではなく、抱えているものを少し軽くするためのものです。',
+  };
+
+  const SCIENCE: Record<string, [string, string][]> = {
+    A: [
+      ['優秀なプレイヤーほど、転換でつまずきやすい', '一流プレイヤーほど「自分で成果を出す」成功法則が染みついており、「人を通じて成果を出す」役割への転換でつまずきやすい、と言われています。(参考: リンダ・ヒルの新任マネージャー研究)'],
+      ['細かな介入は、部下のやる気を下げる', '人の意欲は「自分で決めている感覚(自律性)」で高まり、細かな介入や巻き取りは内発的な意欲を下げやすい、と言われています。(参考: デシ&ライアン「自己決定理論」)'],
+      ['成果は「一番詰まっている一点」で決まる', 'チーム全体の成果は、最も詰まっている一点(ボトルネック)で決まる、という考え方があります。(参考: ゴールドラット『ザ・ゴール』制約理論)'],
+    ],
+    B: [
+      ['できる人ほど、できない人の視界が見えなくなる', '一度できるようになると「できない人に世界がどう見えるか」を想像しにくくなる、と言われています(いわゆる「知識の呪い」)。(参考: E.ニュートンのタッピング実験)'],
+      ['人は、語れる以上のことを知っている', '感覚で成果を出す人の知は、本人にも言葉にしにくい形で蓄積される、と言われています。(参考: M.ポランニー『暗黙知の次元』)'],
+      ['暗黙知は、対話を通じて言葉になる', '暗黙知は、対話のプロセスを通じてはじめて形式知に変わっていく、と整理されています。(参考: 野中郁次郎「SECIモデル」)'],
+    ],
+    C: [
+      ['課題には「2つの種類」がある', '課題は、正解やルールで解ける「技術的問題」と、当事者の認識・関係性が変わらないと解けない「適応課題」に分かれる、と言われています。(参考: R.ハイフェッツの適応課題論)'],
+      ['チームの成果を分けるのは「安心して話せるか」', '成果の高いチームの共通点は、メンバーの能力よりも「心理的安全性」だった、という調査が知られています。(参考: エドモンドソン/Google「Project Aristotle」)'],
+      ['評価せずに聴くことが、変化の入口になる', '評価・判断をせずに聴く姿勢が、相手の変化の前提になる、と言われています。(参考: ロジャーズの傾聴論、『まず、ちゃんと聴く』櫻井将)'],
+    ],
+    D: [
+      ['戦略の定石は「全部やる」ではなく「一点集中」', '全体の成果は最も弱い一点で決まるため、まず分解して絞り込むことが先、という考え方があります。(参考: ゴールドラット『ザ・ゴール』)'],
+      ['忙しさと、サイクルが回っていることは別', '不振の現場は忙しく働いているのに、商品単位で見るとサイクルが回っていないことがある、と言われています。(参考: 三枝匡「商売の基本サイクル」)'],
+      ['戦略の立て方は、教わらないまま任される', '多くの企業で、マネジメントへの移行は体系的な訓練のない実地任せになりがち、と指摘されています。(参考: 新任マネージャーに関する各種研究)'],
+    ],
+  };
+
+  const GALLUP = {
+    num: '70%',
+    line: 'チームのエンゲージメント(仕事への熱意)のばらつきの約70%は「マネージャー」によって決まる、と言われています。(参考: 米Gallup社の調査)',
+    sub: 'もしそうなら、チームを一番大きく変えられるのは、あなた自身の変化です。目指すのは特別な誰かになることではなく、プレイヤーの頃に持っていたあの手応えを、リーダーとして取り戻すこと。ただ、暗黙知の言語化も適応課題も、一人では完結しにくいと言われています。話す相手がいるだけで、前に進みやすくなります。',
+  };
+
+  const VOICES: Record<string, [string, string][]> = {
+    A: [
+      ['AI系テック企業・CSチーム', '「難しいスキルではなく、『すぐにでも変えられる(取りかかれる)』ことが成果でした。課題への向き合い方、対話のスキルなど、相手や感情との向き合い方が印象に残っています」'],
+      ['AI系テック企業・CSチーム', '「手が動かないときは、落ち着いて要素分解とステップを考える。そして、あらゆる論理やスキルの大前提として、マインドセットと関係性が重要だと学びました」'],
+    ],
+    B: [
+      ['AI系テック企業・CSチーム', '「漠然と疑問に思っていたことが言語化されて、理解が深まりました。何を意識して業務にあたるか、とても良い指針になりました」'],
+      ['30代・CS職', '「8割はなんとなく知っていたことでした。でも忙しさの中で整理できていなかった。体系になったことで初めて思い出せて、日々の仕事とコミュニケーションで使えるようになりました」'],
+    ],
+    C: [
+      ['30代・CS職', '「学んだ『ジャッジせずに聴く』を実践し、会議のあと上司に『今日は話を聴いてくださって、考えが整理できました』と具体的に伝えました。それ以来、上司との関係とコミュニケーションに、小さいけれど確かな変化が起きています」'],
+      ['AI系テック企業・CSチーム', '「自分の聞きたいことだけでなく、相手の状況や話したいことを整理しながら理解する気持ちを持って聴きたい、と思えるようになりました」'],
+    ],
+    D: [
+      ['AI系テック企業・CSチーム', '「『まずどこから着手するか』の一歩が踏み出せないことが多かったのですが、体系的に学ぶことで、その一歩のハードルを極限まで低くする。行動できるところまで分解する考え方を学べました」'],
+      ['AI系テック企業・CSチーム', '「現状を分解して解像度を上げ、ボトルネックを特定して、優先的に改善することを整理する。問題解決に向けた整理の方法を学べました」'],
+    ],
+  };
+
+  const CTA_GET = [
+    'あなたの現場の状況を伺い、「どこから手を付けるか」の見立てを、その場で必ずお渡しします',
+    '選ぶのは、まだ先で大丈夫。勉強会と1on1のどちらが合うか(まだ不要かも含めて)、こちらから正直にお伝えします',
+    '売り込みは一切なし。忙しさで後回しになりがちな「立ち止まって考える60分」としてお使いください',
+  ];
+
+  const FAQS: [string, string][] = [
+    ['個人でも申し込めますか?', 'はい、もちろんです。会社を通す必要はなく、勉強会も1on1も、個別相談も、個人のままお申し込みいただけます。「企業研修 導入実績あり」と書いているのは実績のご紹介で、法人限定という意味ではありません。'],
+    ['この診断は、何を根拠にしていますか?', '経営・心理の文献(適応課題、暗黙知、制約理論など)を参考にしつつ、講師自身がリーダー支援の現場で得た経験に基づいて設計したものです。厳密な診断テストではなく、ご自身の状況を整理するためのセルフチェックとしてお使いください。'],
+    ['本やネットで学べる内容では?', '正直に言うと、8割は「聞いたことがある」話かもしれません。実際、受講者の方にもそう言われます。ただ、その方はこう続けました。「忙しさの中で整理できていなかったことが体系になり、初めて仕事で使えるようになった」。「知っている」と「現場で使える」の間にある溝を、一緒に埋めさせてください。'],
+    ['相談が有料(3,000円)なのは、なぜですか?', 'おひとりずつ枠を確保して、本気で変えたい方との時間を守るためです。内容は、勉強会や1on1で行っている「見立て」と同じプロセスなので、無料の営業面談ではなく、中身のある60分としてご提供します。なお、勉強会・1on1は別のプログラム(別料金)です。相談だけで終えていただいて、もちろん構いません。お支払いのご案内は、ご予約の確認後にお送りします(オンライン決済)。'],
+    ['本当に売り込まれませんか?', 'しません。相談の目的は「見立て」をお渡しすることです。勉強会や1on1は、その手段が合う方にだけご提案し、合わない方には「まだ不要です」と正直にお伝えしています。'],
+    ['何を話せばいいか、まとまっていません', 'まとまっていなくて大丈夫です。診断結果を見せていただければ、こちらから質問しながら一緒に整理します。「うまく話す」準備は要りません。'],
+    ['相談しても、何も変わらなかったら?', 'そう感じたら、遠慮なくそこで終わりにしてください。それでも最低限、「自分のチームのボトルネックはこれだ」という言語化は持ち帰れます。その一言があるだけで、上司への説明や、同僚への相談の解像度が変わります。'],
+    ['オンラインですか?時間は選べますか?', 'オンライン(Zoom等)で、平日夜・土日も枠があります。LINEで「個別相談」と送っていただくと、日程候補をお送りします。'],
+  ];
+
+  // ===== 画面制御 =====
+  let qi = 0;
+  const answers: boolean[] = [];
+  const $ = (id: string) => document.getElementById(id)!;
+  const screens = ['s-hero', 's-quiz', 's-analyzing', 's-result'];
+
+  function show(id: string): void {
+    for (const s of screens) $(s).hidden = s !== id;
+    window.scrollTo(0, 0);
+  }
+
+  function renderQ(): void {
+    const q = QUESTIONS[qi]!;
+    $('qtext').innerHTML = q.q;
+    $('qsub').textContent = q.sub;
+    const prev = answers[qi];
+    ($('yesBtn') as HTMLButtonElement).style.opacity = prev === false ? '0.45' : '1';
+    ($('noBtn') as HTMLButtonElement).style.opacity = prev === true ? '0.45' : '1';
+    $('qnum').textContent = qi >= 4 ? `あと${6 - qi}問` : `${qi + 1}/6`;
+    $('qbar').style.width = Math.round(((qi + 0.4) / 6) * 100) + '%';
+    $('qprog').setAttribute('aria-valuenow', String(qi));
+  }
+
+  function answer(yes: boolean): void {
+    answers[qi] = yes;
+    if (qi < 5) {
+      qi++;
+      renderQ();
+    } else {
+      $('qbar').style.width = '100%';
+      analyze();
+    }
+  }
+
+  function analyze(): void {
+    show('s-analyzing');
+    const msgs = ['回答を読み取っています…', '課題分類の理論と照合しています…', 'あなたのボトルネックを特定しました'];
+    let i = 0;
+    $('antext').textContent = msgs[0]!;
+    const timer = setInterval(() => {
+      i++;
+      if (i < msgs.length) {
+        $('antext').textContent = msgs[i]!;
+      } else {
+        clearInterval(timer);
+        showResult();
+      }
+    }, 650);
+  }
+
+  function judge(): { tid: string; stage: number; n: number } {
+    const tally: Record<string, number> = { A: 0, B: 0, C: 0, D: 0 };
+    let n = 0;
+    answers.forEach((yes, i) => {
+      if (yes) {
+        tally[QUESTIONS[i]!.cat]!++;
+        n++;
+      }
+    });
+    const order = ['A', 'D', 'B', 'C'];
+    let tid = order[0]!;
+    let best = -1;
+    for (const k of order) {
+      if (tally[k]! > best) {
+        best = tally[k]!;
+        tid = k;
+      }
+    }
+    const stage = n === 0 ? 1 : n <= 2 ? 1 : n <= 4 ? 2 : 3;
+    return { tid, stage, n };
+  }
+
+  // ===== 結果画面 =====
+  const card = 'rounded-lg border border-edge bg-white';
+
+  function resultHTML(tid: string, stage: number): string {
+    const t = TYPES[tid]!;
+    const whyAll = t.why.map((p) => `<p class="mb-3 text-sm leading-loose">${p}</p>`).join('');
+    return `
+    <div class="rounded-2xl px-6 py-9 text-white" style="background:${t.main}">
+      <span class="inline-block rounded-full bg-white px-4 py-1 text-xs font-bold" style="color:${t.main}">診断結果: タイプ${tid}</span>
+      <p class="mt-3 text-xs opacity-85">あなたのボトルネック</p>
+      <h2 class="mt-1 text-2xl font-bold md:text-3xl">${t.name}</h2>
+      <p class="mt-3 text-sm font-bold leading-relaxed opacity-95">${t.catch}</p>
+      <p class="mt-4 text-xs font-bold opacity-70">あなたの6つの回答パターンから判定しています</p>
+    </div>
+
+    <p class="${card} mt-5 p-4 text-sm text-muted">${STAGE_LEAD[stage]}</p>
+
+    <div class="mt-8">
+      <h3 class="mb-4 flex items-center gap-2.5 text-lg font-bold">
+        <span class="flex h-7 w-7 flex-none items-center justify-center rounded-full text-sm font-bold text-white" style="background:${t.main}" aria-hidden="true">1</span>
+        なぜ、そうなっているのか
+      </h3>
+      <div class="mb-4 rounded-r-lg border-l-4 p-4 text-sm leading-loose" style="background:${t.light};border-color:${t.main};color:${t.dark}">${t.koe}</div>
+      ${whyAll}
+      <p class="rounded-md bg-paper-subtle p-4 text-sm font-bold text-primary-700">原因は、あなたの意志や能力ではなく「構造」。まずここを掴むことが、すべての出発点です。</p>
+      <div class="mt-4 rounded-r-lg border border-edge border-l-4 border-l-primary-700 bg-white p-4">
+        <p class="mb-3 text-xs font-bold tracking-widest text-primary-700">参考|こんな研究・考え方が知られています</p>
+        ${SCIENCE[tid]!.map(([b, p]) => `<div class="mb-3 last:mb-0"><p class="text-sm font-bold">${b}</p><p class="mt-0.5 text-xs leading-relaxed text-muted">${p}</p></div>`).join('')}
+        <p class="mt-3 border-t border-dashed border-edge pt-3 text-xs text-muted">※本診断の判定・解説は、上記の文献等を参考にしつつ、講師自身の現場経験に基づいてまとめたものです。</p>
+      </div>
+    </div>
+
+    <div class="mt-8 rounded-lg border-2 border-primary-700 bg-white p-6">
+      <p class="mb-3 text-base font-bold text-primary-700">続きは、LINEでお渡しします <span class="text-xs font-bold text-muted">(無料)</span></p>
+      <ul class="mb-4 divide-y divide-paper-subtle">
+        <li class="flex items-center gap-3 py-2.5 text-sm font-bold"><b class="flex h-6 min-w-9 flex-none items-center justify-center rounded-md bg-paper-subtle px-1.5 text-xs text-primary-700">2</b>解決するための考え方(${t.name}タイプ専用)</li>
+        <li class="flex items-center gap-3 py-2.5 text-sm font-bold"><b class="flex h-6 min-w-9 flex-none items-center justify-center rounded-md bg-paper-subtle px-1.5 text-xs text-primary-700">3</b>そのために使う、3つの道具</li>
+        <li class="flex items-center gap-3 py-2.5 text-sm font-bold"><b class="flex h-6 min-w-9 flex-none items-center justify-center rounded-md bg-paper-subtle px-1.5 text-xs text-primary-700">PDF</b>この診断結果のまとめ(保存版)</li>
+      </ul>
+      <a class="block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)]" href="${lineUrlWithResult(tid)}" target="_blank" rel="noopener">友だち追加して、続きを受け取る</a>
+      <p class="mt-2.5 text-center text-xs text-muted">追加後、すぐ自動で届きます。配信の停止は、いつでもできます。</p>
+    </div>
+
+    <div class="-mx-5 mt-8 bg-paper-subtle px-5 py-7">
+      <h3 class="mb-4 flex items-center gap-2.5 text-lg font-bold">
+        <span class="flex h-7 w-7 flex-none items-center justify-center rounded-full text-xs font-bold text-white" style="background:${t.main}" aria-hidden="true">声</span>
+        あなたと同じ悩みから始めた人の、変化
+      </h3>
+      <div class="mb-4 grid grid-cols-3 gap-2">
+        <div class="${card} px-1 py-3 text-center"><b class="block text-lg font-bold text-primary-700">30<i class="text-xs not-italic">名以上</i></b><span class="mt-0.5 block text-[10px] font-bold text-muted">受講生(2026年7月時点)</span></div>
+        <div class="${card} px-1 py-3 text-center"><b class="block text-lg font-bold text-primary-700">100<i class="text-xs not-italic">%</i></b><span class="mt-0.5 block text-[10px] font-bold text-muted">受講者満足度※</span></div>
+        <div class="${card} px-1 py-3 text-center"><b class="block text-lg font-bold text-primary-700">企業研修</b><span class="mt-0.5 block text-[10px] font-bold text-muted">導入実績あり</span></div>
+      </div>
+      ${VOICES[tid]!.map(([who, body]) => `<div class="${card} mb-2.5 p-4"><p class="mb-1 text-xs font-bold text-muted">${who}</p><p class="text-sm">${body}</p></div>`).join('')}
+      <p class="mt-3 text-xs leading-relaxed text-muted">あなたの診断タイプに近い受講者の声を表示しています。<br>※満足度は受講者アンケートで「価値があった」以上と回答した割合。感想は一部要約・和訳しています。<br>※企業研修は実績のご紹介です。勉強会・1on1・個別相談は、個人でそのままお申し込みいただけます。</p>
+    </div>
+
+    <div class="-mx-5 bg-paper-subtle px-5 pb-7">
+      <h3 class="mb-4 flex items-center gap-2.5 text-lg font-bold">
+        <span class="flex h-7 w-7 flex-none items-center justify-center rounded-full text-xs font-bold text-white" style="background:${t.main}" aria-hidden="true">Q</span>
+        相談の前に、よくあるご質問
+      </h3>
+      ${FAQS.map(([q, a]) => `<details class="${card} mb-2.5 overflow-hidden"><summary class="cursor-pointer list-none p-4 text-sm font-bold">${q}</summary><p class="px-4 pb-4 text-sm text-muted">${a}</p></details>`).join('')}
+    </div>
+
+    <a class="mt-6 flex items-center justify-between gap-3 rounded-lg border-2 border-primary-700 bg-white p-4" href="/profile/">
+      <span class="text-sm font-bold">相談相手は、どんな人?<small class="block text-xs font-bold text-muted">玉岡 諒太(maido&crafts strategy 代表)</small></span>
+      <span class="flex-none text-sm font-bold text-primary-700">プロフィール →</span>
+    </a>
+
+    <div class="mt-6 rounded-lg border border-primary-100 bg-primary-100/40 p-6 text-center">
+      <p class="text-5xl font-bold text-primary-700">${GALLUP.num}</p>
+      <p class="mt-3 text-left text-sm font-bold leading-loose">${GALLUP.line}</p>
+      <p class="mt-2 text-left text-sm leading-loose text-muted">${GALLUP.sub}</p>
+    </div>
+
+    <div class="mt-6 rounded-2xl px-6 py-8 text-white" style="background:${t.dark}">
+      <p class="mb-3 inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-bold tracking-wide">個別相談|60分・3,000円・オンライン</p>
+      <h3 class="mb-3 text-xl font-bold">あなたのチームの「見立て」を、持ち帰りませんか</h3>
+      <p class="mb-4 text-sm leading-loose opacity-95">診断でわかるのは、ここまでです。あなたのチームの何から手を付けるかは、実際にお話を聴かないと見立てられません。変えていく主役はあなたで、私たちの仕事は、その地図を描くお手伝いです。</p>
+      <ul class="mb-4 space-y-2 text-sm">
+        ${CTA_GET.map((g) => `<li class="relative pl-6 leading-relaxed"><span class="absolute left-0 font-bold" aria-hidden="true">✓</span>${g}</li>`).join('')}
+      </ul>
+      <p class="mb-4 text-sm font-bold leading-loose opacity-90">診断で見えたものは、明日からの忙しさの中で、また見えなくなりがちです。見えている今のうちに、一度だけ話してみませんか。</p>
+      <p class="mb-4 rounded-lg bg-white/15 py-2.5 text-center text-sm font-bold">おひとりずつじっくりお聴きするため、個別相談は月 ${SLOTS_LEFT} 名までとしています</p>
+      <p class="mb-4 rounded-lg bg-white/10 px-4 py-3 text-sm font-bold leading-loose">うまく話せるか不安でも、大丈夫。まとまっていないまま、来てください。整理するところから、一緒にやります。</p>
+      <a class="block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)]" href="${LINE_CONSULT_URL}" target="_blank" rel="noopener">LINEで「個別相談」と送る<small class="mt-0.5 block text-xs font-bold">「個別相談」の4文字を送るだけ・約30秒</small></a>
+      <p class="mt-3 text-center text-xs leading-relaxed opacity-85">送ったあとの流れ: 予約フォームが届く → 枠を選ぶだけ(お支払いのご案内は予約確認後にお送りします)<br>売り込みなし・合わなければそこで終わりにして大丈夫・平日夜/土日枠あり</p>
+    </div>
+
+    <button type="button" class="redo mx-auto mt-6 block text-sm text-muted underline underline-offset-4">診断をやり直す</button>
+    <p class="mt-7 text-center text-sm leading-loose text-muted">ここまで読んでくださって、ありがとうございました。<br>それ自体が、もう最初の一歩だと思います。</p>`;
+  }
+
+  function noneHTML(): string {
+    return `
+    <div class="rounded-2xl bg-primary-700 px-6 py-9 text-white">
+      <span class="inline-block rounded-full bg-white px-4 py-1 text-xs font-bold text-primary-700">診断結果</span>
+      <h2 class="mt-3 text-2xl font-bold md:text-3xl">大きなボトルネックは<br>見つかりませんでした</h2>
+      <p class="mt-3 text-sm font-bold opacity-95">今のマネジメント、良い状態のようです。</p>
+    </div>
+    <p class="${card} mt-5 p-4 text-sm text-muted">6つの「新任リーダーがつまずきやすいポイント」に、いまのあなたは当てはまりませんでした。きっと、日々のチームとの関わりを大切にされているのだと思います。</p>
+    <div class="mt-6 space-y-3 text-sm leading-loose">
+      <p>もし今後、「部下の仕事を巻き取りがち」「教え方に迷う」「板挟みがつらい」と感じる場面が出てきたら、それは能力の問題ではなく「構造」のサインです。そのときは、またここに戻ってきてください。</p>
+      <p>また、身近に当てはまりそうなリーダー仲間がいたら、この診断を教えてあげてください。早い段階で構造に気づけるほど、軽い手当てで済みます。</p>
+    </div>
+    <div class="mt-6 rounded-2xl bg-primary-700 px-6 py-8 text-white">
+      <h3 class="mb-3 text-xl font-bold">今後のために、つながっておきませんか</h3>
+      <p class="mb-4 text-sm leading-loose opacity-95">リーダーの悩みは、ある日とつぜん始まります。そのときすぐ思い出せるように、LINEでつながっておいてください。役に立つときまで、静かにしています。</p>
+      <a class="block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)]" href="${LINE_URL}" target="_blank" rel="noopener">LINEで友だち追加する<small class="mt-0.5 block text-xs font-bold">配信の停止は、いつでもできます</small></a>
+    </div>
+    <button type="button" class="redo mx-auto mt-6 block text-sm text-muted underline underline-offset-4">診断をやり直す</button>`;
+  }
+
+  function showResult(): void {
+    const { tid, stage, n } = judge();
+    $('s-result').innerHTML = n === 0 ? noneHTML() : resultHTML(tid, stage);
+    show('s-result');
+    $('s-result')
+      .querySelectorAll('.redo')
+      .forEach((b) => b.addEventListener('click', () => location.reload()));
+  }
+
+  // ===== イベント =====
+  $('startBtn').addEventListener('click', () => {
+    qi = 0;
+    answers.length = 0;
+    renderQ();
+    show('s-quiz');
+  });
+  $('yesBtn').addEventListener('click', () => answer(true));
+  $('noBtn').addEventListener('click', () => answer(false));
+  $('backBtn').addEventListener('click', () => {
+    if (qi === 0) {
+      show('s-hero');
+    } else {
+      qi--;
+      renderQ();
+    }
+  });
+</script>

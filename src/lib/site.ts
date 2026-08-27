@@ -22,6 +22,7 @@ export const LEGAL_NAV = [
 
 /** グローバルナビ(5項目以内 + CTA — 03_ux-guidelines §3) */
 export const NAV = [
+  { href: '/shindan/', label: '30秒診断' },
   { href: '/services/', label: 'サービス' },
   { href: '/about/', label: '会社案内' },
   { href: '/profile/', label: '代表プロフィール' },
