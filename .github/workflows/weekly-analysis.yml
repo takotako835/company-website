@@ -15,12 +15,32 @@ jobs:
     steps:
       - name: Call analyze endpoint
         run: |
+          # ★このワークフローの版。ログの先頭に出るので、古い版で実行していないか確認できる
+          echo "workflow version: v2 (JSON POST)"
+
           if [ -z "${{ secrets.ANALYZE_URL }}" ]; then
             echo "ANALYZE_URL secret is not set; skipping."
             exit 0
           fi
-          # Content-Type: application/json を付けることで、フォーム向けのCSRF保護の対象外になる
-          curl --fail-with-body -sS -X POST "${{ secrets.ANALYZE_URL }}" \
+          if [ -z "${{ secrets.ANALYZE_SECRET }}" ]; then
+            echo "::error::ANALYZE_SECRET secret is not set."
+            exit 1
+          fi
+
+          # Content-Type: application/json を付けることで、
+          # ブラウザのフォーム投稿を防ぐCSRF保護の対象外になる(保護自体は維持される)
+          status=$(curl -sS -o response.txt -w '%{http_code}' -X POST "${{ secrets.ANALYZE_URL }}" \
             -H "x-analyze-secret: ${{ secrets.ANALYZE_SECRET }}" \
             -H "Content-Type: application/json" \
-            --data '{}'
+            --data '{}')
+
+          echo "HTTP status: $status"
+          echo "response: $(cat response.txt)"
+
+          case "$status" in
+            2*) echo "分析が完了しました。" ;;
+            401) echo "::error::合言葉が一致しません。GitHubの ANALYZE_SECRET と Render の ANALYZE_SECRET を同じ値にしてください。"; exit 1 ;;
+            403) echo "::error::古い版のワークフローで実行された可能性があります。Actions → weekly-analysis → Run workflow から新規実行してください。"; exit 1 ;;
+            503) echo "::error::Supabaseが未設定です。Render に SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY を設定してください。"; exit 1 ;;
+            *) echo "::error::分析の起動に失敗しました (HTTP $status)"; exit 1 ;;
+          esac
