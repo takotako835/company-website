@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+import { NAV, SITE } from '../../lib/site';
+import symbolOrange from '../../assets/maido_symbol_orange.png';
+
+// フルロゴ(logo_full.png)は縦積み構成でヘッダーの高さ32〜40pxでは判読不能なため、
+// 白背景の第一選択であるシンボル + 社名テキストの構成を採用(02_design-system §2b)
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
+
+<header class="sticky top-0 z-50 border-b border-edge bg-white/90 backdrop-blur">
+  <div class="mx-auto flex h-14 max-w-[1120px] items-center justify-between px-5 md:h-16 lg:px-10">
+    <a href="/" class="flex items-center gap-2">
+      <Image
+        src={symbolOrange}
+        alt=""
+        width={72}
+        height={73}
+        class="h-8 w-auto md:h-9"
+        loading="eager"
+      />
+      <span class="text-sm font-bold tracking-wide text-primary-700 md:text-base">
+        {SITE.companyNameEn}
+      </span>
+    </a>
+
+    <nav aria-label="グローバルナビゲーション" class="hidden items-center gap-6 md:flex">
+      {NAV.map((item) => (
+        <a
+          href={item.href}
+          aria-current={isCurrent(item.href) ? 'page' : undefined}
+          class:list={[
+            'py-2 text-sm transition-colors duration-200 hover:text-primary-700',
+            isCurrent(item.href)
+              ? 'font-bold text-primary-700 underline decoration-brand-orange decoration-2 underline-offset-8'
+              : 'text-ink',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href="/contact/"
+        class="inline-flex min-h-11 items-center rounded-md bg-primary-700 px-5 py-2 text-sm font-bold text-white transition-colors duration-200 hover:bg-primary-900"
+      >
+        個別相談・お問い合わせ
+      </a>
+    </nav>
+
+    <button
+      id="menu-button"
+      type="button"
+      class="flex h-11 w-11 flex-col items-center justify-center gap-1.5 md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="メニューを開く"
+    >
+      <span class="h-0.5 w-6 bg-ink transition-transform duration-200"></span>
+      <span class="h-0.5 w-6 bg-ink transition-opacity duration-200"></span>
+      <span class="h-0.5 w-6 bg-ink transition-transform duration-200"></span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="hidden border-t border-edge bg-white md:hidden">
+    <nav aria-label="モバイルナビゲーション" class="px-5 py-4">
+      <ul>
+        {NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+              class:list={[
+                'block border-b border-edge py-3.5',
+                isCurrent(item.href) ? 'font-bold text-primary-700' : 'text-ink',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a
+        href="/contact/"
+        class="mt-4 flex min-h-11 items-center justify-center rounded-md bg-primary-700 px-8 py-3 font-bold text-white"
+      >
+        個別相談・お問い合わせ
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const button = document.getElementById('menu-button');
+  const menu = document.getElementById('mobile-menu');
+
+  function setOpen(open: boolean) {
+    if (!button || !menu) return;
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+    menu.classList.toggle('hidden', !open);
+  }
+
+  button?.addEventListener('click', () => {
+    setOpen(button.getAttribute('aria-expanded') !== 'true');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+</script>

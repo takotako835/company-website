@@ -1,0 +1,27 @@
+---
+// セクション上下余白 64px(SP)/ 96px(PC)と背景の交互リズムを一元管理(02_design-system §4)
+interface Props {
+  tone?: 'white' | 'subtle';
+  /** テキスト主体のセクションは 800px に絞る(02_design-system §5) */
+  narrow?: boolean;
+  id?: string;
+  labelledby?: string;
+}
+
+const { tone = 'white', narrow = false, id, labelledby } = Astro.props;
+---
+
+<section
+  id={id}
+  aria-labelledby={labelledby}
+  class:list={['py-16 md:py-24', tone === 'subtle' ? 'bg-paper-subtle' : 'bg-white']}
+>
+  <div
+    class:list={[
+      'mx-auto px-5 lg:px-10',
+      narrow ? 'max-w-[800px]' : 'max-w-[1120px]',
+    ]}
+  >
+    <slot />
+  </div>
+</section>

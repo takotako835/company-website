@@ -1,0 +1,82 @@
+---
+import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import StickyCta from '../components/layout/StickyCta.astro';
+import { SITE } from '../lib/site';
+import symbolOrange from '../assets/maido_symbol_orange.png';
+
+interface Props {
+  /** ページ固有タイトル。トップは空にして社名先頭の形にする */
+  title?: string;
+  description: string;
+  /** ページごとに固有のJSON-LDを追加したい場合に渡す */
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { title, description, jsonLd = [] } = Astro.props;
+
+const fullTitle = title
+  ? `${title}｜${SITE.companyName}`
+  : `${SITE.companyName}｜人の成長が価値を倍増させる`;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// TODO: OGP画像はロゴを白背景に置いた仮版(public/ogp.png)。デザイン版ができたら差し替える
+const ogImage = new URL('/ogp.png', Astro.site);
+
+// 全ページ共通の Organization 構造化データ(06_seo-performance §2)
+// TODO: 所在地・連絡先が確定したら address / contactPoint を追加する
+const organizationLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.companyName,
+  url: Astro.site?.toString(),
+  logo: new URL(symbolOrange.src, Astro.site).toString(),
+  foundingDate: SITE.foundingDate,
+  founder: { '@type': 'Person', name: SITE.representative },
+};
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#1F3A5F" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={SITE.companyName} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(organizationLd)}
+    />
+    {jsonLd.map((ld) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)} />
+    ))}
+  </head>
+  <body class="pb-20 md:pb-0">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-100 focus:bg-white focus:px-4 focus:py-2 focus:text-primary-700"
+    >
+      本文へスキップ
+    </a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <StickyCta />
+  </body>
+</html>

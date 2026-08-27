@@ -1,0 +1,20 @@
+---
+// 既存3ページの「オレンジマーカー付き見出し」を継承(注目点にのみオレンジを使用)
+interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id, class: className } = Astro.props;
+---
+
+<h2
+  id={id}
+  class:list={[
+    'mb-6 flex items-center gap-3 text-2xl font-bold md:mb-8 md:text-[28px]',
+    className,
+  ]}
+>
+  <span class="h-6 w-1.5 flex-none rounded-sm bg-brand-orange" aria-hidden="true"></span>
+  <slot />
+</h2>

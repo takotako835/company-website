@@ -1,0 +1,45 @@
+---
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  /** 先頭の「トップ」は自動付与。現在ページは href なしで渡す */
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+const crumbs: Crumb[] = [{ label: 'トップ', href: '/' }, ...items];
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: crumbs.map((crumb, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: crumb.label,
+    ...(crumb.href
+      ? { item: new URL(crumb.href, Astro.site).toString() }
+      : {}),
+  })),
+};
+---
+
+<nav aria-label="パンくずリスト" class="mx-auto max-w-[1120px] px-5 pt-4 lg:px-10">
+  <ol class="flex flex-wrap items-center gap-2 text-xs text-muted">
+    {crumbs.map((crumb, i) => (
+      <li class="flex items-center gap-2">
+        {i > 0 && <span aria-hidden="true">/</span>}
+        {crumb.href ? (
+          <a href={crumb.href} class="py-1 underline-offset-4 hover:underline">
+            {crumb.label}
+          </a>
+        ) : (
+          <span aria-current="page">{crumb.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />

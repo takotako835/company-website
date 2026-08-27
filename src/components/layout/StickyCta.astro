@@ -1,0 +1,19 @@
+---
+import { SITE } from '../../lib/site';
+
+// 既存3ページの画面下固定CTAを踏襲(docs/content/contact.md §6)。
+// PCはヘッダー右端にCTAが常時あるためモバイルのみ表示
+---
+
+<div
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-edge bg-paper/85 px-4 pt-2.5 pb-[calc(10px+env(safe-area-inset-bottom))] backdrop-blur-lg md:hidden"
+>
+  <a
+    href={SITE.lineUrl}
+    target="_blank"
+    rel="noopener"
+    class="block rounded-full bg-line-green py-3.5 text-center font-bold text-white"
+  >
+    LINEで個別相談へ(60分・売り込みなし)
+  </a>
+</div>

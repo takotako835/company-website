@@ -1,0 +1,53 @@
+---
+// 実績数値は brief §6 の確定値のみ。注記必須(01_brand-guidelines §6)
+const stats = [
+  { value: '30', unit: '名以上', label: '受講生(2026年7月時点)' },
+  { value: '100', unit: '%', label: '受講者満足度※' },
+  { value: '企業研修', unit: '', label: '導入実績あり' },
+];
+
+const voices = [
+  {
+    quote:
+      '漠然と疑問に思っていたことが言語化されて理解が深まり、チームの方の意見からいろいろな視点を得られました。どう意識して生活・業務するか、とても良い指針になりました',
+    who: '企業研修 受講者',
+  },
+  {
+    quote:
+      '8割はなんとなく知っていたことでした。でも日々の忙しさの中で整理できていなかった。フレームワークのおかげで断片的だった情報が体系になり、思い出せて、日々の仕事とコミュニケーションに使えるようになりました',
+    who: '30代・CS職(和訳・要約)',
+  },
+  {
+    quote:
+      '忙しい中で、仕事のことや自分自身のことを振り返る時間は案外ありません。非常に貴重な機会でした',
+    who: '企業研修 受講者',
+  },
+];
+---
+
+<div class="mb-8 grid grid-cols-3 gap-2 md:gap-6">
+  {stats.map((stat) => (
+    <div class="rounded-lg border border-edge bg-white px-2 py-5 text-center md:py-8">
+      <p class="text-xl font-bold text-primary-700 md:text-3xl">
+        {stat.value}<span class="text-xs md:text-base">{stat.unit}</span>
+      </p>
+      <p class="mt-1 text-[11px] font-bold text-muted md:text-xs">{stat.label}</p>
+    </div>
+  ))}
+</div>
+
+<ul class="grid gap-4 md:grid-cols-3 md:gap-6">
+  {voices.map((voice) => (
+    <li class="rounded-lg border border-edge bg-white p-6">
+      <blockquote class="text-sm text-muted">
+        <p>「{voice.quote}」</p>
+        <footer class="mt-3 text-xs text-muted">— {voice.who}</footer>
+      </blockquote>
+    </li>
+  ))}
+</ul>
+
+<p class="mt-6 text-xs leading-relaxed text-muted">
+  ※満足度は受講者アンケートで「価値があった」以上と回答した割合。感想は一部要約・和訳しています。<br />
+  ※企業研修は実績のご紹介です。勉強会・1on1・個別相談は、個人でそのままお申し込みいただけます。
+</p>

@@ -1,0 +1,34 @@
+---
+// 教育 × 実践 × リフレクション の3ステップ(company.html の記述を踏襲)
+const steps = [
+  {
+    title: '教育',
+    body: '独自のメソドロジーで、現状分析・戦略・問題解決・対話などのポータブルスキルを身につける',
+  },
+  {
+    title: '実践',
+    body: '学んだことを自分の現場で行動・体現し、手触りのある「変化」を起こす',
+  },
+  {
+    title: 'リフレクション',
+    body: '1on1やグループで実践結果を振り返り、何を学んだかを言葉にして、次の行動を再設計する',
+  },
+];
+---
+
+<ol class="grid gap-4 md:grid-cols-3 md:gap-6">
+  {steps.map((step, i) => (
+    <li class="rounded-lg border border-edge bg-white p-6">
+      <div class="mb-3 flex items-center gap-3">
+        <span
+      class="flex h-9 w-9 flex-none items-center justify-center rounded-md bg-primary-700 text-sm font-bold text-white"
+          aria-hidden="true"
+        >
+          {i + 1}
+        </span>
+        <h3 class="text-lg font-semibold text-primary-700">{step.title}</h3>
+      </div>
+      <p class="text-sm text-muted">{step.body}</p>
+    </li>
+  ))}
+</ol>

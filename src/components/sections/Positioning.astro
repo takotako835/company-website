@@ -1,0 +1,51 @@
+---
+// 「研修でも、コンサルでもなく」3列対比(01_brand-guidelines §2)
+// 他社型の欠点は company.html と同じ一般論のレベルに留める(出典が必要な数値は使わない)
+const columns = [
+  {
+    label: '研修会社',
+    type: '知識伝達型',
+    body: '体系的な知識は得られますが、「知る」で終わりがちで、現場での実践に結びつきにくい面があります。',
+    us: false,
+  },
+  {
+    label: 'コンサルティング会社',
+    type: '問題解決型',
+    body: '解決はしてくれますが、代行ゆえに依存が生まれやすく、ノウハウが社内に残りにくい面があります。',
+    us: false,
+  },
+  {
+    label: 'maido&crafts strategy',
+    type: '個人×組織 成長伴走型',
+    body: '答えを渡すのではなく、一緒に考え、現場で実践してもらい、振り返る。あなた自身が再現できる手法を残し、最終的に自走できる状態を目指します。',
+    us: true,
+  },
+];
+---
+
+<div class="grid gap-4 md:grid-cols-3 md:gap-6">
+  {columns.map((col) => (
+    <div
+      class:list={[
+        'relative rounded-lg bg-white p-6',
+        col.us ? 'border-2 border-primary-700' : 'border border-edge',
+      ]}
+    >
+      {col.us && (
+        <span class="absolute -top-3 right-4 rounded-full bg-primary-700 px-3 py-0.5 text-xs font-bold text-white">
+          私たち
+        </span>
+      )}
+      <p class:list={['mb-1 text-xs font-bold', col.us ? 'text-primary-500' : 'text-muted']}>
+        {col.label}
+      </p>
+      <h3 class:list={['mb-2 font-bold', col.us ? 'text-primary-700' : 'text-ink']}>
+        {col.type}
+      </h3>
+      <p class="text-sm text-muted">{col.body}</p>
+    </div>
+  ))}
+</div>
+<p class="mt-8 text-center font-bold text-primary-700 md:text-lg">
+  「釣った魚」ではなく「釣り方」をお渡しする支援です。
+</p>

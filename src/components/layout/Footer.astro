@@ -1,0 +1,45 @@
+---
+import { NAV, SITE } from '../../lib/site';
+import symbolWhite from '../../assets/maido_symbol_white.svg';
+
+// TODO: 所在地・電話番号が確定したらフッターに記載する(03_ux-guidelines §3 の信頼要素)
+---
+
+<footer class="bg-primary-900 text-white">
+  <div class="mx-auto max-w-[1120px] px-5 py-16 lg:px-10">
+    <div class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+      <div>
+        <div class="flex items-center gap-3">
+          <img src={symbolWhite.src} alt="" width="40" height="41" class="h-10 w-auto" loading="lazy" />
+          <div>
+            <p class="font-bold">{SITE.companyName}</p>
+            <p class="text-xs tracking-widest text-primary-100/80">{SITE.companyNameEn}</p>
+          </div>
+        </div>
+        <p class="mt-6 max-w-md text-sm text-primary-100/90">{SITE.tagline}</p>
+      </div>
+
+      <nav aria-label="フッターナビゲーション">
+        <ul class="grid grid-cols-2 gap-x-10 gap-y-3 text-sm">
+          <li><a href="/" class="py-1 transition-colors duration-200 hover:text-primary-100">トップ</a></li>
+          {NAV.map((item) => (
+            <li>
+              <a href={item.href} class="py-1 transition-colors duration-200 hover:text-primary-100">
+                {item.label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="/contact/" class="py-1 transition-colors duration-200 hover:text-primary-100">
+              個別相談・お問い合わせ
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <p class="mt-12 border-t border-white/15 pt-6 text-center text-xs text-primary-100/70">
+      © {SITE.companyName}
+    </p>
+  </div>
+</footer>
