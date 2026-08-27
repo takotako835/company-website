@@ -70,22 +70,23 @@ const corporateServices = [
 <Base
   description="maido&crafts strategy株式会社は、個人の「思考OS」構築からチームの自走化まで、教育×実践×リフレクションで一気通貫に伴走します。個別相談は60分・3,000円・オンライン。"
 >
-  <!-- Hero: タイポグラフィ主体。一文で分かる提供価値をコピーの直下に置く -->
+  <!-- Hero: タイポグラフィ主体。一文で分かる提供価値をコピーの直下に置く。
+       末尾の線は、ロゴのモチーフ(地平線と昇る太陽)を一筆の線として引いたもの -->
   <div class="bg-white">
-    <div class="mx-auto max-w-[1120px] px-5 py-20 md:py-32 lg:px-10">
-      <p class="mb-6 text-xs font-bold tracking-[0.18em] text-muted uppercase" data-reveal>
+    <div class="mx-auto max-w-[1120px] px-5 py-24 md:py-32 lg:px-10">
+      <p class="mb-8 text-xs font-bold tracking-[0.24em] text-muted uppercase" data-reveal>
         maido &amp; crafts strategy
       </p>
       <h1 class="text-[32px] leading-[1.3] font-bold md:text-5xl" data-reveal>
         人の成長が、<br class="md:hidden" />価値を倍増させる。
       </h1>
-      <p class="mt-6 max-w-[42em] text-base leading-loose font-bold text-primary-700" data-reveal>
+      <p class="mt-8 max-w-[38em] text-base leading-loose font-bold text-primary-700" data-reveal>
         個人の「思考OS」構築から、チームの自走化まで。教育×実践×リフレクションで一気通貫に伴走します。
       </p>
-      <p class="mt-4 max-w-[42em] text-sm leading-loose text-muted" data-reveal>
+      <p class="mt-4 max-w-[38em] text-sm leading-loose text-muted" data-reveal>
         私たちは、人が「係数」として機能することを信じています。同じ予算・設備・情報でも、成果は「人」で何倍にも変わる。だから、人の成長に投資します。
       </p>
-      <div class="mt-10 flex flex-col gap-4 sm:flex-row" data-reveal>
+      <div class="mt-12 flex flex-col gap-4 sm:flex-row" data-reveal>
         <Button href="/shindan/">無料の30秒診断で、原因を確かめる</Button>
         <Button href="/services/" variant="secondary">サービスを見る</Button>
       </div>
@@ -94,10 +95,20 @@ const corporateServices = [
         <a href="/contact/" class="font-bold text-primary-700 underline underline-offset-4">個別相談(60分・3,000円)</a>
         へ。
       </p>
-      <p class="mt-10 flex items-center gap-3" aria-hidden="true" data-reveal>
-        <span class="h-px w-24 bg-brand-teal md:w-40"></span>
-        <span class="text-xs font-bold tracking-[0.18em] text-muted">まいど、から始まる伴走</span>
-      </p>
+      <div class="mt-16 flex items-end gap-5" data-reveal>
+        <svg
+          class="w-full max-w-[520px] text-brand-teal"
+          viewBox="0 0 520 26"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M1 25h518" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          <path d="M452 25a15 15 0 0 1 30 0Z" fill="var(--color-brand-orange)" />
+        </svg>
+        <span class="flex-none pb-0.5 text-xs font-bold tracking-[0.24em] text-muted">
+          まいど、から始まる伴走
+        </span>
+      </div>
     </div>
   </div>
 

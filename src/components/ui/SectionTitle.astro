@@ -13,16 +13,16 @@ const { id, class: className, no } = Astro.props;
 
 {
   no && (
-    <p class="mb-3 flex items-center gap-3 text-xs font-bold tracking-[0.22em] text-muted" aria-hidden="true">
+    <p class="mb-4 flex items-center gap-4 text-xs font-bold tracking-[0.24em] text-muted" aria-hidden="true">
       <span class="tabular-nums">{no}</span>
-      <span class="h-px w-10 bg-brand-teal"></span>
+      <span class="h-px w-12 bg-brand-teal"></span>
     </p>
   )
 }
 <h2
   id={id}
   class:list={[
-    'mb-6 flex items-center gap-3 text-2xl font-bold md:mb-8 md:text-[28px]',
+    'mb-8 flex items-center gap-3 text-2xl font-bold md:mb-10 md:text-[28px]',
     className,
   ]}
 >

@@ -11,16 +11,21 @@ interface Props {
 const { heading = 'まず、話してみませんか' } = Astro.props;
 ---
 
-<section aria-labelledby="cta-heading" class="bg-primary-900 py-16 text-white md:py-24">
+<section aria-labelledby="cta-heading" class="bg-primary-900 py-16 text-white md:py-32">
   <div class="mx-auto max-w-[1120px] px-5 lg:px-10">
     <div class="mx-auto max-w-[800px] text-center" data-reveal>
+      <p class="mb-4 flex items-center justify-center gap-4 text-xs font-bold tracking-[0.24em] text-primary-100/80" aria-hidden="true">
+        <span class="h-px w-10 bg-brand-teal"></span>
+        ご相談・お問い合わせ
+        <span class="h-px w-10 bg-brand-teal"></span>
+      </p>
       <h2 id="cta-heading" class="text-2xl font-bold md:text-[28px]">{heading}</h2>
-      <p class="mt-4 text-sm leading-loose opacity-95 md:text-base">
+      <p class="mt-5 text-sm leading-loose opacity-95 md:text-base">
         売り込みはしません。まとまっていない相談ほど、歓迎です。合わないと感じたら、そこで終わりにして大丈夫です。
       </p>
     </div>
 
-    <div class="mx-auto mt-10 grid max-w-[880px] gap-4 md:grid-cols-2 md:gap-6" data-reveal="group">
+    <div class="mx-auto mt-12 grid max-w-[880px] gap-4 md:grid-cols-2 md:gap-6" data-reveal="group">
       <div class="flex flex-col rounded-lg border border-white/20 bg-white/5 p-6 md:p-8">
         <p class="mb-3 inline-block self-start rounded-full bg-white/15 px-3 py-1 text-xs font-bold tracking-wide">
           個人の方|60分・3,000円・オンライン
