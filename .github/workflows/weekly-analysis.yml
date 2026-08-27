@@ -19,6 +19,8 @@ jobs:
             echo "ANALYZE_URL secret is not set; skipping."
             exit 0
           fi
+          # Content-Type: application/json を付けることで、フォーム向けのCSRF保護の対象外になる
           curl --fail-with-body -sS -X POST "${{ secrets.ANALYZE_URL }}" \
             -H "x-analyze-secret: ${{ secrets.ANALYZE_SECRET }}" \
-            -H "Origin: ${{ secrets.ANALYZE_URL }}"
+            -H "Content-Type: application/json" \
+            --data '{}'
