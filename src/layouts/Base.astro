@@ -12,9 +12,11 @@ interface Props {
   description: string;
   /** ページごとに固有のJSON-LDを追加したい場合に渡す */
   jsonLd?: Record<string, unknown>[];
+  /** 送信完了ページなど、検索結果に出す必要がないページで true にする */
+  noindex?: boolean;
 }
 
-const { title, description, jsonLd = [] } = Astro.props;
+const { title, description, jsonLd = [], noindex = false } = Astro.props;
 
 const fullTitle = title
   ? `${title}｜${SITE.companyName}`
@@ -44,6 +46,7 @@ const organizationLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" />

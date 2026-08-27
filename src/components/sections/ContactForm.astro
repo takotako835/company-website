@@ -1,0 +1,352 @@
+---
+import LineButton from '../ui/LineButton.astro';
+
+// 静的サイトのため送信処理を自前で持たず、外部フォームサービスへPOSTする(05_tech-spec §1)。
+// 送信先URLは環境変数で差し替える。未設定のときはフォームを出さずLINE導線に倒す
+// (壊れたフォームを公開してしまうのを防ぐため)。設定手順は docs/07_deploy-render.md
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+
+const inquiryTypes = [
+  '個別相談について',
+  '社外参謀 1on1ブートキャンプについて',
+  '社外参謀 伴走プログラムについて',
+  '法人向け チーム研修について',
+  'プロジェクト伴走支援・コンサルティングについて',
+  '料金・お見積りについて',
+  'その他',
+];
+---
+
+{
+  endpoint ? (
+    <form id="contact-form" action={endpoint} method="POST" novalidate class="space-y-6">
+      {/* スパム対策のダミー項目。人間には見えない位置に置き、値が入っていたら送信しない */}
+      <div class="absolute left-[-9999px] h-px w-px overflow-hidden" aria-hidden="true">
+        <label for="_gotcha">この欄は入力しないでください</label>
+        <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div>
+        <label for="type" class="mb-2 block font-bold">
+          ご相談の種別
+          <span class="ml-2 rounded-sm bg-primary-100 px-2 py-0.5 text-xs text-primary-700">必須</span>
+        </label>
+        <select
+          id="type"
+          name="type"
+          required
+          aria-describedby="type-error"
+          class="w-full rounded-md border border-edge bg-white p-4 focus:border-primary-500"
+        >
+          <option value="">選択してください</option>
+          {inquiryTypes.map((type) => (
+            <option value={type}>{type}</option>
+          ))}
+        </select>
+        <p id="type-error" class="mt-2 hidden items-center gap-1.5 text-sm text-error" role="alert" />
+      </div>
+
+      <div>
+        <label for="company" class="mb-2 block font-bold">
+          会社名
+          <span class="ml-2 rounded-sm bg-primary-100 px-2 py-0.5 text-xs text-primary-700">必須</span>
+        </label>
+        <input
+          type="text"
+          id="company"
+          name="company"
+          required
+          maxlength="100"
+          autocomplete="organization"
+          placeholder="株式会社◯◯"
+          aria-describedby="company-hint company-error"
+          class="w-full rounded-md border border-edge bg-white p-4 focus:border-primary-500"
+        />
+        <p id="company-hint" class="mt-2 text-xs text-muted">
+          個人でお申し込みの方は「個人」とご記入ください。
+        </p>
+        <p id="company-error" class="mt-2 hidden items-center gap-1.5 text-sm text-error" role="alert" />
+      </div>
+
+      <div>
+        <label for="name" class="mb-2 block font-bold">
+          お名前
+          <span class="ml-2 rounded-sm bg-primary-100 px-2 py-0.5 text-xs text-primary-700">必須</span>
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          maxlength="100"
+          autocomplete="name"
+          placeholder="玉岡 諒太"
+          aria-describedby="name-error"
+          class="w-full rounded-md border border-edge bg-white p-4 focus:border-primary-500"
+        />
+        <p id="name-error" class="mt-2 hidden items-center gap-1.5 text-sm text-error" role="alert" />
+      </div>
+
+      <div>
+        <label for="email" class="mb-2 block font-bold">
+          メールアドレス
+          <span class="ml-2 rounded-sm bg-primary-100 px-2 py-0.5 text-xs text-primary-700">必須</span>
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          maxlength="254"
+          autocomplete="email"
+          placeholder="example@example.com"
+          aria-describedby="email-error"
+          class="w-full rounded-md border border-edge bg-white p-4 focus:border-primary-500"
+        />
+        <p id="email-error" class="mt-2 hidden items-center gap-1.5 text-sm text-error" role="alert" />
+      </div>
+
+      <div>
+        <label for="phone" class="mb-2 block font-bold">
+          電話番号
+          <span class="ml-2 text-xs font-normal text-muted">任意</span>
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          maxlength="20"
+          autocomplete="tel"
+          placeholder="06-1234-5678"
+          aria-describedby="phone-error"
+          class="w-full rounded-md border border-edge bg-white p-4 focus:border-primary-500"
+        />
+        <p id="phone-error" class="mt-2 hidden items-center gap-1.5 text-sm text-error" role="alert" />
+      </div>
+
+      <div>
+        <label for="message" class="mb-2 block font-bold">
+          ご相談内容
+          <span class="ml-2 rounded-sm bg-primary-100 px-2 py-0.5 text-xs text-primary-700">必須</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows="7"
+          maxlength="2000"
+          placeholder="現在のお困りごとや、ご相談されたい内容をご記入ください。"
+          aria-describedby="message-hint message-error"
+          class="w-full rounded-md border border-edge bg-white p-4 focus:border-primary-500"
+        />
+        <p id="message-hint" class="mt-2 text-xs text-muted">
+          まとまっていない状態で構いません。箇条書きでも大丈夫です。
+        </p>
+        <p id="message-error" class="mt-2 hidden items-center gap-1.5 text-sm text-error" role="alert" />
+      </div>
+
+      {/* 送信失敗など、フォーム全体に関わるお知らせ */}
+      <div
+        id="form-alert"
+        class="hidden rounded-md border border-error bg-white p-4 text-sm text-error"
+        role="alert"
+        aria-live="assertive"
+      />
+
+      <p class="text-xs leading-relaxed text-muted">
+        いただいた個人情報は、お問い合わせへの対応のためにのみ使用します。営業目的のご連絡はいたしません。
+      </p>
+
+      <button
+        type="submit"
+        id="contact-submit"
+        class="flex min-h-11 w-full items-center justify-center rounded-md bg-primary-700 px-8 py-4 font-bold text-white transition-colors duration-200 hover:bg-primary-900 disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        <span id="submit-label">この内容で問い合わせる</span>
+      </button>
+    </form>
+  ) : (
+    <div class="rounded-lg border border-edge bg-white p-6 md:p-8">
+      <p class="mb-4 font-bold text-primary-700">お問い合わせフォームは準備中です</p>
+      <p class="mb-6 text-sm text-muted">
+        お手数ですが、LINEからご連絡ください。メッセージで「法人研修について」「料金について」などご用件をお知らせいただければ、担当より折り返しご案内します。
+      </p>
+      <LineButton class="mx-auto max-w-md" />
+    </div>
+  )
+}
+
+<script>
+  const form = document.getElementById('contact-form');
+  if (form instanceof HTMLFormElement) {
+    const submitButton = document.getElementById('contact-submit') as HTMLButtonElement | null;
+    const submitLabel = document.getElementById('submit-label');
+    const formAlert = document.getElementById('form-alert');
+    const DRAFT_KEY = 'maido-contact-draft';
+
+    type Field = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+
+    /** 各項目の検証。問題なければ null、あればエラー文言を返す */
+    function validate(field: Field): string | null {
+      const value = field.value.trim();
+
+      if (field.hasAttribute('required') && value === '') {
+        return field instanceof HTMLSelectElement
+          ? '選択してください。'
+          : '入力してください。';
+      }
+      if (value === '') return null;
+
+      if (field.name === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        return 'メールアドレスの形式をご確認ください。';
+      }
+      if (field.name === 'phone' && !/^[0-9+\-() ]+$/.test(value)) {
+        return '電話番号は数字とハイフンでご入力ください。';
+      }
+      if (field.name === 'message' && value.length < 10) {
+        return '10文字以上でご入力ください。';
+      }
+      return null;
+    }
+
+    function errorNodeFor(field: Field): HTMLElement | null {
+      return document.getElementById(`${field.id}-error`);
+    }
+
+    function showError(field: Field, message: string | null): void {
+      const node = errorNodeFor(field);
+      if (!node) return;
+
+      if (message) {
+        // 色だけで伝えないよう、アイコンと文言を必ず併記する(03_ux-guidelines §6)
+        node.innerHTML =
+          '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" class="flex-none"><path d="M8 1.5 15 14H1L8 1.5Zm0 4.25a.75.75 0 0 0-.75.75v2.5a.75.75 0 0 0 1.5 0v-2.5A.75.75 0 0 0 8 5.75Zm0 5a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Z"/></svg>';
+        node.append(message);
+        node.classList.remove('hidden');
+        node.classList.add('flex');
+        field.setAttribute('aria-invalid', 'true');
+        field.classList.add('border-error');
+      } else {
+        node.textContent = '';
+        node.classList.add('hidden');
+        node.classList.remove('flex');
+        field.removeAttribute('aria-invalid');
+        field.classList.remove('border-error');
+      }
+    }
+
+    const fields = Array.from(
+      form.querySelectorAll<Field>('input[name], textarea[name], select[name]'),
+    ).filter((field) => field.name !== '_gotcha');
+
+    const touched = new Set<string>();
+
+    for (const field of fields) {
+      field.addEventListener('blur', () => {
+        touched.add(field.name);
+        showError(field, validate(field));
+      });
+      // 一度エラーを出した項目は、直したその場で消えるようにする
+      field.addEventListener('input', () => {
+        if (touched.has(field.name)) showError(field, validate(field));
+        saveDraft();
+      });
+    }
+
+    /** 書きかけの内容を保持し、誤ってページを離れても消えないようにする(03_ux-guidelines §5) */
+    function saveDraft(): void {
+      try {
+        const draft: Record<string, string> = {};
+        for (const field of fields) draft[field.name] = field.value;
+        sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      } catch {
+        // プライベートモードなどで保存できなくても、フォーム自体は使えるようにする
+      }
+    }
+
+    function restoreDraft(): void {
+      try {
+        const saved = sessionStorage.getItem(DRAFT_KEY);
+        if (!saved) return;
+        const draft: unknown = JSON.parse(saved);
+        if (typeof draft !== 'object' || draft === null) return;
+        for (const field of fields) {
+          const value = (draft as Record<string, unknown>)[field.name];
+          if (typeof value === 'string') field.value = value;
+        }
+      } catch {
+        // 壊れた保存データは無視する
+      }
+    }
+
+    function clearDraft(): void {
+      try {
+        sessionStorage.removeItem(DRAFT_KEY);
+      } catch {
+        // 消せなくても支障はない
+      }
+    }
+
+    restoreDraft();
+
+    function setSubmitting(isSubmitting: boolean): void {
+      if (!submitButton || !submitLabel) return;
+      submitButton.disabled = isSubmitting;
+      submitLabel.textContent = isSubmitting ? '送信しています…' : 'この内容で問い合わせる';
+    }
+
+    function showFormAlert(message: string | null): void {
+      if (!formAlert) return;
+      if (message) {
+        formAlert.textContent = message;
+        formAlert.classList.remove('hidden');
+      } else {
+        formAlert.textContent = '';
+        formAlert.classList.add('hidden');
+      }
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      showFormAlert(null);
+
+      // ダミー項目に入力があるのは自動投稿。完了したように見せて何も送らない
+      const gotcha = form.querySelector<HTMLInputElement>('input[name="_gotcha"]');
+      if (gotcha && gotcha.value !== '') return;
+
+      let firstInvalid: Field | null = null;
+      for (const field of fields) {
+        touched.add(field.name);
+        const message = validate(field);
+        showError(field, message);
+        if (message && !firstInvalid) firstInvalid = field;
+      }
+
+      if (firstInvalid) {
+        showFormAlert('入力内容をご確認ください。');
+        firstInvalid.focus();
+        return;
+      }
+
+      setSubmitting(true);
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+
+        if (!response.ok) throw new Error(`status ${response.status}`);
+
+        clearDraft();
+        window.location.href = '/contact/thanks/';
+      } catch {
+        // 失敗しても入力値はそのまま残す(05_tech-spec §4)。個人情報はログに出さない
+        setSubmitting(false);
+        showFormAlert(
+          '送信できませんでした。通信状況をご確認のうえ、もう一度お試しください。解決しない場合は、お手数ですがLINEからご連絡ください。',
+        );
+      }
+    });
+  }
+</script>

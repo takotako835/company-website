@@ -25,6 +25,10 @@ services:
       # 初回デプロイ後に実際のURLを確認し、独自ドメイン設定時はその値に変更する
       - key: SITE_URL
         value: https://maido-crafts-website.onrender.com
+      # お問い合わせフォームの送信先URL(外部フォームサービス)。
+      # Render の画面で設定する。未設定の間はフォームを出さずLINE導線を表示する
+      - key: PUBLIC_FORM_ENDPOINT
+        sync: false
 
     headers:
       # セキュリティヘッダ(docs/05_tech-spec.md §5)

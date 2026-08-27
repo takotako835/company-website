@@ -1,12 +1,12 @@
 ---
-import Base from '../layouts/Base.astro';
-import Breadcrumb from '../components/layout/Breadcrumb.astro';
-import Section from '../components/layout/Section.astro';
-import SectionTitle from '../components/ui/SectionTitle.astro';
-import LineButton from '../components/ui/LineButton.astro';
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/layout/Breadcrumb.astro';
+import Section from '../../components/layout/Section.astro';
+import SectionTitle from '../../components/ui/SectionTitle.astro';
+import LineButton from '../../components/ui/LineButton.astro';
+import ContactForm from '../../components/sections/ContactForm.astro';
 
-// 最重要CVページ。LINE導線を最短・最安心にする(docs/content/contact.md)
-// TODO: 法人向けにLINEと別のメールフォームを設けるか要確認(現状は既存運用どおりLINEに一本化)
+// 最重要CVページ。個人はLINE(最短)、法人・料金はフォームの2経路(docs/content/contact.md)
 const steps = [
   {
     title: 'LINEで「個別相談」と送る',
@@ -25,7 +25,7 @@ const steps = [
 
 <Base
   title="個別相談・お問い合わせ"
-  description="個別相談は60分・3,000円・オンライン。LINEで「個別相談」と送るだけで始められます。売り込みはしません。法人研修・料金のご相談もこちらから。"
+  description="個別相談は60分・3,000円・オンライン。LINEで「個別相談」と送るだけで始められます。法人研修・料金のご相談はお問い合わせフォームからも承っています。"
 >
   <Breadcrumb items={[{ label: '個別相談・お問い合わせ' }]} />
 
@@ -37,10 +37,13 @@ const steps = [
     <p class="mt-6 max-w-[42em]">
       売り込みはしません。60分の個別相談(3,000円)で、あなたの現場の「どこから手を付けるか」の見立てを、その場で必ずお渡しします。まとまっていない相談ほど、歓迎です。相談だけで終えていただいて構いません。
     </p>
+    <p class="mt-6 max-w-[42em] text-sm text-muted">
+      個別相談のお申し込みはLINEが最短です。法人でのご相談や料金のお問い合わせは、下のフォームからも承っています。
+    </p>
   </div>
 
-  <Section tone="subtle" narrow>
-    <SectionTitle>お申し込みの流れ</SectionTitle>
+  <Section tone="subtle" narrow labelledby="line-heading">
+    <SectionTitle id="line-heading">個別相談のお申し込み(LINE)</SectionTitle>
     <ol class="mb-10 space-y-4">
       {steps.map((step, i) => (
         <li class="flex gap-4 rounded-lg border border-edge bg-white p-5">
@@ -65,14 +68,16 @@ const steps = [
     </p>
   </Section>
 
-  <Section narrow>
-    <SectionTitle>法人のご相談・料金のお問い合わせ</SectionTitle>
+  <Section narrow labelledby="form-heading">
+    <SectionTitle id="form-heading">お問い合わせフォーム</SectionTitle>
     <p class="mb-4 max-w-[42em]">
-      チーム研修・プロジェクト伴走支援のご相談、プログラム料金・お見積りのご相談もこちらからどうぞ。検討段階のご相談も歓迎です。お見積りは内容を伺ったうえで個別にご案内します。
+      チーム研修・プロジェクト伴走支援のご相談、プログラム料金・お見積りのご相談は、こちらからお送りください。検討段階のご相談も歓迎です。お見積りは内容を伺ったうえで個別にご案内します。
     </p>
-    <p class="mb-8 max-w-[42em] text-sm text-muted">
-      LINEで「個別相談」と送っていただいたあと、メッセージで「法人研修について」「料金について」などご用件をお知らせください。
+    {/* TODO: 返信の目安日数はユーザー確認のうえ確定する(暫定で3営業日以内としています) */}
+    <p class="mb-10 max-w-[42em] text-sm text-muted">
+      3営業日以内にご返信します。営業目的のご連絡はいたしません。
     </p>
-    <LineButton class="mx-auto max-w-md" />
+
+    <ContactForm />
   </Section>
 </Base>

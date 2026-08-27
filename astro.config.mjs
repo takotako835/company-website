@@ -11,7 +11,8 @@ const site = process.env.SITE_URL || process.env.RENDER_EXTERNAL_URL || DEFAULT_
 
 export default defineConfig({
   site,
-  integrations: [sitemap()],
+  // 送信完了ページは検索結果に出す必要がないため sitemap から除外する
+  integrations: [sitemap({ filter: (page) => !page.includes('/contact/thanks') })],
   vite: {
     plugins: [tailwindcss()],
   },

@@ -38,6 +38,15 @@ draft: false           # true にすると非公開
 
 公開URLは環境変数 `SITE_URL` で切り替わり、canonical / OGP / sitemap / robots.txt にまとめて反映されます(コードの書き換えは不要)。
 
+### 環境変数
+
+`.env.example` をコピーして `.env` を作ると、開発サーバーで使えます。本番は Render の画面で設定します。
+
+| 変数 | 用途 |
+|---|---|
+| `SITE_URL` | サイトの公開URL。canonical / OGP / sitemap / robots.txt に反映 |
+| `PUBLIC_FORM_ENDPOINT` | お問い合わせフォームの送信先URL。**未設定だとフォームは表示されず、LINE導線の案内に切り替わります** |
+
 ### 公開前に確定が必要なこと(TODO)
 
 - **ドメイン**: 独自ドメイン確定後、Render の `SITE_URL` と `astro.config.mjs` の `DEFAULT_SITE_URL` を更新する
