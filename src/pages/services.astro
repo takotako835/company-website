@@ -58,6 +58,22 @@ const bootcampGains = [
   'ファシリテーション・ヒアリング力',
   '課題設定と実行のPDCA',
 ];
+
+// 支援の3原則(会社説明資料 p.20 より)
+const supportPrinciples = [
+  {
+    title: '「釣りを教える」アプローチ',
+    body: '業務の代行ではなく、ご自身が再現できるスキルと手法を身につけるサポートをします。答えを教えるのではなく、自ら考え、行動する力を引き出すことを重視します。',
+  },
+  {
+    title: '成長のための時間を確保する',
+    body: 'ポータブルスキルの開発には、まとまった時間を確保していただきます。たとえば毎週金曜日を「勉強会の日」と決め、その時間は参加者の成長に集中します。',
+  },
+  {
+    title: '「教育×実践×リフレクション」の循環',
+    body: '知識の提供だけで終わらせず、実践と振り返りのサイクルを回します。定期的なフォローアップで、継続的な成長を支えます。',
+  },
+];
 ---
 
 <Base
@@ -148,6 +164,24 @@ const bootcampGains = [
         </p>
       </div>
     </div>
+
+    <h3 class="mt-12 mb-4 text-sm font-bold tracking-wide text-muted">支援の3原則</h3>
+    <ol class="space-y-4" data-reveal="group">
+      {supportPrinciples.map((principle, i) => (
+        <li class="flex gap-4 rounded-lg border border-edge bg-white p-5">
+          <span
+            class="flex h-9 w-9 flex-none items-center justify-center rounded-md bg-primary-700 text-sm font-bold text-white"
+            aria-hidden="true"
+          >
+            {i + 1}
+          </span>
+          <div>
+            <h4 class="font-semibold text-primary-700">{principle.title}</h4>
+            <p class="mt-1 text-sm text-muted">{principle.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
   </Section>
 
   <Section>
@@ -266,10 +300,10 @@ const bootcampGains = [
         </p>
         <ol class="mb-4 space-y-3">
           {[
-            ['00 キックオフ(必須)', '心理的安全性の確保と、ポータブルスキル・取り組みの狙いの説明'],
-            ['01 ポータブルスキルワークショップ', '1〜2週間ごと・全4回。現状分析、目標設定、戦略思考、問題解決、コミュニケーション、ファシリテーションなど'],
-            ['02 プロジェクト計画書の作成支援', '学びを行動計画書(プロジェクト計画書)に落とし込みます'],
-            ['03 フォローアップ / プロジェクト遂行支援', '週1回または隔週で、実行を徹底的に支援します'],
+            ['00 キックオフ(必須)', '参加者同士の自己紹介などを通じて心理的安全性を確保し、ポータブルスキルと取り組みの狙いを説明します。あわせて「自走力を高めること」が支援の目的であることを明確にします'],
+            ['01 ポータブルスキルワークショップ', '1〜2週間ごと・全4回(1回 最大2時間ほど※)。現状分析、目標設定、戦略思考、問題解決、コミュニケーション、ファシリテーションなど'],
+            ['02 プロジェクト計画書の作成支援', '学びを行動計画書(プロジェクト計画書)に落とし込みます(5時間程度)'],
+            ['03 フォローアップ / プロジェクト遂行支援', '週1回または隔週で、実行を徹底的に支援します。小さな成功体験に注目し、成長の実感を促します'],
           ].map(([title, body]) => (
             <li class="rounded-md bg-paper-subtle p-4 text-sm">
               <p class="font-bold text-primary-700">{title}</p>
@@ -277,8 +311,11 @@ const bootcampGains = [
             </li>
           ))}
         </ol>
-        <p class="mb-4 text-sm text-muted">
-          特徴: 3名程度の少人数・高密度。自走化を前提に、段階的に支援を減らすフェーズアウト設計です。
+        <p class="mb-2 text-sm text-muted">
+          特徴: 3名程度の少人数・高密度。自走化を前提に、段階的に支援を減らすフェーズアウト設計です。支援の終わりには「卒業式」として成果発表会を行い、学びの定着と自信につなげます。
+        </p>
+        <p class="mb-4 text-xs text-muted">
+          ※時間は3名で実施した場合の平均の目安です。状況に応じて、回数・時間は柔軟に調整します。
         </p>
         <div class="mb-1 rounded-md border border-primary-100 bg-primary-100/40 p-4">
           <p class="mb-2 text-sm font-bold">目指す変化(業務の言葉で)</p>
