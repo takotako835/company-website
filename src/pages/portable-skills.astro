@@ -1,0 +1,197 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+import Section from '../components/layout/Section.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import Button from '../components/ui/Button.astro';
+import CtaSection from '../components/sections/CtaSection.astro';
+
+// 原稿: docs/content/ポータブルスキル説明資料.pptx を、レファレンスチェックのうえ再構成。
+// 検証結果と掲載可否の判断は docs/content/portable-skills.md に記録している。
+// ★裏取りできなかった主張(経産省の「明記」引用・PwC 49%・McKinsey 3.5倍・GAFAM採用基準)は掲載しない
+
+// 代表的なポータブルスキル(自社の整理・一例)
+const skills = [
+  {
+    name: '目的・目標設定',
+    what: '何を達成したいのかを明確にし、具体的な目標を設定する能力',
+    effect: '方向性が明確になり、効率的に行動でき、成果を数値化して評価できるようになる',
+  },
+  {
+    name: '現状分析',
+    what: '現在の状況を客観的に把握し、データや事実に基づいて評価する能力',
+    effect: '適切な判断の基礎となり、問題の本質を見極められるようになる',
+  },
+  {
+    name: '戦略設定',
+    what: '目標達成のための最適な方法や手順を計画する能力',
+    effect: 'リソースを効率的に活用でき、目標達成の確率が高まる',
+  },
+  {
+    name: '問題解決',
+    what: '障害や困難を特定し、解決策を考案・実行する能力',
+    effect: '業務の停滞を防ぎ、組織の生産性向上に貢献できる',
+  },
+];
+
+// Deloitte「The skills-based organization」調査(2022年)。
+// ★「◯%の企業が成功」ではなく「そうでない組織に比べ、可能性が◯%高い」が正しい表現
+const deloitteStats = [
+  { value: '63%', label: '成果を達成する可能性が高い' },
+  { value: '107%', label: '人材を適所に配置できる可能性が高い' },
+  { value: '98%', label: 'ハイパフォーマーが定着する可能性が高い' },
+  { value: '79%', label: '働き手の体験が良好である可能性が高い' },
+  { value: '57%', label: '変化に俊敏に対応できる可能性が高い' },
+];
+
+const sources = [
+  {
+    name: '厚生労働省「ポータブルスキル見える化ツール」',
+    url: 'https://www.mhlw.go.jp/stf/newpage_23112.html',
+  },
+  {
+    name: '経済産業省「未来人材ビジョン」(2022年5月)',
+    url: 'https://www.meti.go.jp/press/2022/05/20220531001/20220531001.html',
+  },
+  {
+    name: 'Deloitte「The skills-based organization」(2022年)ほか同社のスキルベース組織に関する調査',
+    url: 'https://www.deloitte.com/us/en/insights/topics/talent/organizational-skill-based-hiring.html',
+  },
+];
+---
+
+<Base
+  title="ポータブルスキルとは"
+  description="ポータブルスキルは、業種や職種が変わっても持ち運びができる職務遂行上のスキル(厚生労働省の定義)。代表的なスキルと、いま重要性が高まっている背景を、出典つきで解説します。"
+>
+  <Breadcrumb items={[{ label: 'ポータブルスキルとは' }]} />
+
+  <div class="mx-auto max-w-[800px] px-5 pt-8 pb-12 md:pt-12 lg:px-10">
+    <h1 class="text-[28px] font-bold md:text-4xl">ポータブルスキルとは</h1>
+    <p class="mt-6 max-w-[42em] text-muted">
+      業種や職種が変わっても持ち運べる、仕事の土台となる実践的能力です。このページでは、定義・代表的なスキル・いま重要性が高まっている背景を、出典つきでご紹介します。
+    </p>
+  </div>
+
+  <Section tone="subtle" narrow>
+    <SectionTitle no="01">定義</SectionTitle>
+    <blockquote class="rounded-r-lg border-l-4 border-primary-700 bg-primary-100 p-6 text-primary-900" data-reveal>
+      <p class="font-bold leading-loose">
+        職種の専門性以外に、業種や職種が変わっても持ち運びができる職務遂行上のスキル
+      </p>
+      <footer class="mt-3 text-xs">
+        — 厚生労働省
+        <a
+          href="https://www.mhlw.go.jp/stf/newpage_23112.html"
+          target="_blank"
+          rel="noopener"
+          class="ml-1 underline underline-offset-4"
+        >
+          「ポータブルスキル見える化ツール」
+        </a>
+      </footer>
+    </blockquote>
+    <div class="mt-8 space-y-4" data-reveal>
+      <p>
+        専門知識やテクニカルスキルは、特定の職種や業界に特化しています。一方でポータブルスキルは、環境が変わっても価値を発揮し続けます。
+      </p>
+      <p>
+        専門知識は仕事をすれば自然と身につきます。しかしポータブルスキルは、自ら機会をつくらない限り、いつまでも身につきません。私たちはこの「土台」を、専門知識の<strong>価値倍増装置</strong>として育てます。
+      </p>
+    </div>
+  </Section>
+
+  <Section narrow>
+    <SectionTitle no="02">代表的なポータブルスキル(一例)</SectionTitle>
+    <p class="mb-8 max-w-[42em] text-muted" data-reveal>
+      私たちの勉強会・プログラムで特に重視している4つをご紹介します。ほかにも、コミュニケーション力・ファシリテーション力・変化対応力などが含まれます。
+    </p>
+    <ul class="space-y-4" data-reveal="group">
+      {skills.map((skill) => (
+        <li class="rounded-lg border border-edge bg-white p-6">
+          <h3 class="font-semibold text-primary-700">{skill.name}</h3>
+          <p class="mt-2 text-sm">{skill.what}</p>
+          <p class="mt-2 flex gap-2 text-sm text-muted">
+            <span class="flex-none font-bold text-brand-teal" aria-hidden="true">→</span>
+            {skill.effect}
+          </p>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section tone="subtle" narrow>
+    <SectionTitle no="03">なぜ今、重要なのか</SectionTitle>
+
+    <div class="space-y-10">
+      <div data-reveal>
+        <h3 class="mb-3 font-semibold text-primary-700">専門知識だけでは、変化に追いつけない時代へ</h3>
+        <p class="text-sm leading-loose">
+          技術や業界の変化が速くなり、特定の専門知識は以前より早く古くなるようになりました。だからこそ、環境が変わっても持ち運べる普遍的なスキルの重要性が高まっています。
+        </p>
+      </div>
+
+      <div data-reveal>
+        <h3 class="mb-3 font-semibold text-primary-700">国の試算でも、汎用的な能力の重要性が高まる</h3>
+        <p class="text-sm leading-loose">
+          経済産業省の「未来人材ビジョン」(2022年5月)では、2050年に向けて「問題発見力」「的確な予測」「革新性」といった能力の重要性が高まると試算されています。いずれも、業種や職種を問わず発揮される汎用的な能力です。
+        </p>
+      </div>
+
+      <div data-reveal>
+        <h3 class="mb-3 font-semibold text-primary-700">スキルを軸にした組織は、成果が出やすいという調査も</h3>
+        <p class="mb-4 text-sm leading-loose">
+          Deloitteの調査(2022年)では、仕事の割り当てや育成を「役職」ではなく「スキル」を軸に行う組織は、そうでない組織に比べて次の傾向があると報告されています。
+        </p>
+        <ul class="grid gap-3 sm:grid-cols-2" data-reveal="group">
+          {deloitteStats.map((stat) => (
+            <li class="flex items-center gap-4 rounded-lg border border-edge bg-white p-4">
+              <span class="flex-none text-2xl font-bold text-primary-700 tabular-nums">{stat.value}</span>
+              <span class="text-sm text-muted">{stat.label}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-4 text-sm leading-loose text-muted">
+          また同社の調査では、働き手の76%が「自分のスキルに関するデータを、部署や会社を越えて持ち運べるようにしたい」と答え、経営層の55%もこれに前向きです。スキルが個人の資産として扱われる流れは、今後も続くと考えられます。
+        </p>
+        <p class="mt-3 text-xs text-muted">
+          ※米国を中心とした海外調査です。数値は「スキルを軸にした組織運営」に関するもので、割合はそうでない組織との比較(可能性の高さ)を表します。
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section narrow>
+    <SectionTitle no="04">私たちの考え</SectionTitle>
+    <div class="space-y-4" data-reveal>
+      <p>
+        成果を出せない真の原因は、多くの場合、専門知識ではなくポータブルスキルの欠如にあります。だからこそ私たちは、このスキルを「知識として知る」で終わらせず、<strong>教育×実践×リフレクション</strong>の循環で「現場で使える」状態まで伴走します。
+      </p>
+      <p class="text-sm text-muted">
+        ご自身のボトルネックがどこにあるかは、無料の30秒診断で確かめられます。プログラムの詳細はサービスページをご覧ください。
+      </p>
+    </div>
+    <div class="mt-8 flex flex-col gap-4 sm:flex-row" data-reveal>
+      <Button href="/shindan/">30秒診断で現状を確かめる(無料)</Button>
+      <Button href="/services/" variant="secondary">サービスを見る</Button>
+    </div>
+  </Section>
+
+  <Section tone="subtle" narrow>
+    <h2 class="mb-4 text-sm font-bold tracking-wide text-muted">出典</h2>
+    <ul class="space-y-2 text-xs text-muted">
+      {sources.map((source) => (
+        <li>
+          <a href={source.url} target="_blank" rel="noopener" class="underline underline-offset-4 hover:text-primary-700">
+            {source.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-4 text-xs leading-relaxed text-muted">
+      ※本ページの解説は、上記の公的資料・調査を参考にしつつ、当社の支援経験に基づいてまとめたものです。
+    </p>
+  </Section>
+
+  <CtaSection />
+</Base>
