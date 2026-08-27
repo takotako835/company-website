@@ -165,9 +165,25 @@ Render の Dashboard を見ると、数分後に新しいデプロイが「Live�
 
 1. サービス画面の **Logs** タブを開き、赤いエラーメッセージを探す
 2. よくある原因:
-   - `package-lock.json` が GitHub に上がっていない → `git add package-lock.json` して push
-   - Node のバージョン違い → `render.yaml` の `NODE_VERSION` を確認する
-3. 手元で `npm run build` が成功するかを先に確認すると、原因を切り分けやすくなります
+
+| エラーの内容 | 原因と対処 |
+|---|---|
+| `Cannot find package '@tailwindcss/vite'` などパッケージが見つからない | **Render は `NODE_ENV=production` を設定するため、`npm ci` が devDependencies を除外します。** ビルドに必要なパッケージは `package.json` の `dependencies` 側に置いてください(対応済み) |
+| `package-lock.json` 関連のエラー | ロックファイルが GitHub に上がっていない、または `package.json` と内容がずれている。`npm install` して両方を commit・push する |
+| Node のバージョン関連 | `render.yaml` の `NODE_VERSION` を確認する |
+
+3. 手元で確認するときは、**Render と同じ条件**にすると再現できます
+
+```powershell
+$env:NODE_ENV = "production"
+Remove-Item -Recurse -Force node_modules, dist -ErrorAction SilentlyContinue
+npm ci
+npm run build
+Remove-Item Env:\NODE_ENV     # 確認が終わったら必ず戻す
+```
+
+> ここで成功すれば、Render でも同じ結果になります。
+> 単に `npm run build` だけで確認すると、devDependencies が入ったままなので**この不具合を見逃します**。
 
 ### 「ブループリントの同期に失敗しました」というメールが届いた
 

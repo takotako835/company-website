@@ -9,14 +9,19 @@
     "preview": "astro preview",
     "lint": "astro check"
   },
+  "engines": {
+    "node": ">=22"
+  },
+  "// dependencies": "本番ビルド(astro build)に必要なものはすべて dependencies に置く。Render など NODE_ENV=production の環境では npm ci が devDependencies を除外するため、ここに tailwind がないとビルドが落ちる",
   "dependencies": {
     "@astrojs/sitemap": "^3.4.1",
-    "astro": "^5.13.2"
+    "@tailwindcss/vite": "^4.1.12",
+    "astro": "^5.13.2",
+    "tailwindcss": "^4.1.12"
   },
+  "// devDependencies": "npm run lint(astro check)専用。ビルドには不要",
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
-    "@tailwindcss/vite": "^4.1.12",
-    "tailwindcss": "^4.1.12",
     "typescript": "^5.9.2"
   }
 }
