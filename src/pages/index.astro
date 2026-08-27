@@ -9,6 +9,7 @@ import CtaSection from '../components/sections/CtaSection.astro';
 import MethodSteps from '../components/sections/MethodSteps.astro';
 import Positioning from '../components/sections/Positioning.astro';
 import VoicesStats from '../components/sections/VoicesStats.astro';
+import CaseList from '../components/sections/CaseList.astro';
 import { formatDate } from '../lib/site';
 import tamaoka from '../assets/tamaoka.jpg';
 
@@ -16,135 +17,259 @@ const news = (await getCollection('news', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 
-const worries = [
+// 顧客課題から入る導線。文言は診断LP・会社案内の既存資産から(創作しない)
+const personalWorries = [
   '部下の仕事を、つい巻き取ってしまう',
   '感覚でやってきたことを、うまく教えられない',
   '上司と部下の板挟みで、消耗している',
   '「戦略を考えろ」と言われて、手が止まる',
 ];
 
-const services = [
+const corporateWorries = [
+  '研修をやっても、「知る」で終わってしまう',
+  '外部に任せると、ノウハウが社内に残らない',
+  '若手・中堅が、自走できるチームにしたい',
+];
+
+// サービスの整理(対象・形式・期間のメタ情報つき)
+const personalServices = [
   {
-    tag: '個人向け',
+    step: 'STEP 0',
+    title: '個別相談',
+    meta: '60分・3,000円・オンライン',
+    body: '「どこから手を付けるか」の見立てを、その場で必ずお渡しします。相談だけで終えてOK。',
+  },
+  {
+    step: 'STEP 1',
     title: '社外参謀 1on1ブートキャンプ',
-    body: '全4回・マンツーマンで、発言や行動のベースとなる「思考OS」を構築する超実務プログラムです。',
+    meta: '全4回・マンツーマン',
+    body: '発言や行動のベースとなる「思考OS」を、案件ベースの超実務で構築します。',
   },
   {
-    tag: '個人向け',
+    step: 'STEP 2',
     title: '社外参謀 伴走プログラム',
-    body: '構築した「思考OS」を現場で実装し、成果を取りに行く3〜6か月の長期プロジェクトです。',
+    meta: '月2回・3〜6か月',
+    body: '構築した「思考OS」を現場で実装し、目に見える成果を取りに行きます。',
+  },
+];
+
+const corporateServices = [
+  {
+    title: 'チーム研修(基本パッケージ)',
+    meta: '3名程度の少人数・全4回+伴走',
+    body: 'キックオフからワークショップ、計画書づくり、遂行支援まで。自走化を前提に設計します。',
   },
   {
-    tag: '法人向け',
-    title: 'チーム研修・伴走支援',
-    body: '少人数・高密度のチーム研修と、プロジェクト伴走支援。自走できる状態をゴールに設計します。',
+    title: 'プロジェクト伴走支援・コンサルティング',
+    meta: '週1回 or 隔週',
+    body: '「はい、わかりました」とは言いません。代行ではなく共創で、ノウハウを社内に残します。',
   },
 ];
 ---
 
 <Base
-  description="maido&crafts strategy株式会社は、ポータブルスキルと「思考OS」の構築を、教育×実践×リフレクションで伴走支援します。個別相談は60分・3,000円・オンライン。"
+  description="maido&crafts strategy株式会社は、個人の「思考OS」構築からチームの自走化まで、教育×実践×リフレクションで一気通貫に伴走します。個別相談は60分・3,000円・オンライン。"
 >
-  <!-- Hero: タイポグラフィ主体(home.md のビジュアル案から選択) -->
+  <!-- Hero: タイポグラフィ主体。一文で分かる提供価値をコピーの直下に置く -->
   <div class="bg-white">
     <div class="mx-auto max-w-[1120px] px-5 py-20 md:py-32 lg:px-10">
-      <p class="mb-6 text-xs font-bold tracking-[0.18em] text-muted uppercase">
+      <p class="mb-6 text-xs font-bold tracking-[0.18em] text-muted uppercase" data-reveal>
         maido &amp; crafts strategy
       </p>
-      <h1 class="text-[32px] leading-[1.3] font-bold md:text-5xl">
+      <h1 class="text-[32px] leading-[1.3] font-bold md:text-5xl" data-reveal>
         人の成長が、<br class="md:hidden" />価値を倍増させる。
       </h1>
-      <p class="mt-6 max-w-[42em] text-base leading-loose text-muted">
+      <p class="mt-6 max-w-[42em] text-base leading-loose font-bold text-primary-700" data-reveal>
+        個人の「思考OS」構築から、チームの自走化まで。教育×実践×リフレクションで一気通貫に伴走します。
+      </p>
+      <p class="mt-4 max-w-[42em] text-sm leading-loose text-muted" data-reveal>
         私たちは、人が「係数」として機能することを信じています。同じ予算・設備・情報でも、成果は「人」で何倍にも変わる。だから、人の成長に投資します。
       </p>
-      <div class="mt-10 flex flex-col gap-4 sm:flex-row">
-        <Button href="/contact/">個別相談について</Button>
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row" data-reveal>
+        <Button href="/contact/">まず、話してみる(個別相談)</Button>
         <Button href="/services/" variant="secondary">サービスを見る</Button>
       </div>
+      <p class="mt-10 flex items-center gap-3" aria-hidden="true" data-reveal>
+        <span class="h-px w-24 bg-brand-teal md:w-40"></span>
+        <span class="text-xs font-bold tracking-[0.18em] text-muted">まいど、から始まる伴走</span>
+      </p>
     </div>
   </div>
 
   <Section tone="subtle">
-    <SectionTitle>こんな悩みは、ありませんか</SectionTitle>
-    <ul class="grid gap-4 md:grid-cols-2 md:gap-6">
-      {worries.map((worry) => (
-        <li class="rounded-lg border border-edge bg-white p-6 font-bold text-primary-700">
-          {worry}
-        </li>
-      ))}
-    </ul>
-    <p class="mt-8 max-w-[42em] text-muted">
-      その原因は、あなたの能力ではなく「構造」にあるのかもしれません。
+    <SectionTitle no="01">こんな課題から、お探しください</SectionTitle>
+    <p class="mb-8 max-w-[42em] text-muted" data-reveal>
+      その原因は、あなたの能力ではなく「構造」にあるのかもしれません。近い悩みを選ぶと、対応するサービスに進めます。
     </p>
-    {/* TODO: 30秒診断(既存LP)へ送客するか要確認(docs/content/home.md §2) */}
-  </Section>
 
-  <Section>
-    <SectionTitle>サービス</SectionTitle>
-    <div class="grid gap-4 md:grid-cols-3 md:gap-6">
-      {services.map((service) => (
-        <div class="flex flex-col rounded-lg border border-edge bg-white p-6">
-          <p class="mb-2">
-            <span class="rounded-sm bg-primary-100 px-2 py-0.5 text-xs font-bold text-primary-700">
-              {service.tag}
-            </span>
-          </p>
-          <h3 class="mb-2 text-lg font-semibold text-primary-700">{service.title}</h3>
-          <p class="text-sm text-muted">{service.body}</p>
-        </div>
-      ))}
-    </div>
-    <p class="mt-8 text-center">
-      <Button href="/services/" variant="secondary">サービスの詳細を見る</Button>
-    </p>
-  </Section>
-
-  <Section tone="subtle">
-    <SectionTitle>研修でも、コンサルでもなく</SectionTitle>
-    <Positioning />
-  </Section>
-
-  <Section>
-    <SectionTitle>私たちのやり方</SectionTitle>
-    <p class="mb-8 max-w-[42em] text-muted">
-      知識を教えて終わりにはしません。教育 × 実践 × リフレクションの循環で、「わかる」を「できる」に変えます。
-    </p>
-    <MethodSteps />
-  </Section>
-
-  <Section tone="subtle">
-    <SectionTitle>数字と、声。</SectionTitle>
-    <VoicesStats />
-  </Section>
-
-  <Section>
-    <SectionTitle>代表紹介</SectionTitle>
-    <div class="flex flex-col items-center gap-8 md:flex-row md:gap-12">
-      <Image
-        src={tamaoka}
-        alt="代表取締役 玉岡諒太の写真"
-        width={320}
-        height={320}
-        class="h-40 w-40 flex-none rounded-full object-cover md:h-48 md:w-48"
-      />
+    <div class="grid gap-8 lg:grid-cols-2">
       <div>
-        <p class="font-bold text-primary-700">玉岡 諒太(代表取締役・創業者)</p>
-        <p class="mt-3 max-w-[42em] text-muted">
-          大阪の商店街で育ち、富士通・ベイカレント・ベンチャー・NECを経て独立。「作る側」と「支える側」の両方を歩いてきました。
-        </p>
-        <p class="mt-6">
-          <Button href="/profile/" variant="secondary">プロフィールを見る</Button>
-        </p>
+        <h3 class="mb-4 text-sm font-bold tracking-wide text-muted">
+          個人の方(リーダー・マネージャー)
+        </h3>
+        <ul class="space-y-3" data-reveal="group">
+          {personalWorries.map((worry) => (
+            <li>
+              <a
+                href="/services/#personal"
+                class="group flex items-center justify-between gap-4 rounded-lg border border-edge bg-white p-5 transition-colors duration-200 hover:border-primary-500"
+              >
+                <span class="font-bold text-primary-700">{worry}</span>
+                <span class="flex-none text-sm font-bold text-primary-500 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h3 class="mb-4 text-sm font-bold tracking-wide text-muted">法人の方(人事・経営者)</h3>
+        <ul class="space-y-3" data-reveal="group">
+          {corporateWorries.map((worry) => (
+            <li>
+              <a
+                href="/services/#corporate"
+                class="group flex items-center justify-between gap-4 rounded-lg border border-edge bg-white p-5 transition-colors duration-200 hover:border-primary-500"
+              >
+                <span class="font-bold text-primary-700">{worry}</span>
+                <span class="flex-none text-sm font-bold text-primary-500 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </Section>
 
+  <Section>
+    <SectionTitle no="02">サービス</SectionTitle>
+    <p class="mb-8 max-w-[42em] text-muted" data-reveal>
+      「あと一歩の壁」を超えるための伴走プログラムです。個人はステップ式、法人は自走化を前提に設計しています。
+    </p>
+
+    <h3 class="mb-4 text-sm font-bold tracking-wide text-muted">個人向け|ステップ式</h3>
+    <ol class="grid gap-4 md:grid-cols-3 md:gap-6" data-reveal="group">
+      {personalServices.map((service) => (
+        <li class="flex flex-col rounded-lg border border-edge bg-white p-6">
+          <p class="mb-2 text-xs font-bold tracking-widest text-primary-500">{service.step}</p>
+          <h4 class="mb-1 text-lg font-semibold text-primary-700">{service.title}</h4>
+          <p class="mb-3 text-xs font-bold text-muted">{service.meta}</p>
+          <p class="flex-1 text-sm text-muted">{service.body}</p>
+        </li>
+      ))}
+    </ol>
+
+    <h3 class="mt-10 mb-4 text-sm font-bold tracking-wide text-muted">法人向け</h3>
+    <div class="grid gap-4 md:grid-cols-2 md:gap-6" data-reveal="group">
+      {corporateServices.map((service) => (
+        <div class="flex flex-col rounded-lg border border-edge bg-white p-6">
+          <h4 class="mb-1 text-lg font-semibold text-primary-700">{service.title}</h4>
+          <p class="mb-3 text-xs font-bold text-muted">{service.meta}</p>
+          <p class="flex-1 text-sm text-muted">{service.body}</p>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-8 text-center" data-reveal>
+      <Button href="/services/" variant="secondary">サービスの詳細を見る</Button>
+    </p>
+    <p class="mt-4 text-center text-xs text-muted" data-reveal>
+      プログラム料金は、内容・期間により異なるため個別にご案内しています。
+    </p>
+  </Section>
+
   <Section tone="subtle">
-    <SectionTitle>お知らせ</SectionTitle>
+    <SectionTitle no="03">研修でも、コンサルでもなく</SectionTitle>
+    <div data-reveal>
+      <Positioning />
+    </div>
+  </Section>
+
+  <Section>
+    <SectionTitle no="04">私たちのやり方</SectionTitle>
+    <p class="mb-8 max-w-[42em] text-muted" data-reveal>
+      知識を教えて終わりにはしません。教育 × 実践 × リフレクションの循環で、「わかる」を「できる」に変えます。
+    </p>
+    <div data-reveal>
+      <MethodSteps />
+    </div>
+  </Section>
+
+  <Section tone="subtle">
+    <SectionTitle no="05">実績と、声。</SectionTitle>
+    <VoicesStats>
+      <div slot="after-stats">
+        <h3 class="mb-4 text-sm font-bold tracking-wide text-muted">支援実績</h3>
+        <CaseList />
+      </div>
+    </VoicesStats>
+  </Section>
+
+  <Section>
+    <SectionTitle no="06">安心して任せられる理由</SectionTitle>
+    <div class="grid gap-8 lg:grid-cols-[auto_1fr] lg:gap-12">
+      <div class="flex items-start gap-6" data-reveal>
+        <Image
+          src={tamaoka}
+          alt="代表取締役 玉岡諒太の写真"
+          width={320}
+          height={320}
+          class="h-28 w-28 flex-none rounded-full object-cover md:h-36 md:w-36"
+        />
+        <div>
+          <p class="text-xs font-bold tracking-wide text-muted">代表取締役・創業者</p>
+          <p class="mt-1 text-lg font-bold text-primary-700">玉岡 諒太</p>
+          <p class="mt-3 max-w-[24em] text-sm text-muted">
+            大阪の商店街で育ち、富士通・ベイカレント・ベンチャー・NECを経て独立。「作る側」と「支える側」の両方を歩いてきました。
+          </p>
+          <p class="mt-4">
+            <a
+              href="/profile/"
+              class="text-sm font-bold text-primary-700 underline-offset-4 hover:underline"
+            >
+              プロフィールを見る →
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <ul class="grid gap-4 sm:grid-cols-2" data-reveal="group">
+        <li class="rounded-lg border border-edge bg-white p-5">
+          <h3 class="mb-1 text-sm font-semibold text-primary-700">実務で磨いた支援スキル</h3>
+          <p class="text-sm text-muted">
+            大手SE・戦略コンサル・ベンチャー・カスタマーサクセスの現場経験にもとづく、実践的な伴走です。
+          </p>
+        </li>
+        <li class="rounded-lg border border-edge bg-white p-5">
+          <h3 class="mb-1 text-sm font-semibold text-primary-700">少人数・高密度の体制</h3>
+          <p class="text-sm text-muted">
+            マンツーマンまたは3名程度の少人数で、一人ひとりの現場に深く入り込みます。
+          </p>
+        </li>
+        <li class="rounded-lg border border-edge bg-white p-5">
+          <h3 class="mb-1 text-sm font-semibold text-primary-700">土台は「ポータブルスキル」</h3>
+          <p class="text-sm text-muted">
+            厚生労働省も定義・推進する、業種や職種が変わっても持ち運べる実践的能力を育てます。
+          </p>
+        </li>
+        <li class="rounded-lg border border-edge bg-white p-5">
+          <h3 class="mb-1 text-sm font-semibold text-primary-700">自走できたら、卒業</h3>
+          <p class="text-sm text-muted">
+            業務の代行はしません。ご自身が再現できる手法を残し、最終的に私たちが不要になる状態がゴールです。
+          </p>
+        </li>
+      </ul>
+    </div>
+    <p class="mt-8 text-center" data-reveal>
+      <Button href="/about/" variant="secondary">会社案内を見る</Button>
+    </p>
+  </Section>
+
+  <Section tone="subtle">
+    <SectionTitle no="07">お知らせ</SectionTitle>
     {news.length === 0 ? (
       <p class="text-muted">現在、お知らせはありません。</p>
     ) : (
-      <ul class="divide-y divide-edge rounded-lg border border-edge bg-white">
+      <ul class="divide-y divide-edge rounded-lg border border-edge bg-white" data-reveal>
         {news.map((item) => (
           <li>
             <a
@@ -163,7 +288,7 @@ const services = [
         ))}
       </ul>
     )}
-    <p class="mt-6 text-right">
+    <p class="mt-6 text-right" data-reveal>
       <a href="/news/" class="text-sm font-bold text-primary-700 underline-offset-4 hover:underline">
         お知らせの一覧を見る
       </a>

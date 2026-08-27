@@ -25,7 +25,7 @@ const voices = [
 ];
 ---
 
-<div class="mb-8 grid grid-cols-3 gap-2 md:gap-6">
+<div class="mb-8 grid grid-cols-3 gap-2 md:gap-6" data-reveal="group">
   {stats.map((stat) => (
     <div class="rounded-lg border border-edge bg-white px-2 py-5 text-center md:py-8">
       <p class="text-xl font-bold text-primary-700 md:text-3xl">
@@ -36,7 +36,10 @@ const voices = [
   ))}
 </div>
 
-<ul class="grid gap-4 md:grid-cols-3 md:gap-6">
+{/* 数字と声の間に、支援実績などを差し込めるようにしておく */}
+<slot name="after-stats" />
+
+<ul class="mt-8 grid gap-4 md:grid-cols-3 md:gap-6" data-reveal="group">
   {voices.map((voice) => (
     <li class="rounded-lg border border-edge bg-white p-6">
       <blockquote class="text-sm text-muted">

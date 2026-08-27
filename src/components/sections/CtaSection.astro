@@ -1,7 +1,8 @@
 ---
 import LineButton from '../ui/LineButton.astro';
 
-// 全ページ末尾の問い合わせ誘導(既存3ページのCTAブロックを踏襲)
+// 全ページ末尾の問い合わせ誘導。相談内容を具体化した2つの導線に分ける
+// (個人=LINEが最短 / 法人・料金=フォーム)。文言は既存3ページのCTAブロックを踏襲
 interface Props {
   /** 見出しをページに合わせて差し替え可能(プロフィールは「まず、聴かせてください」) */
   heading?: string;
@@ -11,22 +12,42 @@ const { heading = 'まず、話してみませんか' } = Astro.props;
 ---
 
 <section aria-labelledby="cta-heading" class="bg-primary-900 py-16 text-white md:py-24">
-  <div class="mx-auto max-w-[800px] px-5 lg:px-10">
-    <p class="mb-4 inline-block rounded-full bg-white/15 px-4 py-1.5 text-xs font-bold tracking-wide">
-      個別相談|60分・3,000円・オンライン
-    </p>
-    <h2 id="cta-heading" class="mb-4 text-2xl font-bold md:text-[28px]">{heading}</h2>
-    <p class="mb-8 text-sm leading-loose opacity-95 md:text-base">
-      売り込みはしません。60分の個別相談(3,000円)で、あなたの現場の「どこから手を付けるか」の見立てを、その場で必ずお渡しします。まとまっていない相談ほど、歓迎です。相談だけで終えていただいて構いません。
-    </p>
-    <LineButton class="mx-auto max-w-md" />
-    <p class="mt-4 text-center text-xs opacity-85">
-      合わないと感じたら、そこで終わりにして大丈夫です。
-    </p>
-    <p class="mt-6 text-center text-sm">
-      <a href="/contact/" class="underline underline-offset-4 hover:opacity-80">
-        法人研修・料金のご相談はこちら
-      </a>
-    </p>
+  <div class="mx-auto max-w-[1120px] px-5 lg:px-10">
+    <div class="mx-auto max-w-[800px] text-center" data-reveal>
+      <h2 id="cta-heading" class="text-2xl font-bold md:text-[28px]">{heading}</h2>
+      <p class="mt-4 text-sm leading-loose opacity-95 md:text-base">
+        売り込みはしません。まとまっていない相談ほど、歓迎です。合わないと感じたら、そこで終わりにして大丈夫です。
+      </p>
+    </div>
+
+    <div class="mx-auto mt-10 grid max-w-[880px] gap-4 md:grid-cols-2 md:gap-6" data-reveal="group">
+      <div class="flex flex-col rounded-lg border border-white/20 bg-white/5 p-6 md:p-8">
+        <p class="mb-3 inline-block self-start rounded-full bg-white/15 px-3 py-1 text-xs font-bold tracking-wide">
+          個人の方|60分・3,000円・オンライン
+        </p>
+        <h3 class="mb-2 text-lg font-bold">まずは、現状のモヤモヤを話してみる</h3>
+        <p class="mb-6 flex-1 text-sm opacity-90">
+          60分の個別相談で、あなたの現場の「どこから手を付けるか」の見立てを、その場で必ずお渡しします。相談だけで終えていただいて構いません。
+        </p>
+        <LineButton />
+      </div>
+
+      <div class="flex flex-col rounded-lg border border-white/20 bg-white/5 p-6 md:p-8">
+        <p class="mb-3 inline-block self-start rounded-full bg-white/15 px-3 py-1 text-xs font-bold tracking-wide">
+          法人の方|チーム研修・伴走支援
+        </p>
+        <h3 class="mb-2 text-lg font-bold">チーム研修・料金について問い合わせる</h3>
+        <p class="mb-6 flex-1 text-sm opacity-90">
+          料金・お見積りは、状況を伺ったうえで個別にご案内します。まだ検討段階でも構いません。3営業日以内にご返信します。
+        </p>
+        <a
+          href="/contact/#form-heading"
+          class="block rounded-full bg-white px-6 py-4 text-center font-bold text-primary-700 transition-opacity duration-200 hover:opacity-90"
+        >
+          フォームで問い合わせる
+          <span class="mt-0.5 block text-xs font-bold text-muted">入力は6項目・3分ほどで完了します</span>
+        </a>
+      </div>
+    </div>
   </div>
 </section>

@@ -1,0 +1,48 @@
+---
+// 支援実績(brief §6 の確定情報のみ。2026年8月27日 ユーザー確認のうえ掲載解禁)
+// 成果の数値は一次情報がないため記載しない(存在しない数字の創作は禁止事項)
+const cases = [
+  {
+    target: '大手企業',
+    theme: '新システム・サービスの構想・立ち上げ',
+    body: 'PM・PMOとして、構想づくりからプロジェクトの推進までを支援',
+  },
+  {
+    target: '大手企業',
+    theme: 'DX人材育成サービス',
+    body: 'サービスの企画・開発から実行まで、一気通貫で支援',
+  },
+  {
+    target: '大手企業・ベンチャー',
+    theme: 'カスタマーサクセスの立ち上げ',
+    body: '組織の立ち上げと、成果が続くための仕組み化を支援',
+  },
+  {
+    target: '大手企業',
+    theme: 'コンサルタントスキル研修',
+    body: '問題解決・構造化などの実務スキル講座を提供',
+  },
+  {
+    target: '若手・中堅の個人',
+    theme: '社外メンターサービス',
+    body: '仕事とキャリアの壁打ち相手として伴走(2025年12月時点 20数名)',
+  },
+];
+---
+
+<ul class="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3" data-reveal="group">
+  {cases.map((item) => (
+    <li class="flex flex-col rounded-lg border border-edge bg-white p-6">
+      <p class="mb-3">
+        <span class="rounded-sm bg-paper-subtle px-2 py-0.5 text-xs font-bold text-muted">
+          {item.target}
+        </span>
+      </p>
+      <h3 class="mb-2 font-semibold text-primary-700">{item.theme}</h3>
+      <p class="text-sm text-muted">{item.body}</p>
+    </li>
+  ))}
+</ul>
+<p class="mt-6 text-xs text-muted">
+  ※支援実績の一部をご紹介しています。企業名・詳細は、個別相談・お問い合わせの際にお尋ねください。
+</p>

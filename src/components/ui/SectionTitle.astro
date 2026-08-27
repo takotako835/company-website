@@ -1,13 +1,24 @@
 ---
-// 既存3ページの「オレンジマーカー付き見出し」を継承(注目点にのみオレンジを使用)
+// 既存3ページの「オレンジマーカー付き見出し」を継承(注目点にのみオレンジを使用)。
+// no を渡すと、通し番号+ティールの罫線(補助色の規定用途)を見出し上に添える
 interface Props {
   id?: string;
   class?: string;
+  /** セクション通し番号(例: "01")。トップページの章立てに使う */
+  no?: string;
 }
 
-const { id, class: className } = Astro.props;
+const { id, class: className, no } = Astro.props;
 ---
 
+{
+  no && (
+    <p class="mb-3 flex items-center gap-3 text-xs font-bold tracking-[0.22em] text-muted" aria-hidden="true">
+      <span class="tabular-nums">{no}</span>
+      <span class="h-px w-10 bg-brand-teal"></span>
+    </p>
+  )
+}
 <h2
   id={id}
   class:list={[

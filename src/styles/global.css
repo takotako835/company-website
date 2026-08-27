@@ -68,6 +68,11 @@
     outline-offset: 2px;
   }
 
+  /* 固定ヘッダーの高さぶん、アンカー先が隠れないようにする */
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -77,6 +82,52 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+  }
+}
+
+/*
+ * スクロール連動の表示演出(02_design-system §7 の規律内)。
+ * 「フェードイン + 8px上昇」のみ・opacity と transform のみ・0.4s ease-out。
+ * prefers-reduced-motion: reduce では初期状態から表示する(アニメーションなし)
+ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.4s ease-out,
+      transform 0.4s ease-out;
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  /* グリッド内のカードを少しずつ遅らせて表示する(最大6枚まで) */
+  [data-reveal='group'] > * {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.4s ease-out,
+      transform 0.4s ease-out;
+  }
+  [data-reveal='group'].is-visible > * {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal='group'].is-visible > :nth-child(2) {
+    transition-delay: 0.07s;
+  }
+  [data-reveal='group'].is-visible > :nth-child(3) {
+    transition-delay: 0.14s;
+  }
+  [data-reveal='group'].is-visible > :nth-child(4) {
+    transition-delay: 0.21s;
+  }
+  [data-reveal='group'].is-visible > :nth-child(5) {
+    transition-delay: 0.28s;
+  }
+  [data-reveal='group'].is-visible > :nth-child(6) {
+    transition-delay: 0.35s;
   }
 }
 
