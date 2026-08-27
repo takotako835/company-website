@@ -38,6 +38,9 @@ let dashboard: Dashboard | null = null;
 let reports: { period_start: string; period_end: string; summary_md: string }[] = [];
 let abConfigNote = '';
 let diagnostics: TableDiagnosis[] = [];
+let effectiveUrl = '';
+let rawUrl = '';
+let keyKind = '';
 
 if (authed && analyticsReady) {
   const config = readAnalyticsConfig()!;
@@ -48,6 +51,11 @@ if (authed && analyticsReady) {
   // データが0件のときは、つながらない理由を突き止めて画面に出す
   if (events.length === 0) {
     diagnostics = [...(await diagnose(config)), await diagnoseWrite(config)];
+    effectiveUrl = config.url;
+    rawUrl = process.env.SUPABASE_URL?.trim() ?? '';
+    keyKind = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim().startsWith('sb_publishable_')
+      ? 'publishable(誤り。Secret key を設定してください)'
+      : 'secret(正しい種類)';
   }
 
   const reportRows = await sbFetch(config, 'reports?select=period_start,period_end,summary_md&order=created_at.desc&limit=8');
@@ -115,6 +123,14 @@ const td = 'px-3 py-2 border-t border-edge';
               <p class="mt-1 mb-4 text-sm text-muted">
                 Supabase との通信を実際に試した結果です。NGの行の内容にしたがって設定を直してください。
               </p>
+              <dl class="mb-4 grid gap-1 rounded-md bg-paper-subtle p-4 text-xs sm:grid-cols-[10em_1fr]">
+                <dt class="font-bold text-muted">設定されたURL</dt>
+                <dd class="break-all">{rawUrl || '(未設定)'}</dd>
+                <dt class="font-bold text-muted">実際の接続先</dt>
+                <dd class="break-all">{effectiveUrl}/rest/v1/…</dd>
+                <dt class="font-bold text-muted">キーの種類</dt>
+                <dd>{keyKind}</dd>
+              </dl>
               <ul class="space-y-2 text-sm">
                 {diagnostics.map((d) => (
                   <li class="flex flex-col gap-1 border-t border-edge pt-2 sm:flex-row sm:items-baseline sm:gap-3">

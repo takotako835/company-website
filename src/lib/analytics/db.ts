@@ -12,10 +12,25 @@ export interface AnalyticsConfig {
   serviceKey: string;
 }
 
+/**
+ * SUPABASE_URL を正規化する。
+ * 「Project URL」ではなく「RESTful endpoint」(…/rest/v1)を貼ってしまう間違いが起きやすく、
+ * そのままだとパスが二重になって PGRST125 になるため、末尾の /rest/v1 を取り除く
+ */
+export function normalizeSupabaseUrl(raw: string): string {
+  return raw
+    .trim()
+    .replace(/\/+$/, '')
+    .replace(/\/rest(\/v1)?$/, '')
+    .replace(/\/+$/, '');
+}
+
 export function readAnalyticsConfig(): AnalyticsConfig | null {
-  const url = process.env.SUPABASE_URL?.trim().replace(/\/$/, '');
+  const raw = process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
-  if (!url || !serviceKey) return null;
+  if (!raw || !serviceKey) return null;
+  const url = normalizeSupabaseUrl(raw);
+  if (!url) return null;
   return { url, serviceKey };
 }
 
@@ -56,6 +71,35 @@ export interface TableDiagnosis {
   detail: string;
 }
 
+/** Supabase の応答から、設定のどこを直せばよいかを日本語で言い当てる */
+function explain(status: number, body: string): string {
+  if (status >= 200 && status < 300) {
+    let rows: unknown[] = [];
+    try {
+      rows = JSON.parse(body || '[]') as unknown[];
+    } catch {
+      return '読み取りOK';
+    }
+    return Array.isArray(rows) && rows.length > 0 ? '読み取りOK(データあり)' : '読み取りOK(まだ0件)';
+  }
+  // PGRST125 = パスが不正。SUPABASE_URL に /rest/v1 まで含めてしまった典型例
+  if (body.includes('PGRST125') || body.includes('Invalid path')) {
+    return 'SUPABASE_URL が違います。「https://xxxxx.supabase.co」だけを設定してください(/rest/v1 は不要)';
+  }
+  // PGRST205 = スキーマキャッシュにテーブルがない
+  if (body.includes('PGRST205') || body.includes('does not exist') || body.includes('42P01')) {
+    return 'テーブルがありません。SQL Editor で supabase/schema.sql を実行してください';
+  }
+  if (status === 401 || status === 403) {
+    return 'キーが拒否されました。Secret key(sb_secret_…)を使っているか確認してください';
+  }
+  if (status === 404) {
+    return 'URLかテーブルが違います。SUPABASE_URL と schema.sql の実行を確認してください';
+  }
+  if (status === 0) return '接続できません(URLのホスト名を確認してください)';
+  return body.slice(0, 160) || `HTTP ${status}`;
+}
+
 /**
  * 各テーブルに実際に触って、つながらない理由を突き止める。
  * 通常の読み書きはエラーを握りつぶすため、原因を見るにはこの関数を使う
@@ -72,18 +116,7 @@ export async function diagnose(config: AnalyticsConfig): Promise<TableDiagnosis[
         signal: AbortSignal.timeout(10000),
       });
       const body = await res.text();
-      let detail: string;
-      if (res.ok) {
-        const rows = JSON.parse(body || '[]') as unknown[];
-        detail = rows.length > 0 ? '読み取りOK(データあり)' : '読み取りOK(まだ0件)';
-      } else if (res.status === 404) {
-        detail = 'テーブルがありません。SQL Editor で supabase/schema.sql を実行してください';
-      } else if (res.status === 401 || res.status === 403) {
-        detail = 'キーが拒否されました。Secret key(sb_secret_…)を使っているか確認してください';
-      } else {
-        detail = body.slice(0, 160);
-      }
-      out.push({ table, status: res.status, ok: res.ok, detail });
+      out.push({ table, status: res.status, ok: res.ok, detail: explain(res.status, body) });
     } catch (error) {
       out.push({
         table,
@@ -111,7 +144,7 @@ export async function diagnoseWrite(config: AnalyticsConfig): Promise<TableDiagn
       body: JSON.stringify({ visitor_hash: marker, path: '/__diagnostic', type: 'pageview' }),
       signal: AbortSignal.timeout(10000),
     });
-    const body = res.ok ? '' : (await res.text()).slice(0, 160);
+    const body = res.ok ? '' : await res.text();
     if (res.ok) {
       await sbFetch(config, `events?visitor_hash=eq.${marker}`, { method: 'DELETE' });
     }
@@ -119,11 +152,7 @@ export async function diagnoseWrite(config: AnalyticsConfig): Promise<TableDiagn
       table: 'events(書き込み)',
       status: res.status,
       ok: res.ok,
-      detail: res.ok
-        ? '書き込みOK'
-        : res.status === 401 || res.status === 403
-          ? 'キーが書き込みを拒否しました。RLSを迂回できる Secret key か確認してください'
-          : body,
+      detail: res.ok ? '書き込みOK' : explain(res.status, body),
     };
   } catch (error) {
     return {
