@@ -21,6 +21,7 @@
 | `docs/04_copywriting-guide.md` | コピーライター観点の文章規範 | テキストを書くとき必ず |
 | `docs/05_tech-spec.md` | エンジニア観点の技術仕様 | 実装・環境構築時に必ず |
 | `docs/06_seo-performance.md` | SEO・パフォーマンス基準 | 実装時・リリース前 |
+| `docs/07_deploy-render.md` | Render へのデプロイ手順 | 公開作業時・デプロイ不具合時 |
 | `docs/content/*.md` | 各ページの構成・原稿 | 該当ページ実装時 |
 
 ## 作業の基本ルール
@@ -36,7 +37,7 @@
 
 - フレームワーク: Astro(05_tech-spec.md の推奨に従い採用・実装済み)
 - スタイリング: Tailwind CSS(v4・デザイントークンは `src/styles/global.css` の `@theme` に一元定義)
-- デプロイ: {{Vercel / Cloudflare Pages など。未定}}
+- デプロイ: Render(Static Site)。設定は `render.yaml`、手順は `docs/07_deploy-render.md`
 
 ## よく使うコマンド
 

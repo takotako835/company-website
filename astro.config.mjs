@@ -3,10 +3,14 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// TODO: ドメイン未確定(brief §8)。既存 ywc-maido-okini.com を使うか新規取得か
-// 確定したら site を本番URLに変更する(canonical / OGP / sitemap に反映される)
+// 公開URLは環境変数で切り替える(canonical / OGP / sitemap / robots.txt に反映される)。
+// Render では render.yaml の SITE_URL、独自ドメイン取得後はその値を書き換えるだけでよい。
+// TODO: 独自ドメインが確定したら DEFAULT_SITE_URL も本番ドメインに更新する(brief §8)
+const DEFAULT_SITE_URL = 'https://maido-crafts-website.onrender.com';
+const site = process.env.SITE_URL || process.env.RENDER_EXTERNAL_URL || DEFAULT_SITE_URL;
+
 export default defineConfig({
-  site: 'https://ywc-maido-okini.com',
+  site,
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

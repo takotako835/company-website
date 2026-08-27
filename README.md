@@ -30,9 +30,17 @@ draft: false           # true にすると非公開
 本文を Markdown で書きます。
 ```
 
+## デプロイ(Render)
+
+**手順書: [docs/07_deploy-render.md](docs/07_deploy-render.md)** — GitHub への公開から独自ドメイン設定まで、画面操作を1つずつ書いています。
+
+リポジトリ直下の `render.yaml` に設定が入っているため、Render の「Blueprint」から接続するだけで公開できます。以降は `main` ブランチへ push すれば自動で再デプロイされます。
+
+公開URLは環境変数 `SITE_URL` で切り替わり、canonical / OGP / sitemap / robots.txt にまとめて反映されます(コードの書き換えは不要)。
+
 ### 公開前に確定が必要なこと(TODO)
 
-- **ドメイン**: `astro.config.mjs` の `site` と `public/robots.txt` の Sitemap URL を本番ドメインに変更する
+- **ドメイン**: 独自ドメイン確定後、Render の `SITE_URL` と `astro.config.mjs` の `DEFAULT_SITE_URL` を更新する
 - **OGP画像**: `public/ogp.png` はロゴを配置した仮版。デザイン版ができたら差し替える(1200×630px)
 - **公開日**: `src/content/news/2026-website-launch.md` の date を実際の公開日に更新する
 - コード内の `TODO:` コメント(所在地・支援実績・30秒診断への導線など、ユーザー確認待ちの項目)
