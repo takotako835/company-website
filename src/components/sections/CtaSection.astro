@@ -37,7 +37,7 @@ const { heading = 'まず、話してみませんか' } = Astro.props;
         <p class="mb-6 flex-1 text-sm opacity-90">
           60分の個別相談で、あなたの現場の「どこから手を付けるか」の見立てを、その場で必ずお渡しします。相談だけで終えていただいて構いません。
         </p>
-        <LineButton />
+        <LineButton loc="cta_section" />
         <p class="mt-3 text-center text-xs opacity-85">
           その前に、
           <a href="/shindan/" class="font-bold underline underline-offset-4">無料の30秒診断</a>
@@ -55,6 +55,8 @@ const { heading = 'まず、話してみませんか' } = Astro.props;
         </p>
         <a
           href="/contact/#form-heading"
+          data-track="cta_contact_click"
+          data-loc="cta_section"
           class="block rounded-full bg-white px-6 py-4 text-center font-bold text-primary-700 transition-opacity duration-200 hover:opacity-90"
         >
           フォームで問い合わせる

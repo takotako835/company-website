@@ -4,15 +4,19 @@ import { SITE } from '../../lib/site';
 // CV(LINE誘導)専用ボタン。緑=申し込みの意味を固定する(02_design-system §2)
 interface Props {
   class?: string;
+  /** 計測用の設置場所ID(どこのボタンが押されたかを分析するため) */
+  loc?: string;
 }
 
-const { class: className } = Astro.props;
+const { class: className, loc = 'unknown' } = Astro.props;
 ---
 
 <a
   href={SITE.lineUrl}
   target="_blank"
   rel="noopener"
+  data-track="cta_line_click"
+  data-loc={loc}
   class:list={[
     'block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)] transition-opacity duration-200 hover:opacity-90',
     className,

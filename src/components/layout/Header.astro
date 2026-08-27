@@ -42,6 +42,8 @@ const isCurrent = (href: string) => path === href || path.startsWith(href);
       ))}
       <a
         href="/contact/"
+        data-track="cta_contact_click"
+        data-loc="header"
         class="inline-flex min-h-11 items-center rounded-md bg-primary-700 px-5 py-2 text-sm font-bold text-white transition-colors duration-200 hover:bg-primary-900"
       >
         個別相談・お問い合わせ

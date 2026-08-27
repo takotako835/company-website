@@ -353,6 +353,7 @@ const inquiryTypes = [
         }
 
         clearDraft();
+        (window as unknown as { __track?: (t: string) => void }).__track?.('form_submit');
         window.location.href = '/contact/thanks/';
       } catch (error) {
         // 失敗しても入力値はそのまま残す(05_tech-spec §4)。個人情報はログに出さない

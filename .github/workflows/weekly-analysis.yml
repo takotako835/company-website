@@ -1,0 +1,24 @@
+# 週次の自動分析を起動する(毎週月曜 9:00 JST)。
+# リポジトリの Settings → Secrets and variables → Actions に以下を登録すること:
+#   ANALYZE_URL    例: https://maido-crafts-website.onrender.com/api/analyze
+#   ANALYZE_SECRET Render の環境変数 ANALYZE_SECRET と同じ値
+name: weekly-analysis
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # 月曜 00:00 UTC = 9:00 JST
+  workflow_dispatch: {} # 手動実行も可能
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call analyze endpoint
+        run: |
+          if [ -z "${{ secrets.ANALYZE_URL }}" ]; then
+            echo "ANALYZE_URL secret is not set; skipping."
+            exit 0
+          fi
+          curl --fail-with-body -sS -X POST "${{ secrets.ANALYZE_URL }}" \
+            -H "x-analyze-secret: ${{ secrets.ANALYZE_SECRET }}" \
+            -H "Origin: ${{ secrets.ANALYZE_URL }}"

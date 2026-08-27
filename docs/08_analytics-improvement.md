@@ -1,6 +1,6 @@
-# 08. アクセス計測・管理サイト・自動改善ループ 仕様提案
+# 08. アクセス計測・管理サイト・自動改善ループ
 
-- 状態: **提案(2026年8月27日)。ユーザー承認後に実装する**
+- 状態: **実装済み(2026年8月27日 承認・Phase 1〜4a 完了)**。稼働にはセットアップ(§8)が必要
 - 目的: HP改善に使える数値を自前で取得・データ化し、管理画面で見える化し、分析→改善が回り続ける仕組みを作る
 - 結論: **構築できる。** ただし「自動改善」は安全な範囲設計が肝心(§5)
 
@@ -115,9 +115,57 @@ GA4は後から併用も可能。まず自前計測を土台にする。
 | 4a | A/Bテスト+自動採用 | 1日 | CVRが自動で上がり続ける仕組み |
 | 4b | 改善PRの自動生成 | 1日 | 分析→実装案までの往復が消える |
 
-## 7. 事前に決めていただくこと
+## 7. 決定事項(2026年8月27日 承認)
 
-1. **Supabase**: 新規プロジェクトを作るか、vietnam-guidebook のプロジェクトに相乗りするか(推奨: 新規。無料枠はアカウントに2つまで作れる)
-2. **GA4の併用**: 不要なら完全自前のみ(推奨)。併用するならCookie同意の扱いを決める
-3. **週次レポートの宛先**: メールアドレス(Resendから送付)
-4. **A/Bテストの初弾**: Hero提供価値のA/B/C案から始めてよいか
+1. Supabase: 新規プロジェクトを作成して使う
+2. GA4は併用しない(完全自前・Cookieなし)
+3. 週次レポートの宛先: 未指定なら CONTACT_TO と同じ(REPORT_TO で変更可)
+4. A/Bテスト初弾: Hero提供価値のA/B/C案(docs/content/home.md 記載の承認済み3案)
+
+## 8. セットアップ手順(これをやると稼働する)
+
+### 8-1. Supabase(約5分)
+
+1. https://supabase.com/dashboard → **New project**(名前: `maido-analytics` 等。リージョンは Tokyo)
+2. 作成後、左メニュー **SQL Editor** → リポジトリの `supabase/schema.sql` の中身を貼り付けて **Run**
+3. **Project Settings → API** を開き、次の2つを控える
+   - Project URL(`https://xxxx.supabase.co`)
+   - `service_role` キー(★秘密。anon ではない方)
+
+### 8-2. Render の環境変数(約5分)
+
+`maido-crafts-website` → **Environment** に追加して **Save, rebuild, and deploy**:
+
+| Key | 値 |
+|---|---|
+| `SUPABASE_URL` | 8-1のProject URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | 8-1のservice_roleキー(★秘密) |
+| `ADMIN_PASSWORD` | 管理画面のパスワード(長いものを) |
+| `ANALYZE_SECRET` | 長い乱数(RenderのGenerateでよい) |
+| `ANTHROPIC_API_KEY` | https://console.anthropic.com で発行(未設定でも数値レポートは動く) |
+| `REPORT_TO` | (任意)週次レポートの宛先。未設定なら CONTACT_TO と同じ |
+
+### 8-3. GitHub Actions の secrets(約3分)
+
+リポジトリ → **Settings → Secrets and variables → Actions** に追加:
+
+| Name | 値 |
+|---|---|
+| `ANALYZE_URL` | `https://<公開URL>/api/analyze` |
+| `ANALYZE_SECRET` | 8-2と同じ値 |
+
+→ 以後、毎週月曜9時(JST)に自動分析。**Actions → weekly-analysis → Run workflow** で手動実行も可
+
+### 8-4. 動作確認
+
+1. 公開サイトを数ページ閲覧し、LINEボタンを1回タップ
+2. `https://<公開URL>/admin/` にログイン → 数値が出ていれば計測OK
+3. Actions から weekly-analysis を手動実行 → 管理画面にレポートが出て、メールが届けば全経路OK
+
+## 9. 実装メモ
+
+- 計測が無効(環境変数未設定)でもサイトは通常どおり動く(ビーコンは204で空振り)
+- 管理画面(/admin)自身の閲覧・ボットUAは計測から除外済み。robots/sitemapからも除外
+- A/Bの配信バリアントは body の data 属性 → ビーコン meta 経由で全イベントに紐づく
+- 週次分析: 統計判定(z検定・95%・各案100訪問以上)で勝者確定→ab_configを自動更新。90日超の明細も同時に削除
+- AI分析には本リポジトリの規範(価格非掲載・実績創作禁止・トーン)をシステムプロンプトで注入している

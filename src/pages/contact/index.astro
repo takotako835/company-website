@@ -61,7 +61,7 @@ const steps = [
       ))}
     </ol>
 
-    <LineButton class="mx-auto max-w-md" />
+    <LineButton class="mx-auto max-w-md" loc="contact_main" />
     <p class="mt-4 text-center text-xs leading-relaxed text-muted">
       会社を通さず、個人のままお申し込みいただけます(企業のチーム研修も承っています)。
     </p>
@@ -83,3 +83,23 @@ const steps = [
     <ContactForm />
   </Section>
 </Base>
+
+<script>
+  // フォーム計測: 表示・入力開始・送信成功(個人情報は送らない)
+  const w = window as unknown as { __track?: (t: string, m?: Record<string, unknown>) => void };
+  const form = document.getElementById('contact-form');
+  if (form) {
+    w.__track?.('form_view');
+    let started = false;
+    form.addEventListener(
+      'input',
+      () => {
+        if (!started) {
+          started = true;
+          w.__track?.('form_start');
+        }
+      },
+      { once: false },
+    );
+  }
+</script>

@@ -357,6 +357,7 @@ import Breadcrumb from '../components/layout/Breadcrumb.astro';
 
   function answer(yes: boolean): void {
     answers[qi] = yes;
+    tracker.__track?.('shindan_question', { n: qi + 1 });
     if (qi < 5) {
       qi++;
       renderQ();
@@ -443,7 +444,7 @@ import Breadcrumb from '../components/layout/Breadcrumb.astro';
         <li class="flex items-center gap-3 py-2.5 text-sm font-bold"><b class="flex h-6 min-w-9 flex-none items-center justify-center rounded-md bg-paper-subtle px-1.5 text-xs text-primary-700">3</b>そのために使う、3つの道具</li>
         <li class="flex items-center gap-3 py-2.5 text-sm font-bold"><b class="flex h-6 min-w-9 flex-none items-center justify-center rounded-md bg-paper-subtle px-1.5 text-xs text-primary-700">PDF</b>この診断結果のまとめ(保存版)</li>
       </ul>
-      <a class="block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)]" href="${lineUrlWithResult(tid)}" target="_blank" rel="noopener">友だち追加して、続きを受け取る</a>
+      <a class="block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)]" href="${lineUrlWithResult(tid)}" target="_blank" rel="noopener" data-track="shindan_line_click" data-loc="gate_${tid}">友だち追加して、続きを受け取る</a>
       <p class="mt-2.5 text-center text-xs text-muted">追加後、すぐ自動で届きます。配信の停止は、いつでもできます。</p>
     </div>
 
@@ -494,7 +495,7 @@ import Breadcrumb from '../components/layout/Breadcrumb.astro';
       <p class="mb-4 text-sm font-bold leading-loose opacity-90">診断で見えたものは、明日からの忙しさの中で、また見えなくなりがちです。見えている今のうちに、一度だけ話してみませんか。</p>
       <p class="mb-4 rounded-lg bg-white/15 py-2.5 text-center text-sm font-bold">おひとりずつじっくりお聴きするため、個別相談は月 ${SLOTS_LEFT} 名までとしています</p>
       <p class="mb-4 rounded-lg bg-white/10 px-4 py-3 text-sm font-bold leading-loose">うまく話せるか不安でも、大丈夫。まとまっていないまま、来てください。整理するところから、一緒にやります。</p>
-      <a class="block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)]" href="${LINE_CONSULT_URL}" target="_blank" rel="noopener">LINEで「個別相談」と送る<small class="mt-0.5 block text-xs font-bold">「個別相談」の4文字を送るだけ・約30秒</small></a>
+      <a class="block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)]" href="${LINE_CONSULT_URL}" target="_blank" rel="noopener" data-track="shindan_line_click" data-loc="result_cta_${tid}">LINEで「個別相談」と送る<small class="mt-0.5 block text-xs font-bold">「個別相談」の4文字を送るだけ・約30秒</small></a>
       <p class="mt-3 text-center text-xs leading-relaxed opacity-85">送ったあとの流れ: 予約フォームが届く → 枠を選ぶだけ(お支払いのご案内は予約確認後にお送りします)</p>
       <p class="mt-2 text-center text-xs leading-relaxed opacity-85">売り込みなし・合わなければそこで終わりにして大丈夫・平日夜/土日枠あり</p>
     </div>
@@ -518,13 +519,14 @@ import Breadcrumb from '../components/layout/Breadcrumb.astro';
     <div class="mt-6 rounded-2xl bg-primary-700 px-6 py-8 text-white">
       <h3 class="mb-3 text-xl font-bold">今後のために、つながっておきませんか</h3>
       <p class="mb-4 text-sm leading-loose opacity-95">リーダーの悩みは、ある日とつぜん始まります。そのときすぐ思い出せるように、LINEでつながっておいてください。役に立つときまで、静かにしています。</p>
-      <a class="block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)]" href="${LINE_URL}" target="_blank" rel="noopener">LINEで友だち追加する<small class="mt-0.5 block text-xs font-bold">配信の停止は、いつでもできます</small></a>
+      <a class="block rounded-full bg-line-green px-6 py-4 text-center font-bold text-white shadow-[0_1px_10px_rgba(6,199,85,0.28)]" href="${LINE_URL}" target="_blank" rel="noopener" data-track="shindan_line_click" data-loc="none">LINEで友だち追加する<small class="mt-0.5 block text-xs font-bold">配信の停止は、いつでもできます</small></a>
     </div>
     <button type="button" class="redo mx-auto mt-6 block text-sm text-muted underline underline-offset-4">診断をやり直す</button>`;
   }
 
   function showResult(): void {
     const { tid, stage, n } = judge();
+    tracker.__track?.('shindan_result', { type: n === 0 ? 'none' : tid, stage, yes: n });
     $('s-result').innerHTML = n === 0 ? noneHTML() : resultHTML(tid, stage);
     show('s-result');
     $('s-result')
@@ -532,12 +534,16 @@ import Breadcrumb from '../components/layout/Breadcrumb.astro';
       .forEach((b) => b.addEventListener('click', () => location.reload()));
   }
 
+  // ===== 計測(個人の回答内容そのものは送らない。設問番号と結果タイプのみ) =====
+  const tracker = window as unknown as { __track?: (t: string, m?: Record<string, unknown>) => void };
+
   // ===== イベント =====
   $('startBtn').addEventListener('click', () => {
     qi = 0;
     answers.length = 0;
     renderQ();
     show('s-quiz');
+    tracker.__track?.('shindan_start');
   });
   $('yesBtn').addEventListener('click', () => answer(true));
   $('noBtn').addEventListener('click', () => answer(false));

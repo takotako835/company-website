@@ -11,7 +11,18 @@ import Positioning from '../components/sections/Positioning.astro';
 import VoicesStats from '../components/sections/VoicesStats.astro';
 import CaseList from '../components/sections/CaseList.astro';
 import { formatDate } from '../lib/site';
+import { visitorHash } from '../lib/analytics/db';
+import { HERO_VALUE_PROP_VARIANTS, pickVariant } from '../lib/analytics/ab';
 import tamaoka from '../assets/tamaoka.jpg';
+
+// Hero提供価値のA/Bテスト(候補は docs/content/home.md で承認済みの3案のみ)
+const visitorIp =
+  Astro.request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || Astro.clientAddress || '';
+const heroVariant = await pickVariant(
+  'hero_value_prop',
+  visitorHash(visitorIp, Astro.request.headers.get('user-agent') ?? ''),
+);
+const heroValueProp = HERO_VALUE_PROP_VARIANTS[heroVariant] ?? HERO_VALUE_PROP_VARIANTS.A!;
 
 const news = (await getCollection('news', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
@@ -69,6 +80,7 @@ const corporateServices = [
 
 <Base
   description="maido&crafts strategy株式会社は、個人の「思考OS」構築からチームの自走化まで、教育×実践×リフレクションで一気通貫に伴走します。個別相談は60分・3,000円・オンライン。"
+  abVariants={{ hero_value_prop: heroVariant }}
 >
   <!-- Hero: タイポグラフィ主体。一文で分かる提供価値をコピーの直下に置く。
        末尾の線は、ロゴのモチーフ(地平線と昇る太陽)を一筆の線として引いたもの -->
@@ -81,7 +93,7 @@ const corporateServices = [
         人の成長が、価値を倍増させる。
       </h1>
       <p class="mt-8 max-w-[38em] text-base leading-loose font-bold text-primary-700" data-reveal>
-        個人の「思考OS」構築から、チームの自走化まで。教育×実践×リフレクションで一気通貫に伴走します。
+        {heroValueProp}
       </p>
       <p class="mt-4 max-w-[38em] text-sm leading-loose text-muted" data-reveal>
         私たちは、人が「係数」として機能することを信じています。同じ予算・設備・情報でも、成果は「人」で何倍にも変わる。だから、人の成長に投資します。

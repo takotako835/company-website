@@ -14,9 +14,15 @@ interface Props {
   jsonLd?: Record<string, unknown>[];
   /** 送信完了ページなど、検索結果に出す必要がないページで true にする */
   noindex?: boolean;
+  /** A/Bテストの配信中バリアント。計測ビーコンが body の data 属性から拾う */
+  abVariants?: Record<string, string>;
 }
 
-const { title, description, jsonLd = [], noindex = false } = Astro.props;
+const { title, description, jsonLd = [], noindex = false, abVariants = {} } = Astro.props;
+
+const abDataAttrs = Object.fromEntries(
+  Object.entries(abVariants).map(([key, value]) => [`data-ab-${key.replaceAll('_', '-')}`, value]),
+);
 
 const fullTitle = title
   ? `${title}｜${SITE.companyName}`
@@ -79,7 +85,7 @@ const organizationLd = {
       <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)} />
     ))}
   </head>
-  <body class="pb-20 md:pb-0">
+  <body class="pb-20 md:pb-0" {...abDataAttrs}>
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-100 focus:bg-white focus:px-4 focus:py-2 focus:text-primary-700"
@@ -92,6 +98,92 @@ const organizationLd = {
     </main>
     <Footer />
     <StickyCta />
+    <script>
+      // ===== アクセス計測ビーコン(自前・Cookieなし) =====
+      // 送信先 /api/track は Supabase 未設定のあいだ何もしない。
+      // 個人情報は送らない。docs/08_analytics-improvement.md 参照
+      const isAdmin = location.pathname.startsWith('/admin');
+      const params = new URLSearchParams(location.search);
+      const base = {
+        path: location.pathname,
+        referrer: document.referrer || null,
+        utm_source: params.get('utm_source'),
+        utm_medium: params.get('utm_medium'),
+        utm_campaign: params.get('utm_campaign'),
+      };
+      const abMeta: Record<string, string> = {};
+      for (const [key, value] of Object.entries(document.body.dataset)) {
+        if (key.startsWith('ab') && value) abMeta[key] = value;
+      }
+      function track(type: string, meta: Record<string, unknown> = {}): void {
+        if (isAdmin) return; // 管理画面の閲覧は計測に混ぜない
+        try {
+          const payload = JSON.stringify({ type, ...base, meta: { ...abMeta, ...meta } });
+          navigator.sendBeacon('/api/track', new Blob([payload], { type: 'application/json' }));
+        } catch {
+          // 計測の失敗で表示を止めない
+        }
+      }
+      (window as unknown as { __track?: typeof track }).__track = track;
+
+      track('pageview');
+
+      // クリック計測: data-track 属性を持つ要素(LINEボタン等)
+      document.addEventListener('click', (event) => {
+        const el = (event.target as Element | null)?.closest?.('[data-track]');
+        if (el instanceof HTMLElement && el.dataset.track) {
+          track(el.dataset.track, { loc: el.dataset.loc ?? '' });
+        }
+      });
+
+      // スクロール到達(50% / 90%・各1回)
+      const sent = new Set<number>();
+      addEventListener(
+        'scroll',
+        () => {
+          const doc = document.documentElement;
+          const depth = ((scrollY + innerHeight) / doc.scrollHeight) * 100;
+          for (const mark of [50, 90]) {
+            if (depth >= mark && !sent.has(mark)) {
+              sent.add(mark);
+              track('scroll_depth', { depth: mark });
+            }
+          }
+        },
+        { passive: true },
+      );
+
+      // 表示速度の実測(LCP / CLS / INP)。ページを離れるときに1回だけ送る
+      let lcp = 0;
+      let cls = 0;
+      let inp = 0;
+      try {
+        new PerformanceObserver((list) => {
+          const last = list.getEntries().at(-1);
+          if (last) lcp = Math.round(last.startTime);
+        }).observe({ type: 'largest-contentful-paint', buffered: true });
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries() as PerformanceEntry[]) {
+            const shift = entry as unknown as { hadRecentInput: boolean; value: number };
+            if (!shift.hadRecentInput) cls += shift.value;
+          }
+        }).observe({ type: 'layout-shift', buffered: true });
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            inp = Math.max(inp, Math.round(entry.duration));
+          }
+        }).observe({ type: 'event', buffered: true, durationThreshold: 40 } as PerformanceObserverInit);
+      } catch {
+        // 未対応ブラウザでは速度計測だけ諦める
+      }
+      let vitalsSent = false;
+      addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && !vitalsSent && lcp > 0) {
+          vitalsSent = true;
+          track('vitals', { lcp, cls: Math.round(cls * 1000) / 1000, inp });
+        }
+      });
+    </script>
     <script>
       // data-reveal 要素が画面に入ったら .is-visible を付ける(CSS側で演出)
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

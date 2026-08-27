@@ -52,6 +52,7 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/contact/thanks') &&
         !page.includes('/api/') &&
+        !page.includes('/admin') &&
         !page.includes('/healthz'),
     }),
   ],

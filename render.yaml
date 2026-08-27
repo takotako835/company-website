@@ -49,3 +49,22 @@ services:
       # お問い合わせの届け先(社内の受信アドレス)
       - key: CONTACT_TO
         sync: false
+
+      # ── アクセス計測・管理画面・自動改善(docs/08 参照)。Render の画面で入力 ──
+      # Supabase の Project Settings → API の値。★service_role キーは秘密
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      # 管理画面(/admin)のパスワード
+      - key: ADMIN_PASSWORD
+        sync: false
+      # 週次分析の起動を守る合言葉+訪問者ハッシュのソルト。Generateで自動生成してよい
+      - key: ANALYZE_SECRET
+        generateValue: true
+      # 週次分析のAIレポート用(Anthropic の API キー)。未設定でも数値レポートは出る
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      # 週次レポートの宛先(未設定なら CONTACT_TO と同じ宛先に送る)
+      - key: REPORT_TO
+        sync: false
