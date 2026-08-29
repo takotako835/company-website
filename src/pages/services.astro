@@ -84,33 +84,36 @@ const bootcampSteps = [
   ['アクションプランの明確化', '次のステージへ進むための、90日間の計画を作り切ります。'],
 ];
 
-// ブートキャンプの特徴(同資料 p.14 より)
+// ブートキャンプの特徴(同資料 p.14 より。見出し+1行に圧縮)
 const bootcampFeatures = [
   {
     title: '「思考OS」をインストールできる',
-    body: '再現性の高いシンプルなメソッドを、ご自身の案件や人生のテーマに当てはめて使うため、「知っている」ことが「使える」状態になります。',
+    body: 'メソッドをご自身の案件に当てはめて使うから、「知っている」が「使える」になります。',
   },
   {
     title: '"社外参謀"スタイルのマンツーマン形式',
-    body: '「何を変えれば前へ進めるのか」を、社外参謀が受講者と伴走しながら一緒に作り込みます。',
+    body: '「何を変えれば前へ進めるのか」を、伴走しながら一緒に作り込みます。',
   },
   {
     title: '案件ベースの実践的なフィードバック',
-    body: '実案件をテーマに、フィードバックからアウトプットの磨き込みまでセッション中に行うため、短い時間でも成果をつかみやすくなります。',
+    body: '実案件をテーマに、アウトプットの磨き込みまでセッション中に行います。',
   },
   {
     title: 'スキル・マインドセットの両方を体系化',
-    body: '実務だけでなく、転職・副業・独立・家族との時間など、人生の意思決定の場面でも使いまわせる形に体系化します。',
+    body: '転職・副業・独立など、人生の意思決定の場面でも使いまわせる形にします。',
   },
 ];
 
-// 活用例(同資料 p.13 の事例を要約)
+// 活用例(同資料 p.13 の事例を、比較しやすい項目形式で要約)
 const bootcampCases = [
   {
     person: '大手事業会社・30代・経営企画',
     problem: '評価は悪くないのに、「もう一段上」を求められる',
-    detail:
-      '資料作成や分析は得意で、評価も平均より少し上。しかし上司からは「もっと上流から、経営目線で提案して」と言われ続けていた。今の中期計画プロジェクトをテーマに、経営が本当に気にしている論点の整理から、上司との1on1で論点をぶつけるトークスクリプト作成までを4回で行った。',
+    rows: [
+      ['状況', '評価は平均より少し上。しかし上司からは「もっと上流から、経営目線で提案して」と言われ続けていた'],
+      ['テーマ', '今の中期計画プロジェクトで、経営会議に出せるレベルの素案を作る'],
+      ['行ったこと', '経営が本当に気にしている論点の整理と、上司との1on1で論点をぶつけるトークスクリプトづくり'],
+    ],
     changes: [
       '社内でのポジションが「作業が早い人」から「経営の相談相手」になってきた',
       '強み・弱みと、今後3年のキャリアの方向性がクリアになった',
@@ -119,11 +122,14 @@ const bootcampCases = [
   {
     person: 'SIer・30代・ITコンサルタント',
     problem: 'プロジェクトを任されたものの、自信が持てない',
-    detail:
-      '中規模プロジェクトのリードを初めて任されたが、毎週の定例会議では論点が散らばり、いつも時間切れ。「このプロジェクトを半年以内に安定軌道に乗せる」をテーマに、詰まっている場所の特定、定例会議のアジェンダ・進行台本づくりとロールプレイ、90日ロードマップの設計までを行った。',
+    rows: [
+      ['状況', '中規模プロジェクトのリードを初めて任されたが、毎週の定例会議は論点が散らばり、いつも時間切れ'],
+      ['テーマ', 'このプロジェクトを、半年以内に安定軌道に乗せる'],
+      ['行ったこと', '詰まっている場所の特定、定例会議の進行台本づくりとロールプレイ、90日ロードマップの設計'],
+    ],
     changes: [
       '会議が「何となく報告する場」から「決める場」に変わった',
-      'クライアントからの信頼が上がり、「次の案件もぜひお願いしたい」と言われるようになった',
+      'クライアントから「次の案件もぜひお願いしたい」と言われるようになった',
     ],
   },
 ];
@@ -375,23 +381,32 @@ const supportPrinciples = [
       </div>
     </div>
 
-    <h3 class="mt-12 mb-4 text-sm font-bold tracking-wide text-muted">支援の3原則</h3>
-    <ol class="space-y-4" data-reveal="group">
-      {supportPrinciples.map((principle, i) => (
-        <li class="flex gap-4 rounded-lg border border-edge bg-white p-5">
-          <span
-            class="flex h-9 w-9 flex-none items-center justify-center rounded-md bg-primary-700 text-sm font-bold text-white"
-            aria-hidden="true"
-          >
-            {i + 1}
-          </span>
-          <div>
-            <h4 class="font-semibold text-primary-700">{principle.title}</h4>
-            <p class="mt-1 text-sm text-muted">{principle.body}</p>
-          </div>
-        </li>
-      ))}
-    </ol>
+    <div class="mt-10 overflow-hidden rounded-lg border border-edge bg-white" data-reveal>
+      <details class="group">
+        <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-primary-700 transition-colors duration-200 hover:bg-paper-subtle [&::-webkit-details-marker]:hidden">
+          支援の3原則
+          <svg class="h-4 w-4 flex-none transition-transform duration-200 group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </summary>
+        <ol class="space-y-4 px-6 pt-1 pb-6">
+          {supportPrinciples.map((principle, i) => (
+            <li class="flex gap-4">
+              <span
+                class="flex h-9 w-9 flex-none items-center justify-center rounded-md bg-primary-700 text-sm font-bold text-white"
+                aria-hidden="true"
+              >
+                {i + 1}
+              </span>
+              <div>
+                <h4 class="font-semibold text-primary-700">{principle.title}</h4>
+                <p class="mt-1 text-sm text-muted">{principle.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </details>
+    </div>
   </Section>
 
   <Section>
@@ -402,7 +417,7 @@ const supportPrinciples = [
         <p class="mb-2 text-xs font-bold text-primary-500">STEP 0|入口</p>
         <h3 class="mb-3 text-xl font-semibold text-primary-700">個別相談</h3>
         <p class="mb-4 max-w-[42em] text-sm text-muted">
-          60分・3,000円・オンライン。あなたの現場の「どこから手を付けるか」の見立てを、その場で必ずお渡しします。相談だけで終えていただいて構いません。LINEで「個別相談」と送るだけで始められます。
+          60分・3,000円・オンライン。「どこから手を付けるか」の見立てを、その場でお渡しします。LINEで「個別相談」と送るだけで始められます。
         </p>
         <LineButton class="max-w-md" loc="services_step0" />
       </article>
@@ -418,28 +433,6 @@ const supportPrinciples = [
           <div><dt class="text-xs font-bold text-muted">形式</dt><dd class="font-bold">マンツーマン</dd></div>
           <div class="col-span-2 md:col-span-1"><dt class="text-xs font-bold text-muted">成果物</dt><dd class="font-bold">90日アクションプラン</dd></div>
         </dl>
-        <div class="mb-4 rounded-md bg-paper-subtle p-4 text-sm">
-          <p class="mb-2 font-bold">プログラムの流れ</p>
-          <ol class="space-y-2">
-            {bootcampSteps.map(([title, body], i) => (
-              <li class="flex gap-3">
-                <span class="mt-0.5 flex-none text-xs font-bold text-primary-500">#{i + 1}</span>
-                <p><span class="font-bold text-primary-700">{title}</span><span class="text-muted"> ── {body}</span></p>
-              </li>
-            ))}
-          </ol>
-        </div>
-        <div class="mb-4">
-          <p class="mb-2 text-sm font-bold">このプログラムの特徴</p>
-          <div class="grid gap-3 md:grid-cols-2">
-            {bootcampFeatures.map((feature) => (
-              <div class="rounded-md border border-edge bg-white p-4">
-                <h4 class="text-sm font-semibold text-primary-700">{feature.title}</h4>
-                <p class="mt-1 text-xs leading-relaxed text-muted">{feature.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
         <div class="mb-4 rounded-md border border-primary-100 bg-primary-100/40 p-4">
           <p class="mb-2 text-sm font-bold">終了時に目指す状態(業務の言葉で)</p>
           <ul class="space-y-1.5 text-sm text-muted">
@@ -475,25 +468,72 @@ const supportPrinciples = [
             ))}
           </ul>
         </div>
-        <div class="mb-4">
-          <p class="mb-2 text-sm font-bold">活用例</p>
-          <div class="grid gap-3 lg:grid-cols-2">
-            {bootcampCases.map((c) => (
-              <div class="rounded-md bg-paper-subtle p-4">
-                <p class="text-xs font-bold text-muted">{c.person}</p>
-                <p class="mt-1 text-sm font-bold text-primary-700">「{c.problem}」</p>
-                <p class="mt-2 text-xs leading-relaxed text-muted">{c.detail}</p>
-                <ul class="mt-3 space-y-1.5 border-t border-edge pt-3 text-xs">
-                  {c.changes.map((change) => (
-                    <li class="flex gap-2 font-bold text-primary-700">
-                      <span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-brand-orange" aria-hidden="true"></span>
-                      {change}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+        {/* 詳細は畳んで、初期視界を静かに保つ(内容は削らず、開けば全文)。details/summary はJS不要でa11y対応 */}
+        <div class="mb-4 divide-y divide-edge overflow-hidden rounded-md border border-edge">
+          <details class="group">
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-sm font-bold text-primary-700 transition-colors duration-200 hover:bg-paper-subtle [&::-webkit-details-marker]:hidden">
+              プログラムの流れ(全4回)
+              <svg class="h-4 w-4 flex-none transition-transform duration-200 group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </summary>
+            <ol class="space-y-2.5 px-4 pt-1 pb-5 text-sm">
+              {bootcampSteps.map(([title, body], i) => (
+                <li class="flex gap-3">
+                  <span class="mt-0.5 flex-none text-xs font-bold text-primary-500">#{i + 1}</span>
+                  <p><span class="font-bold text-primary-700">{title}</span><span class="text-muted"> ── {body}</span></p>
+                </li>
+              ))}
+            </ol>
+          </details>
+          <details class="group">
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-sm font-bold text-primary-700 transition-colors duration-200 hover:bg-paper-subtle [&::-webkit-details-marker]:hidden">
+              このプログラムの特徴(4つ)
+              <svg class="h-4 w-4 flex-none transition-transform duration-200 group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </summary>
+            <ul class="space-y-3 px-4 pt-1 pb-5 text-sm">
+              {bootcampFeatures.map((feature) => (
+                <li>
+                  <h4 class="font-semibold text-primary-700">{feature.title}</h4>
+                  <p class="mt-0.5 text-xs leading-relaxed text-muted">{feature.body}</p>
+                </li>
+              ))}
+            </ul>
+          </details>
+          <details class="group">
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-sm font-bold text-primary-700 transition-colors duration-200 hover:bg-paper-subtle [&::-webkit-details-marker]:hidden">
+              活用例(2件)
+              <svg class="h-4 w-4 flex-none transition-transform duration-200 group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </summary>
+            <div class="grid gap-3 px-4 pt-1 pb-5 lg:grid-cols-2">
+              {bootcampCases.map((c) => (
+                <div class="rounded-md bg-paper-subtle p-4">
+                  <p class="text-xs font-bold text-muted">{c.person}</p>
+                  <p class="mt-1 text-sm font-bold text-primary-700">「{c.problem}」</p>
+                  <dl class="mt-3 space-y-2 text-xs">
+                    {c.rows.map(([label, value]) => (
+                      <div class="flex gap-3">
+                        <dt class="w-14 flex-none font-bold text-muted">{label}</dt>
+                        <dd class="text-muted">{value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <ul class="mt-3 space-y-1.5 border-t border-edge pt-3 text-xs">
+                    {c.changes.map((change) => (
+                      <li class="flex gap-2 font-bold text-primary-700">
+                        <span class="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-brand-orange" aria-hidden="true"></span>
+                        {change}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
         <p class="mb-1 text-sm text-muted">
           対象: 経営企画・事業推進・DX推進・人事企画など、問題解決を仕事にしている方。コンサルティング業界を志望する方。
@@ -510,7 +550,7 @@ const supportPrinciples = [
         <p class="mb-2 text-xs font-bold text-primary-500">STEP 2|月2回・3〜6か月</p>
         <h3 class="mb-3 text-xl font-semibold text-primary-700">社外参謀 伴走プログラム</h3>
         <p class="mb-4 max-w-[42em] text-sm text-muted">
-          ブートキャンプで構築した「思考OS」を現場実装し、目に見える成果を取りに行く長期プロジェクトです。学んで終わりにしないための、見立てと「実行が続く仕組み」がセットになっています。
+          ブートキャンプで構築した「思考OS」を現場実装し、目に見える成果を取りに行く長期プロジェクトです。
         </p>
         <dl class="mb-4 grid grid-cols-2 gap-x-4 gap-y-2 rounded-md bg-paper-subtle p-4 text-sm md:grid-cols-3">
           <div><dt class="text-xs font-bold text-muted">セッション</dt><dd class="font-bold">月2回・60分程度</dd></div>
@@ -518,10 +558,6 @@ const supportPrinciples = [
           <div class="col-span-2 md:col-span-1"><dt class="text-xs font-bold text-muted">期間中サポート</dt><dd class="font-bold">チャット相談(平日24〜48時間以内に返信)</dd></div>
         </dl>
         <ul class="mb-4 space-y-2 text-sm text-muted">
-          <li class="flex gap-2">
-            <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-brand-orange" aria-hidden="true"></span>
-            期間中はチャットで相談・壁打ちが可能です(原則、平日24〜48時間以内に返信)。
-          </li>
           <li class="flex gap-2">
             <span class="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-brand-orange" aria-hidden="true"></span>
             重要会議・提案・評価面談・転職面接など「勝負どころ」の前後で、壁打ち・シミュレーションを行います。
@@ -560,25 +596,35 @@ const supportPrinciples = [
         <p class="mb-4 max-w-[42em] text-sm text-muted">
           教育×実践×リフレクションによる、再現可能で持続的な成長のための包括支援です。貴社の状況に合わせてカスタマイズできます。
         </p>
-        <ol class="mb-4 space-y-3">
-          {[
-            ['00 キックオフ(必須)', '参加者同士の自己紹介などを通じて心理的安全性を確保し、ポータブルスキルと取り組みの狙いを説明します。あわせて「自走力を高めること」が支援の目的であることを明確にします'],
-            ['01 ポータブルスキルワークショップ', '1〜2週間ごと・全4回(1回 最大2時間ほど※)。現状分析、目標設定、戦略思考、問題解決、コミュニケーション、ファシリテーションなど'],
-            ['02 プロジェクト計画書の作成支援', '学びを行動計画書(プロジェクト計画書)に落とし込みます(5時間程度)'],
-            ['03 フォローアップ / プロジェクト遂行支援', '週1回または隔週で、実行を徹底的に支援します。小さな成功体験に注目し、成長の実感を促します'],
-          ].map(([title, body]) => (
-            <li class="rounded-md bg-paper-subtle p-4 text-sm">
-              <p class="font-bold text-primary-700">{title}</p>
-              <p class="mt-1 text-muted">{body}</p>
-            </li>
-          ))}
-        </ol>
-        <p class="mb-2 text-sm text-muted">
+        <p class="mb-4 text-sm text-muted">
           特徴: 3名程度の少人数・高密度。自走化を前提に、段階的に支援を減らすフェーズアウト設計です。支援の終わりには「卒業式」として成果発表会を行い、学びの定着と自信につなげます。
         </p>
-        <p class="mb-4 text-xs text-muted">
-          ※時間は3名で実施した場合の平均の目安です。状況に応じて、回数・時間は柔軟に調整します。
-        </p>
+        <div class="mb-4 overflow-hidden rounded-md border border-edge">
+          <details class="group">
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-sm font-bold text-primary-700 transition-colors duration-200 hover:bg-paper-subtle [&::-webkit-details-marker]:hidden">
+              進め方(00 キックオフ 〜 03 フォローアップ)
+              <svg class="h-4 w-4 flex-none transition-transform duration-200 group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </summary>
+            <ol class="space-y-3 px-4 pt-1 pb-4">
+              {[
+                ['00 キックオフ(必須)', '参加者同士の自己紹介などを通じて心理的安全性を確保し、ポータブルスキルと取り組みの狙いを説明します。あわせて「自走力を高めること」が支援の目的であることを明確にします'],
+                ['01 ポータブルスキルワークショップ', '1〜2週間ごと・全4回(1回 最大2時間ほど※)。現状分析、目標設定、戦略思考、問題解決、コミュニケーション、ファシリテーションなど'],
+                ['02 プロジェクト計画書の作成支援', '学びを行動計画書(プロジェクト計画書)に落とし込みます(5時間程度)'],
+                ['03 フォローアップ / プロジェクト遂行支援', '週1回または隔週で、実行を徹底的に支援します。小さな成功体験に注目し、成長の実感を促します'],
+              ].map(([title, body]) => (
+                <li class="rounded-md bg-paper-subtle p-4 text-sm">
+                  <p class="font-bold text-primary-700">{title}</p>
+                  <p class="mt-1 text-muted">{body}</p>
+                </li>
+              ))}
+            </ol>
+            <p class="px-4 pb-4 text-xs text-muted">
+              ※時間は3名で実施した場合の平均の目安です。状況に応じて、回数・時間は柔軟に調整します。
+            </p>
+          </details>
+        </div>
         <div class="mb-1 rounded-md border border-primary-100 bg-primary-100/40 p-4">
           <p class="mb-2 text-sm font-bold">目指す変化(業務の言葉で)</p>
           <ul class="space-y-1.5 text-sm text-muted">
@@ -641,7 +687,7 @@ const supportPrinciples = [
   <Section tone="subtle">
     <SectionTitle id="fit">こんな方と、ご一緒しています</SectionTitle>
     <p class="mb-10 max-w-[42em]" data-reveal>
-      どなたにでも合う支援ではありません。私たちの考え方に納得いただけたときに、いちばん良い結果が出ます。だから、合わないかもしれない点も先にお伝えします。
+      どなたにでも合う支援ではありません。だから、合わないかもしれない点も先にお伝えします。
     </p>
 
     <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
@@ -675,9 +721,7 @@ const supportPrinciples = [
             </li>
           ))}
         </ul>
-        <p class="mt-6 text-sm text-muted">
-          合わないと感じたら、そこで終わりにして大丈夫です。無理にお勧めすることはありません。
-        </p>
+        <p class="mt-6 text-sm text-muted">無理にお勧めすることはありません。</p>
       </div>
     </div>
 
@@ -718,14 +762,19 @@ const supportPrinciples = [
 
   <Section narrow>
     <SectionTitle>よくあるご質問</SectionTitle>
-    <dl class="space-y-4">
+    <div class="divide-y divide-edge overflow-hidden rounded-lg border border-edge bg-white">
       {faqs.map((faq) => (
-        <div class="rounded-lg border border-edge bg-white p-6">
-          <dt class="font-bold text-primary-700">Q. {faq.q}</dt>
-          <dd class="mt-2 text-sm text-muted">A. {faq.a}</dd>
-        </div>
+        <details class="group">
+          <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 font-bold text-primary-700 transition-colors duration-200 hover:bg-paper-subtle [&::-webkit-details-marker]:hidden">
+            {faq.q}
+            <svg class="h-4 w-4 flex-none transition-transform duration-200 group-open:rotate-180" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+          <p class="px-6 pt-1 pb-5 text-sm text-muted">{faq.a}</p>
+        </details>
       ))}
-    </dl>
+    </div>
   </Section>
 
   <CtaSection />
