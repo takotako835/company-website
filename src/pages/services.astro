@@ -178,6 +178,41 @@ const differences = [
   },
 ];
 
+// 相性を正直に示す。理念(行動重視・自走支援・時間の確保)と既存FAQから導いた内容のみ
+const goodFit = [
+  {
+    title: '小さくても、行動を起こす方',
+    body: '「1万回分析しても、行動しなければ成果はゼロ」と考えています。完璧でなくて構いません。実際に動いてくださる方と、いちばん良い成果が出ています。',
+  },
+  {
+    title: '「できるようになる」ことを望む方',
+    body: '成果物を受け取ることよりも、自分やチームに再現できる力が残ることに価値を感じる方に向いています。',
+  },
+  {
+    title: '成長のための時間を守れる方',
+    body: '週に一度でも構いません。学びと振り返りの時間を確保する意思のある方と、ご一緒しています。',
+  },
+  {
+    title: 'まだ、整理がついていない方',
+    body: 'まとまっていない相談ほど歓迎です。何が問題なのかを言葉にするところから、一緒に始めます。',
+  },
+];
+
+const notFit = [
+  {
+    title: '業務の代行',
+    body: '資料作成やプロジェクトの運営を、代わりに引き受けることはしません。ご自身が再現できる形でお渡しすることが、私たちの役割だと考えているためです。',
+  },
+  {
+    title: '答えだけをお渡しすること',
+    body: '先生の顔をせず、同じ側から一緒に考える進め方をとっています。結論だけを急いで受け取りたい場合は、ご期待に沿えないかもしれません。',
+  },
+  {
+    title: '時間をまったく確保できない状況での実施',
+    body: '成長には、まとまった時間が必要です。今は難しいという場合は、状況が整うタイミングまでお待ちすることもあります。',
+  },
+];
+
 // 支援の3原則(会社説明資料 p.20 より)
 const supportPrinciples = [
   {
@@ -604,11 +639,64 @@ const supportPrinciples = [
   </Section>
 
   <Section tone="subtle">
+    <SectionTitle id="fit">こんな方と、ご一緒しています</SectionTitle>
+    <p class="mb-10 max-w-[42em]" data-reveal>
+      どなたにでも合う支援ではありません。私たちの考え方に納得いただけたときに、いちばん良い結果が出ます。だから、合わないかもしれない点も先にお伝えします。
+    </p>
+
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <h3 class="mb-6 text-sm font-bold tracking-wide text-muted">ご一緒したい方</h3>
+        <ul class="space-y-4" data-reveal="group">
+          {goodFit.map((item) => (
+            <li class="rounded-lg border border-edge bg-white p-6">
+              <h4 class="flex items-start gap-3 font-semibold text-primary-700">
+                <span
+                  class="mt-2 h-2 w-2 flex-none rounded-full bg-brand-teal"
+                  aria-hidden="true"
+                ></span>
+                {item.title}
+              </h4>
+              <p class="mt-2 text-sm text-muted">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="mb-6 text-sm font-bold tracking-wide text-muted">
+          反対に、お力になれないこと
+        </h3>
+        <ul class="divide-y divide-edge rounded-lg border border-edge bg-white" data-reveal>
+          {notFit.map((item) => (
+            <li class="p-6">
+              <h4 class="font-semibold text-muted">{item.title}</h4>
+              <p class="mt-2 text-sm text-muted">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-6 text-sm text-muted">
+          合わないと感じたら、そこで終わりにして大丈夫です。無理にお勧めすることはありません。
+        </p>
+      </div>
+    </div>
+
+    <p class="mt-10" data-reveal>
+      <a
+        href="/about/"
+        class="inline-flex min-h-11 items-center text-sm font-bold text-primary-700 underline-offset-4 hover:underline"
+      >
+        私たちの理念とビジョンを読む →
+      </a>
+    </p>
+  </Section>
+
+  <Section>
     <SectionTitle id="pricing">料金について</SectionTitle>
     <PricingPolicy />
   </Section>
 
-  <Section narrow>
+  <Section tone="subtle" narrow>
     <SectionTitle>ご相談の流れ</SectionTitle>
     <ol class="space-y-4">
       {flow.map((step, i) => (
@@ -628,7 +716,7 @@ const supportPrinciples = [
     </ol>
   </Section>
 
-  <Section tone="subtle" narrow>
+  <Section narrow>
     <SectionTitle>よくあるご質問</SectionTitle>
     <dl class="space-y-4">
       {faqs.map((faq) => (
