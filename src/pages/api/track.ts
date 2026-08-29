@@ -13,6 +13,7 @@ const EVENT_TYPES = new Set([
   'shindan_question',
   'shindan_result',
   'shindan_line_click',
+  'legacy_click',
   'scroll_depth',
   'vitals',
 ]);

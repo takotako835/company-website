@@ -1,0 +1,58 @@
+---
+// 料金を掲載しない理由と、お見積りの決まり方(brief §6b)。
+// 金額を書かずに「問い合わせたら売り込まれる」という不安だけを取り除くためのブロック。
+// 掲載してよい金額は個別相談の 60分・3,000円 のみ
+interface Props {
+  /** 問い合わせフォーム直前など、短く添えたい場所で使う */
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+
+const factors = [
+  { label: '期間', body: '3か月で区切るか、半年かけて伴走するか。' },
+  { label: '対象人数', body: 'マンツーマンか、チームでの実施か。' },
+  { label: '関与の深さ', body: 'セッションの頻度と、伴走する範囲。' },
+];
+---
+
+{
+  compact ? (
+    <div class="rounded-lg border border-edge bg-paper-subtle p-6">
+      <p class="font-semibold text-primary-700">お見積りについて</p>
+      <p class="mt-2 text-sm text-muted">
+        期間・対象人数・関与の深さによって必要な支援が変わるため、一律の価格表は掲載していません。内容を伺ったうえで、必要な範囲だけをご提案します。
+      </p>
+      <p class="mt-2 text-sm text-muted">
+        お見積りのあと、こちらから催促のご連絡をすることはありません。見送る判断も、そのままお知らせいただければ大丈夫です。
+      </p>
+    </div>
+  ) : (
+    <div>
+      <p class="mb-4 max-w-[42em]">
+        サイトに一律の価格表を掲載していません。決まったパッケージを売るのではなく、必要な支援だけをご提案したいと考えているためです。同じプログラム名でも、期間や関与の深さによって、ふさわしい形は変わります。
+      </p>
+      <p class="mb-8 max-w-[42em] text-muted">お見積りは、次の3つで決まります。</p>
+
+      <dl class="grid gap-4 md:grid-cols-3 md:gap-6" data-reveal="group">
+        {factors.map((factor) => (
+          <div class="rounded-lg border border-edge bg-white p-6">
+            <dt class="font-semibold text-primary-700">{factor.label}</dt>
+            <dd class="mt-2 text-sm text-muted">{factor.body}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <div class="mt-8 rounded-lg border border-primary-100 bg-primary-100/40 p-6" data-reveal>
+        <p class="font-semibold text-primary-700">お問い合わせのあとに、売り込みはしません</p>
+        <p class="mt-2 text-sm text-muted">
+          お見積りをお送りしたあと、こちらから催促のご連絡をすることはありません。見送る判断も、そのままお知らせいただければ大丈夫です。検討のための質問だけでも歓迎です。
+        </p>
+      </div>
+
+      <p class="mt-6 text-sm text-muted">
+        金額を先にお伝えしているのは、個別相談(60分・3,000円)だけです。プログラムの料金は、個別相談・お問い合わせの際にご案内します。
+      </p>
+    </div>
+  )
+}

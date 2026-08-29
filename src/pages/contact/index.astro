@@ -5,6 +5,7 @@ import Section from '../../components/layout/Section.astro';
 import SectionTitle from '../../components/ui/SectionTitle.astro';
 import LineButton from '../../components/ui/LineButton.astro';
 import ContactForm from '../../components/sections/ContactForm.astro';
+import PricingPolicy from '../../components/sections/PricingPolicy.astro';
 
 // 最重要CVページ。個人はLINE(最短)、法人・料金はフォームの2経路(docs/content/contact.md)
 const steps = [
@@ -76,9 +77,18 @@ const steps = [
       チーム研修・プロジェクト伴走支援のご相談、プログラム料金・お見積りのご相談は、こちらからお送りください。検討段階のご相談も歓迎です。お見積りは内容を伺ったうえで個別にご案内します。
     </p>
     {/* TODO: 返信の目安日数はユーザー確認のうえ確定する(暫定で3営業日以内としています) */}
-    <p class="mb-10 max-w-[42em] text-sm text-muted">
+    <p class="mb-8 max-w-[42em] text-sm text-muted">
       3営業日以内にご返信します。営業目的のご連絡はいたしません。
     </p>
+
+    <div class="mb-10">
+      <PricingPolicy compact />
+      <p class="mt-3 text-sm">
+        <a href="/services/#pricing" class="font-bold text-primary-700 underline underline-offset-4">
+          料金を掲載していない理由と、お見積りの決まり方 →
+        </a>
+      </p>
+    </div>
 
     <ContactForm />
   </Section>

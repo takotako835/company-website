@@ -7,6 +7,7 @@ import LineButton from '../components/ui/LineButton.astro';
 import CtaSection from '../components/sections/CtaSection.astro';
 import Positioning from '../components/sections/Positioning.astro';
 import CaseList from '../components/sections/CaseList.astro';
+import PricingPolicy from '../components/sections/PricingPolicy.astro';
 
 // 価格方針(brief §6b): プログラム料金は掲載しない。「料金はお問い合わせください」で統一
 const faqs = [
@@ -565,7 +566,12 @@ const supportPrinciples = [
     </div>
   </Section>
 
-  <Section tone="subtle" narrow>
+  <Section tone="subtle">
+    <SectionTitle id="pricing">料金について</SectionTitle>
+    <PricingPolicy />
+  </Section>
+
+  <Section narrow>
     <SectionTitle>ご相談の流れ</SectionTitle>
     <ol class="space-y-4">
       {flow.map((step, i) => (
@@ -585,7 +591,7 @@ const supportPrinciples = [
     </ol>
   </Section>
 
-  <Section narrow>
+  <Section tone="subtle" narrow>
     <SectionTitle>よくあるご質問</SectionTitle>
     <dl class="space-y-4">
       {faqs.map((faq) => (
