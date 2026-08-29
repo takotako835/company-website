@@ -42,6 +42,19 @@ const fourElements = [
   { name: '行動', sub: '持続的な実践と習慣化', body: 'どのように継続するか。実務に埋め込み、行動を起こすことを支援します。' },
 ];
 
+// 「人を遺す」という指針(後藤新平の遺訓として伝えられる言葉。代表の事業への思い)
+const legacyQuote = [
+  '金を残して死ぬ者は下だ。',
+  '仕事を残して死ぬ者は中だ。',
+  '人を残して死ぬ者は上だ。',
+];
+
+const legacyLadder = [
+  { rank: '下', label: 'お金を残す', body: '短期的な成果や、資産。', top: false },
+  { rank: '中', label: '事業を残す', body: '仕組み、顧客基盤、そして組織。', top: false },
+  { rank: '上', label: '人を遺す', body: '次の経営者、リーダー、専門家を育てること。', top: true },
+];
+
 // 会社概要テーブル(docs/content/about.md §6)。所在地は特商法表記と同じものを使う
 const overview = [
   ['社名', SITE.companyName],
@@ -83,6 +96,85 @@ const overview = [
         この温かさを、現代の組織に再現したい。商店街のおっちゃん、おばちゃんが若者を見守り育てたように、私たちは組織と個人の持続的な成長を支援します。
       </p>
     </div>
+  </Section>
+
+  {/* 縦書きの遺訓: 明治の言葉に合わせた、サイトで一度きりのネイビー全幅セクション */}
+  <section id="legacy" class="bg-primary-900">
+    <div class="mx-auto max-w-[1120px] px-5 py-20 md:py-28 lg:px-10">
+      <p class="text-center text-xs font-bold tracking-[0.24em] text-white/70">
+        代表が事業に込める思い
+      </p>
+      <div
+        class="mt-12 flex flex-row-reverse items-start justify-center gap-8 md:mt-16 md:gap-14"
+        data-reveal
+      >
+        {legacyQuote.map((line, i) => (
+          <p
+            class:list={[
+              '[writing-mode:vertical-rl] whitespace-nowrap text-lg font-bold tracking-[0.16em] md:text-2xl',
+              i === 2
+                ? 'text-white underline decoration-brand-orange decoration-2 underline-offset-8'
+                : 'text-white/80',
+              i === 1 && 'mt-6 md:mt-8',
+              i === 2 && 'mt-12 md:mt-16',
+            ]}
+          >
+            {line}
+          </p>
+        ))}
+      </div>
+      <p class="mt-12 text-center text-xs text-white/70 md:mt-16">
+        ── 後藤新平の言葉として伝えられる遺訓
+      </p>
+    </div>
+  </section>
+
+  <Section tone="subtle">
+    <SectionTitle>「人を遺す」という指針</SectionTitle>
+    <p class="mb-4 max-w-[42em]">
+      後藤新平は、明治から昭和初期にかけて活躍した政治家・医師です。東京市長、初代満鉄総裁、内務大臣などを歴任しました。事業や資産そのものよりも、次代を担う人を育て、遺すことにこそ最も大きな価値がある──この言葉には、そんな思いが込められています。
+    </p>
+    <p class="mb-8 max-w-[42em] text-muted">経営の言葉に置き換えると、こうなります。</p>
+    <div class="grid gap-4 md:grid-cols-3 md:gap-6" data-reveal="group">
+      {legacyLadder.map((step) => (
+        <div
+          class:list={[
+            'rounded-lg border p-6',
+            step.top ? 'border-primary-700 bg-primary-700 text-white' : 'border-edge bg-white',
+            step.rank === '中' && 'md:mt-8',
+            step.rank === '下' && 'md:mt-16',
+          ]}
+        >
+          <p class="flex items-center gap-3">
+            <span
+              class:list={[
+                'flex h-9 w-9 flex-none items-center justify-center rounded-full text-sm font-bold',
+                step.top ? 'bg-brand-orange text-white' : 'bg-paper-subtle text-muted',
+              ]}
+            >
+              {step.rank}
+            </span>
+            <span class="text-lg font-bold">{step.label}</span>
+          </p>
+          <p class:list={['mt-3 text-sm', step.top ? 'text-white/90' : 'text-muted']}>
+            {step.body}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 rounded-lg border border-edge bg-white p-8 text-center md:p-10" data-reveal>
+      <p class="mx-auto max-w-[26em] text-lg font-bold text-balance text-primary-700 md:text-xl">
+        自分が抜けても、自ら判断し、顧客価値を生み、さらに人を育てられる人を遺せるか。
+      </p>
+      <p class="mt-4 text-sm text-muted">
+        私たちは、この問いを事業として突き詰めていきます。
+      </p>
+    </div>
+
+    <p class="mx-auto mt-10 max-w-[42em]" data-reveal>
+      だから、私たちのプログラムは、代行ではなく伴走を。答えではなく、ご自身で再現できる考え方と行動の型をお渡しします。「人を遺す」こと。それが、すべての支援に共通するゴールです。
+    </p>
   </Section>
 
   <Section narrow>
