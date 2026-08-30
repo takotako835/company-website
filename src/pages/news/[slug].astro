@@ -33,7 +33,7 @@ const description = entry.body
 
 <Base title={entry.data.title} description={description} jsonLd={[articleLd]}>
   <Breadcrumb
-    items={[{ label: 'お知らせ', href: '/news/' }, { label: entry.data.title }]}
+    items={[{ label: 'お知らせ・コラム', href: '/news/' }, { label: entry.data.title }]}
   />
 
   <article class="mx-auto max-w-[800px] px-5 py-12 md:py-16 lg:px-10">
@@ -56,7 +56,7 @@ const description = entry.body
         href="/news/"
         class="inline-flex min-h-11 items-center text-sm font-bold text-primary-700 underline-offset-4 hover:underline"
       >
-        ← お知らせの一覧に戻る
+        ← お知らせ・コラムの一覧に戻る
       </a>
     </p>
   </article>

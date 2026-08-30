@@ -200,4 +200,11 @@
   .news-body strong {
     font-weight: 700;
   }
+  /* コラム記事の英文の結び(ヒーローの社名表記と同じ、小さめ・字間広めの署名扱い) */
+  .news-body .news-en {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--color-muted);
+  }
 }

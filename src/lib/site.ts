@@ -28,7 +28,7 @@ export const NAV = [
   { href: '/services/', label: 'サービス' },
   { href: '/about/', label: '会社案内' },
   { href: '/profile/', label: '代表プロフィール' },
-  { href: '/news/', label: 'お知らせ' },
+  { href: '/news/', label: 'お知らせ・コラム' },
 ] as const;
 
 /** 日付を「2026年8月27日」形式にする(04_copywriting-guide §4) */

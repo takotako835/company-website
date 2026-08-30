@@ -13,13 +13,13 @@ const news = (await getCollection('news', ({ data }) => !data.draft)).sort(
 ---
 
 <Base
-  title="お知らせ"
-  description="maido&crafts strategy株式会社からのお知らせ・プレスリリースの一覧です。"
+  title="お知らせ・コラム"
+  description="maido&crafts strategy株式会社からのお知らせと、仕事の考え方をつづるコラムの一覧です。"
 >
-  <Breadcrumb items={[{ label: 'お知らせ' }]} />
+  <Breadcrumb items={[{ label: 'お知らせ・コラム' }]} />
 
   <div class="mx-auto max-w-[800px] px-5 pt-10 pb-8 md:pt-16 lg:px-10">
-    <h1 class="text-[28px] font-bold md:text-4xl">お知らせ</h1>
+    <h1 class="text-[28px] font-bold md:text-4xl">お知らせ・コラム</h1>
   </div>
 
   <Section narrow>
