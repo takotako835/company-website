@@ -219,6 +219,37 @@ const notFit = [
   },
 ];
 
+// 受講の報酬デザイン(5類型)。約束ではなく「目指す状態」として書く。
+// 出典: 持ち運べる=厚労省定義文脈 / 昇格・転職・独立と信頼一段上=資料p.19 /
+// 勝負どころの壁打ち=p.18 / 何のために働くか・人生の満足度=p.8 / 型が残る・利害関係のない参謀=既存承認済み
+const rewards = [
+  {
+    kind: '経済的価値',
+    title: '消えない資産が残る',
+    body: '身につけたポータブルスキルと思考OSは、会社や職種が変わっても使えます。昇格・転職・独立、どの道を選んでも、次の一手を支える資産です。',
+  },
+  {
+    kind: '関係的報酬',
+    title: '関係が変わる',
+    body: '上司や部下、クライアントからの信頼が一段上がる状態を目指します。期間中は、利害関係なく本音で話せる相手もいます。',
+  },
+  {
+    kind: '成長的報酬',
+    title: '成長が続く',
+    body: '答えの代わりに、再現できる「型」が残ります。プログラムが終わったあとも、自分の力で成長を続けられます。',
+  },
+  {
+    kind: '後見的報酬',
+    title: '後ろ盾ができる',
+    body: '勝負どころの前に、壁打ちできる社外参謀が隣にいます。判断をひとりで抱え込む夜が、減っていきます。',
+  },
+  {
+    kind: '感情的報酬',
+    title: '霧が晴れる',
+    body: '何のために働くのかを、自分の言葉にできるようになります。仕事の手応えと、人生の満足度が上がっていきます。',
+  },
+];
+
 // 支援の3原則(会社説明資料 p.20 より)
 const supportPrinciples = [
   {
@@ -747,12 +778,32 @@ const supportPrinciples = [
     </p>
   </Section>
 
+  {/* 相性(#fit)→報酬→料金(#pricing)の順で、意思決定に必要な情報を並べる */}
   <Section>
+    <SectionTitle>何が、返ってくるのか</SectionTitle>
+    <p class="mb-10 max-w-[42em]" data-reveal>
+      投じていただくのは、お金と時間です。だから、<strong>何が返ってくるのか</strong>も先に示しておきます。
+    </p>
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6" data-reveal="group">
+      {rewards.map((reward) => (
+        <div class="rounded-lg border border-edge bg-white p-6">
+          <p class="text-xs font-bold tracking-wide text-muted">{reward.kind}</p>
+          <h3 class="mt-2 font-semibold text-primary-700">{reward.title}</h3>
+          <p class="mt-2 text-sm text-muted">{reward.body}</p>
+        </div>
+      ))}
+    </div>
+    <p class="mt-6 text-xs text-muted" data-reveal>
+      ※いずれも、プログラムを通じて目指す状態です。到達までの期間や度合いは、状況によって異なります。
+    </p>
+  </Section>
+
+  <Section tone="subtle">
     <SectionTitle id="pricing">料金について</SectionTitle>
     <PricingPolicy />
   </Section>
 
-  <Section tone="subtle" narrow>
+  <Section narrow>
     <SectionTitle>ご相談の流れ</SectionTitle>
     <ol class="space-y-4">
       {flow.map((step, i) => (
@@ -772,7 +823,7 @@ const supportPrinciples = [
     </ol>
   </Section>
 
-  <Section narrow>
+  <Section tone="subtle" narrow>
     <SectionTitle>よくあるご質問</SectionTitle>
     <div class="divide-y divide-edge overflow-hidden rounded-lg border border-edge bg-white">
       {faqs.map((faq) => (
