@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+import Section from '../components/layout/Section.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import CtaSection from '../components/sections/CtaSection.astro';
+
+// 共感ストーリー: ①提供する理由(01〜03) → ②受講生の変化(04) → ③実現したい未来(05)。
+// 素材はすべて承認済みの既存資産(商店街の原点/経歴/係数/活用例/受講者の声/人を遺す/見ている未来)。
+// 新しい実績・数値は書かない。変化の記述には「目指す状態」を含むため、04に注記を置く
+---
+
+<Base
+  title="私たちがこの仕事をする理由"
+  description="大阪の商店街の「まいど!」から始まり、「あと一歩の壁」の前で立ち止まる人たちとの出会いを経て、人を遺す事業へ。maido&crafts strategyがこの仕事をする理由と、実現したい未来の物語です。"
+>
+  <Breadcrumb items={[{ label: '私たちがこの仕事をする理由' }]} />
+
+  <div class="mx-auto max-w-[800px] px-5 pt-10 pb-16 md:pt-16 md:pb-24 lg:px-10">
+    <h1 class="text-[28px] font-bold md:text-4xl">私たちがこの仕事をする理由</h1>
+    <p class="mt-6 max-w-[42em]">
+      ひとつの商店街の風景から始まり、あなたの現場へつながっていく物語です。5分だけ、お付き合いください。
+    </p>
+  </div>
+
+  <Section tone="subtle" narrow>
+    <SectionTitle no="01">原点 ── 「まいど!」の商店街</SectionTitle>
+    <div class="space-y-6" data-reveal>
+      <p>
+        代表の玉岡が育った大阪の商店街では、「まいど!」のあとに、こんな言葉が続きました。<strong>「最近、元気ないな?」</strong>。八百屋のおっちゃんは体調を気遣い、魚屋さんは「兄ちゃん、大きくなったなぁ」と成長を喜ぶ。そこにあったのは売買の関係ではなく、互いに認め合い、育ち合う、人のつながりでした。
+      </p>
+      <p>人が人を見守り、人が人を育てる。この風景が、私たちの原点です。</p>
+    </div>
+  </Section>
+
+  <Section narrow>
+    <SectionTitle no="02">違和感 ── 「あと一歩」で止まる人たち</SectionTitle>
+    <div class="space-y-6" data-reveal>
+      <p>
+        社会に出た玉岡は、富士通、ベイカレント・コンサルティング、ベンチャー、NECと、「作る側」と「支える側」の両方を歩きました。どの現場にも、能力のある人がいました。それなのに多くの人が、<strong>「あと一歩の壁」</strong>の前で立ち止まっていました。
+      </p>
+      <p>
+        頑張っているのに、評価が一段上がらない。任されたのに、自信が持てない。真面目な人ほど、ひとりで抱え込んでいく。
+      </p>
+      <p>
+        原因は、能力ではありませんでした。現状を分析する。問題を解く。人を動かす。どんな仕事にも共通する「土台」を身につける機会と、<strong>隣を走ってくれる人</strong>が、なかっただけです。
+      </p>
+      <p>商店街には当たり前にあった「見守り、育てる文化」が、職場にはありませんでした。</p>
+    </div>
+  </Section>
+
+  <Section tone="subtle" narrow>
+    <SectionTitle no="03">発見 ── 人は、係数</SectionTitle>
+    <div class="space-y-6" data-reveal>
+      <p>
+        同じ予算、同じ設備、同じ情報でも、成果は「人」で何倍にも変わります。人は数字ではなく、あらゆる資源の価値を何倍にもする<strong>「係数」</strong>として働く。これが私たちの確信です。だとすれば、いちばん確かな投資は、人の成長です。
+      </p>
+      <p>
+        ただし、知識を教えるだけでは、人は変わりません。学び、自分の現場で試し、振り返る。この循環を伴走者と一緒に回したとき、人は初めて変わりはじめます。
+      </p>
+      <p>
+        足りなかった土台(ポータブルスキル)と、足りなかった伴走者。<strong>その両方をお渡しするために、このサービスを作りました。</strong>
+      </p>
+    </div>
+  </Section>
+
+  <Section narrow>
+    <SectionTitle no="04">変化 ── 受講した人に、起こること</SectionTitle>
+    <div class="space-y-6" data-reveal>
+      <p>
+        最初に変わるのは、あなたです。会議で論点を語れるようになり、「ひとりで抱え込むしかない」が消えていく。受講した方からは「毎回楽しく参加できた」「断片的だった知識が体系になり、日々の仕事に使えるようになった」という声をいただいています。社内での見られ方が<strong>「作業が早い人」から「経営の相談相手」</strong>へ変わっていった方もいます。
+      </p>
+      <p>
+        そして、変化はあなたで終わりません。任せた仕事が形になって返ってきて、部下が育ちはじめる。チームが自分たちで計画を立て、実行できるようになる。変わったあなたを見て、隣の誰かが変わりはじめる。
+      </p>
+      <p>
+        私たちのゴールは、支援が要らなくなることです。だから、自走できるようになったら卒業。<strong>やり方と人が残ること</strong>。それが、このサービスの価値です。
+      </p>
+      <p class="text-xs text-muted">
+        ※受講者の声は一部要約しています。変化の記述には、プログラムを通じて目指す状態を含みます。
+      </p>
+      <p>
+        <a
+          href="/services/"
+          class="inline-flex min-h-11 items-center text-sm font-bold text-primary-700 underline-offset-4 hover:underline"
+        >
+          この変化を支えるプログラムを見る →
+        </a>
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="subtle" narrow>
+    <SectionTitle no="05">実現したい未来 ── 人を、遺す</SectionTitle>
+    <div class="space-y-6" data-reveal>
+      <p>
+        私たちが実現したいのは、<strong>「人を遺す」こと</strong>です。お金でも、事業でもなく、人。自走できるようになった人が、今度は誰かの隣を走る。教えることが誇りになり、育つことが楽しみになる。
+      </p>
+      <p>
+        「まいど!」が飛び交っていた商店街のように、互いの成長を喜び合う職場を、この国に増やしていく。
+      </p>
+      <p class="font-bold text-primary-700">その物語の続きは、あなたの現場で書かれます。</p>
+      <p>
+        <a
+          href="/about/#legacy"
+          class="inline-flex min-h-11 items-center text-sm font-bold text-primary-700 underline-offset-4 hover:underline"
+        >
+          「人を遺す」という指針を読む →
+        </a>
+      </p>
+    </div>
+  </Section>
+
+  <CtaSection heading="まず、聴かせてください" />
+</Base>
