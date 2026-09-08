@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>「上司と部下の板挟み」は正しさでは解けない|受講者インタビュー(Y氏)|maido&amp;crafts strategy株式会社</title>
+<meta name="description" content="ITコンサル出身の新任プロジェクトマネージャーY氏が「立場の違いによる価値観のズレ」を乗り越えるまで。maido! 勉強会 受講者インタビュー。" />
+<meta name="robots" content="noindex" />
+<link rel="icon" href="/favicon.png" />
+<style>
+/* =========================================================
+   デザイントークン(docs/02_design-system.md / src/styles/global.css と同値)
+   ここにない色・値を使わない
+   ========================================================= */
+:root {
+  --navy-900: #16304f;
+  --navy-700: #1f3a5f;
+  --navy-500: #3b6ba5;
+  --navy-100: #e8f0fa;
+  --orange: #f39800;
+  --teal: #19b4c3;
+  --line-green: #06c755;
+  --ink: #1d1d1f;
+  --muted: #6e6e73;
+  --edge: #d2d2d7;
+  --paper: #fbfbfd;
+  --paper-subtle: #f5f5f7;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
+  -webkit-font-smoothing: antialiased;
+  word-break: auto-phrase;
+}
+
+h1, h2, h3 {
+  font-feature-settings: "palt" 1;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  letter-spacing: 0.02em;
+}
+
+p, li, dd, dt, blockquote, figcaption { text-wrap: pretty; }
+strong { font-weight: 700; }
+a { color: inherit; }
+
+:focus-visible { outline: 3px solid var(--navy-500); outline-offset: 2px; }
+[id] { scroll-margin-top: 2rem; }
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* ---------- マストヘッド ---------- */
+.masthead { border-bottom: 1px solid var(--edge); background: #fff; }
+.masthead .container { padding-top: 16px; padding-bottom: 16px; }
+.masthead-brand {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--navy-700);
+}
+
+/* ---------- 記事ヘッダー ---------- */
+.article-hero { padding-top: 48px; }
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--navy-700);
+}
+.kicker::before { content: ""; width: 40px; height: 2px; background: var(--teal); }
+h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.dek { margin: 24px 0 0; }
+.article-meta {
+  margin: 24px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--edge);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ---------- 要点サマリー(BI「この記事のポイント」型) ---------- */
+.summary {
+  margin: 48px 0 0;
+  border: 1px solid var(--edge);
+  border-radius: 8px;
+  background: #fff;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.summary-title {
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--navy-700);
+}
+.summary dl { margin: 0; }
+.summary dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--navy-700);
+}
+.summary dt::before { content: ""; width: 8px; height: 8px; flex: none; background: var(--teal); }
+.summary dt.is-outcome::before { background: var(--orange); }
+.summary dd { margin: 8px 0 16px; font-size: 14px; }
+.summary dd:last-child { margin-bottom: 0; }
+
+/* ---------- 目次 ---------- */
+.toc {
+  margin: 32px 0 0;
+  border-radius: 8px;
+  background: var(--paper-subtle);
+  padding: 24px;
+}
+.toc-title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.toc ol { margin: 0; padding-left: 1.5em; }
+.toc li { margin-top: 8px; font-size: 14px; font-weight: 700; }
+.toc a { color: var(--navy-700); text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- 本文セクション ---------- */
+.sec { margin-top: 64px; }
+.sec-num {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--navy-700);
+}
+.sec-num::before { content: ""; width: 40px; height: 2px; background: var(--teal); }
+h2 { margin: 0; font-size: 24px; font-weight: 700; line-height: 1.4; }
+.sec > p { margin: 24px 0 0; }
+
+/* Q(インタビュアー)— Forbes JAPAN の「──」形式 */
+.q {
+  margin: 40px 0 0;
+  font-weight: 700;
+  color: var(--navy-700);
+}
+.q + p { margin-top: 16px; }
+
+/* 書き手の地の文(Forbes・HBRのブリッジ段落)。話者の声と区別する */
+.bridge { border-left: 2px solid var(--teal); padding-left: 20px; }
+
+/* ---------- プルクォート(HBR型) ---------- */
+.pullquote {
+  margin: 48px 0;
+  padding: 24px 0;
+  border-top: 2px solid var(--teal);
+  border-bottom: 2px solid var(--teal);
+  text-align: center;
+}
+.pullquote blockquote {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--navy-700);
+}
+.pullquote figcaption { margin-top: 8px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+/* ---------- 締めのメッセージ ---------- */
+.message-box {
+  margin-top: 32px;
+  border-radius: 8px;
+  background: var(--navy-100);
+  padding: 24px;
+}
+.message-box p { margin: 0 0 16px; }
+.message-box p:last-child { margin-bottom: 0; }
+
+/* ---------- CTA(サイト共通のCTAブロックを踏襲) ---------- */
+.cta { margin-top: 64px; background: var(--navy-900); color: #fff; padding: 64px 0; }
+.cta-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--navy-100);
+}
+.cta-label::before, .cta-label::after { content: ""; width: 40px; height: 1px; background: var(--teal); }
+.cta h2 { text-align: center; color: #fff; }
+.cta-copy { margin: 24px 0 0; text-align: center; font-size: 15px; }
+.cta-copy strong { font-weight: 700; }
+.cta-card {
+  margin: 48px auto 0;
+  max-width: 480px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 24px;
+}
+.cta-badge {
+  display: inline-block;
+  margin: 0 0 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.cta-card h3 { margin: 0 0 8px; font-size: 18px; font-weight: 700; }
+.cta-card > p { margin: 0 0 24px; font-size: 14px; opacity: 0.9; }
+.line-btn {
+  display: block;
+  border-radius: 9999px;
+  background: var(--line-green);
+  padding: 16px 24px;
+  text-align: center;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 1px 10px rgba(6, 199, 85, 0.28);
+  transition: opacity 0.2s ease;
+}
+.line-btn:hover { opacity: 0.9; }
+.line-btn small { display: block; margin-top: 2px; font-size: 13px; font-weight: 700; }
+.cta-note { margin: 16px 0 0; text-align: center; font-size: 13px; line-height: 1.6; opacity: 0.85; }
+.cta-note a { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- フッター ---------- */
+.site-footer { background: var(--navy-900); border-top: 1px solid rgba(255, 255, 255, 0.15); color: #fff; padding: 32px 0; }
+.footer-name { margin: 0; font-size: 14px; font-weight: 700; }
+.footer-tagline { margin: 8px 0 0; font-size: 13px; line-height: 1.6; color: var(--navy-100); }
+.footer-copy { margin: 16px 0 0; font-size: 13px; line-height: 1.6; opacity: 0.7; }
+
+/* ---------- レスポンシブ(PC) ---------- */
+@media (min-width: 768px) {
+  .container { padding-left: 40px; padding-right: 40px; }
+  .article-hero { padding-top: 64px; }
+  h1 { font-size: 36px; line-height: 1.35; }
+  h2 { font-size: 28px; }
+  .sec { margin-top: 96px; }
+  .summary { padding: 32px; }
+  .pullquote blockquote { font-size: 24px; }
+  .cta { margin-top: 96px; padding: 96px 0; }
+  .cta-card { padding: 32px; }
+}
+
+/* ---------- モーション(フェードイン+8px上昇のみ) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  [data-reveal].is-visible { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <p class="masthead-brand">maido &amp; crafts strategy</p>
+  </div>
+</header>
+
+<main>
+  <article>
+    <header class="article-hero container">
+      <p class="kicker">受講者インタビュー</p>
+      <h1>「上司と部下の板挟み」は正しさでは解けない。ITコンサル出身の新任プロジェクトマネージャーが「価値観のズレ」を乗り越えるまで</h1>
+      <p class="dek">上からは「結果を出せ」。下からは「現場を見てほしい」。その間で、Y氏はメンタル不調一歩手前まで消耗していました。彼を救ったのは、より強い論理ではありませんでした。<strong>目の前の課題の「種類」を見極める、ひとつの視点でした。</strong></p>
+      <p class="article-meta">maido! 勉強会|受講者の声(Y氏)|読了目安 約6分</p>
+
+      <aside class="summary" aria-label="この記事のポイント">
+        <p class="summary-title">この記事のポイント</p>
+        <dl>
+          <dt>どんな人か</dt>
+          <dd>システムエンジニアからITコンサルへ。論理的思考で数々のプロジェクトを立て直してきた30代のプロジェクトマネージャー</dd>
+          <dt>何に行き詰まっていたか</dt>
+          <dd>上司の「結果」と部下の「プロセス」の要求の間で板挟みになり、理詰めの説得が空回り。メンタル不調一歩手前まで消耗していた</dd>
+          <dt class="is-outcome">何が変わったか</dt>
+          <dd>課題の種類を見極め、論理で解くのではなく対話で関係を変えるやり方へ。板挟みがほどけ、チームで成果を出す手応えを取り戻した</dd>
+        </dl>
+      </aside>
+
+      <nav class="toc" aria-label="目次">
+        <p class="toc-title">目次</p>
+        <ol>
+          <li><a href="#sec-1">圧倒的な成果の裏で陥った、「上司と部下の板挟み」という消耗戦</a></li>
+          <li><a href="#sec-2">正しさや論理では解けない、「価値観のズレ」という構造的な罠</a></li>
+          <li><a href="#sec-3">「論理で解決する」を手放し、対話で相手の関心事に触れるマネジメントへ</a></li>
+          <li><a href="#sec-4">「板挟み」で一人疲弊しているマネージャーのあなたへ</a></li>
+        </ol>
+      </nav>
+    </header>
+
+    <section class="sec container" id="sec-1" data-reveal>
+      <p class="sec-num" aria-hidden="true">01</p>
+      <h2>圧倒的な成果の裏で陥った、「上司と部下の板挟み」という消耗戦</h2>
+
+      <p class="bridge">Y氏のキャリアは、中堅SIerのシステムエンジニアから始まります。顧客の複雑な業務課題を論理で分解し、数々の炎上プロジェクトを立て直してきた人です。</p>
+
+      <p class="q">── これまではプレイヤーとして、常に成果を出されてきたと伺いました。</p>
+      <p>はい。新卒で中堅SIerに入社して、システムエンジニアとして6年間働きました。プログラミングだけでなく、顧客の複雑な業務課題を論理的に分解して、システム要件に落とし込むことを得意としていました。そのやり方で、炎上したプロジェクトをいくつも立て直してきました。</p>
+
+      <p class="q">── その後、ITコンサルティングファームへ移られた。</p>
+      <p>ええ。もっと上流から顧客の事業変革に関わりたくて、転職しました。DX推進のプロジェクトでも論理的思考と課題解決の力は通用して、クライアントから高い評価をいただけるようになりました。</p>
+
+      <p class="q">── その実績で、プロジェクトマネージャーに昇格された。</p>
+      <p>はい。1年前から、若手コンサルタントやエンジニアを束ねる立場になりました。そこで、これまで経験したことのない壁にぶつかったんです。プロジェクトの人間関係、なかでも<strong>「上司と部下の板挟み」</strong>です。</p>
+
+      <p class="q">── 具体的には、どんな状況だったんですか。</p>
+      <p>上層部からは「戦略を立てろ」「結果を出せ」と強いプレッシャーがかかります。一方で部下からは「もっと現場を見てください」「プロセスも評価してほしい」と不満をぶつけられる。その繰り返しの毎日でした。</p>
+
+      <p class="q">── どう対応したんですか。</p>
+      <p>持ち前の論理です。「プロジェクトの目的はこうだから」「プロセスを改善すれば結果は出るはずだ」と、理詰めで双方を説得しようとしました。でも、対立は深まるばかりで。どちらの顔も立てられないまま、<strong>メンタル不調の一歩手前まで、ひとりで消耗しきっていました。</strong></p>
+    </section>
+
+    <section class="sec container" id="sec-2" data-reveal>
+      <p class="sec-num" aria-hidden="true">02</p>
+      <h2>正しさや論理では解けない、「価値観のズレ」という構造的な罠</h2>
+
+      <p class="bridge">転機は、社外の勉強会で知り合った、同業の先輩マネージャーの一言でした。</p>
+
+      <p class="q">── その行き詰まりから、どうやって抜け出したんでしょう。</p>
+      <p>先輩から「マネジメントの根本的なパラダイムシフトになるから」と、玉岡さんの『maido! 勉強会』を紹介されました。現状を打破したい一心で、参加を決めました。</p>
+
+      <p class="q">── 参加してみて、どんな気づきがありましたか。</p>
+      <p>いちばん衝撃だったのは、板挟みが解けないのは自分の意志や能力のせいではなく、<strong>直面している課題の「種類」が違う</strong>という、構造の問題だった、ということです。診断レポートの言葉が、痛いところを突いていました。</p>
+
+      <figure class="pullquote">
+        <blockquote>課題には2種類ある。明確な解決策がある「技術的課題」と、当事者の価値観や関係性が変わらない限り解決しない「適応課題」だ</blockquote>
+        <figcaption>── 診断レポートより(要約)</figcaption>
+      </figure>
+
+      <p class="q">── Yさんが直面していたのは、後者だった。</p>
+      <p>そうなんです。私はそれまで、仕事の問題はすべて、正しい論理と要件定義で解決できると信じ込んでいました。技術的課題として扱っていたわけです。でも、上司と部下の板挟みは、互いの立場や価値観のズレから生じる適応課題です。正解を示しても、多数決をとっても、論理で「どちらが正しいか」を決めても、解けません。<strong>自分の最大の武器である「論理」が、課題とまったく噛み合っていない状態で、戦い続けていた</strong>んです。</p>
+    </section>
+
+    <section class="sec container" id="sec-3" data-reveal>
+      <p class="sec-num" aria-hidden="true">03</p>
+      <h2>「論理で解決する」を手放し、対話で相手の関心事に触れるマネジメントへ</h2>
+
+      <p class="bridge">変化は、打ち手の前の「見極め」から始まりました。</p>
+
+      <p class="q">── そこから、マネジメントをどう変えたんですか。</p>
+      <p>まず、目の前で起きている問題が「技術的課題」なのか「適応課題」なのかを、見極めるようにしました。これだけで、間違った打ち手で空振りして消耗することが、なくなりました。</p>
+
+      <p class="q">── 価値観のズレ、つまり適応課題の方には、どう向き合ったんですか。</p>
+      <p>対立を論理で「解く」のではなく、対話を通じて、前提になっている認識や関係性を変えていく。そのプロセスこそが解決策なのだと学びました。それまでの私は、相手を論破して、自分の正しさをわからせようとしていました。その姿勢を捨てて、<strong>相手を変えようとせずに聴く</strong>。これを徹底しました。</p>
+
+      <p class="q">── 対話には、具体的なステップがあるんですか。</p>
+      <p>「察知→理解→共創」というアプローチを実践しました。上層部はなぜ、そこまで結果を焦っているのか。部下はなぜ、プロセスを見てほしいと訴えるのか。表面的な言葉の裏にある、相手が本当に大事にしていること——関心事に触れるよう努めました。</p>
+
+      <p class="q">── 結果は、どうなりましたか。</p>
+      <p>お互いの関心事が見えてくると、不思議なもので、対立は少しずつ解けていきました。上層部には、現場の状況を適切に翻訳して伝える。部下には、上層部が背負っている背景を共有する。お互いの価値観を尊重しながら「では、どうすれば両立できるか」を一緒に創り出す関係に、変わっていったんです。<strong>プレイヤーの頃に持っていたあの手応えを、いまはリーダーとして取り戻せています。</strong></p>
+    </section>
+
+    <section class="sec container" id="sec-4" data-reveal>
+      <p class="sec-num" aria-hidden="true">04</p>
+      <h2>「板挟み」で一人疲弊しているマネージャーのあなたへ</h2>
+
+      <p class="q">── 最後に。かつてのご自身と同じ場所にいる人に、何を伝えたいですか。</p>
+      <div class="message-box">
+        <p>上司からの「結果」の要求と、部下からの「プロセス」の要求の間で板挟みになり、「どうすれば両方を納得させられるのか」とひとりで消耗しているなら。その板挟みが解けないのは、あなたの意志や能力が足りないからではありません。<strong>直面している課題の、種類が違っただけです。</strong></p>
+      </div>
+
+      <p class="q">── 価値観の違いは、論理では解けない。</p>
+      <p>はい。価値観や立場の違いによる対立は、いくら正しさや論理をぶつけても解決しません。必要なのは、対立を力づくで解くことではなく、対話を通じてお互いの認識と関係性をほぐしていく技術です。『maido! 勉強会』には、日常会話とも単なる傾聴とも違う、明確なやり方を持った「対話の技術」が型として置いてあります。板挟みで苦しむフェーズを抜けて、チームのベクトルを合わせる視点を、そこで手に入れてみてください。</p>
+    </section>
+  </article>
+
+  <section class="cta" aria-labelledby="cta-heading">
+    <div class="container" data-reveal>
+      <p class="cta-label" aria-hidden="true">ご相談・お問い合わせ</p>
+      <h2 id="cta-heading">まず、話してみませんか</h2>
+      <p class="cta-copy"><strong>売り込みはしません。</strong>まとまっていない相談ほど、歓迎です。</p>
+      <p class="cta-copy">合わないと感じたら、<strong>そこで終わりにして大丈夫です。</strong></p>
+      <p class="cta-copy"><strong>私たちのゴールは、支援が要らなくなることです。だから、続けていただくための提案はしません。</strong></p>
+
+      <div class="cta-card">
+        <p class="cta-badge">個人の方|60分・3,000円・オンライン</p>
+        <h3>まずは、現状のモヤモヤを話してみる</h3>
+        <p>60分の個別相談で、あなたの現場の「どこから手を付けるか」の見立てを、その場で必ずお渡しします。相談だけで終えていただいて構いません。</p>
+        <a class="line-btn" href="https://line.me/R/oaMessage/@798sqegp/?%E5%80%8B%E5%88%A5%E7%9B%B8%E8%AB%87" target="_blank" rel="noopener">
+          LINEで「個別相談」と送る
+          <small>「個別相談」の4文字を送るだけ・約30秒</small>
+        </a>
+        <p class="cta-note">その前に、<a href="/shindan/">無料の30秒診断</a>で現状を確かめることもできます。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-name">maido&amp;crafts strategy株式会社</p>
+    <p class="footer-tagline">人の成長が、価値を倍増させる。</p>
+    <p class="footer-copy">本記事は「maido! 勉強会」受講者へのインタビューをもとに構成しています。<br />&copy; maido&amp;crafts strategy Inc.</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('[data-reveal]');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

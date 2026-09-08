@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>「背中を見て学べ」が通用しない。29歳CSマネージャーが「言語化の壁」を乗り越えるまで|受講者インタビュー(M氏)|maido&amp;crafts strategy株式会社</title>
+<meta name="description" content="SaaS企業のカスタマーサクセスマネージャーM氏が「言語化の壁」を乗り越えるまで。maido! 勉強会 受講者インタビュー。" />
+<meta name="robots" content="noindex" />
+<link rel="icon" href="/favicon.png" />
+<style>
+/* =========================================================
+   デザイントークン(docs/02_design-system.md / src/styles/global.css と同値)
+   ここにない色・値を使わない
+   ========================================================= */
+:root {
+  --navy-900: #16304f;
+  --navy-700: #1f3a5f;
+  --navy-500: #3b6ba5;
+  --navy-100: #e8f0fa;
+  --orange: #f39800;
+  --teal: #19b4c3;
+  --line-green: #06c755;
+  --ink: #1d1d1f;
+  --muted: #6e6e73;
+  --edge: #d2d2d7;
+  --paper: #fbfbfd;
+  --paper-subtle: #f5f5f7;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
+  -webkit-font-smoothing: antialiased;
+  word-break: auto-phrase;
+}
+
+h1, h2, h3 {
+  font-feature-settings: "palt" 1;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  letter-spacing: 0.02em;
+}
+
+p, li, dd, dt, blockquote, figcaption { text-wrap: pretty; }
+strong { font-weight: 700; }
+a { color: inherit; }
+
+:focus-visible { outline: 3px solid var(--navy-500); outline-offset: 2px; }
+[id] { scroll-margin-top: 2rem; }
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* ---------- マストヘッド ---------- */
+.masthead { border-bottom: 1px solid var(--edge); background: #fff; }
+.masthead .container { padding-top: 16px; padding-bottom: 16px; }
+.masthead-brand {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--navy-700);
+}
+
+/* ---------- 記事ヘッダー ---------- */
+.article-hero { padding-top: 48px; }
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--navy-700);
+}
+.kicker::before { content: ""; width: 40px; height: 2px; background: var(--teal); }
+h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.dek { margin: 24px 0 0; }
+.article-meta {
+  margin: 24px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--edge);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ---------- 要点サマリー(BI「この記事のポイント」型) ---------- */
+.summary {
+  margin: 48px 0 0;
+  border: 1px solid var(--edge);
+  border-radius: 8px;
+  background: #fff;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.summary-title {
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--navy-700);
+}
+.summary dl { margin: 0; }
+.summary dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--navy-700);
+}
+.summary dt::before { content: ""; width: 8px; height: 8px; flex: none; background: var(--teal); }
+.summary dt.is-outcome::before { background: var(--orange); }
+.summary dd { margin: 8px 0 16px; font-size: 14px; }
+.summary dd:last-child { margin-bottom: 0; }
+
+/* ---------- 目次 ---------- */
+.toc {
+  margin: 32px 0 0;
+  border-radius: 8px;
+  background: var(--paper-subtle);
+  padding: 24px;
+}
+.toc-title {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.toc ol { margin: 0; padding-left: 1.5em; }
+.toc li { margin-top: 8px; font-size: 14px; font-weight: 700; }
+.toc a { color: var(--navy-700); text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- 本文セクション ---------- */
+.sec { margin-top: 64px; }
+.sec-num {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--navy-700);
+}
+.sec-num::before { content: ""; width: 40px; height: 2px; background: var(--teal); }
+h2 { margin: 0; font-size: 24px; font-weight: 700; line-height: 1.4; }
+.sec > p { margin: 24px 0 0; }
+
+/* Q(インタビュアー)— Forbes JAPAN の「──」形式 */
+.q {
+  margin: 40px 0 0;
+  font-weight: 700;
+  color: var(--navy-700);
+}
+.q + p { margin-top: 16px; }
+
+/* 書き手の地の文(Forbes・HBRのブリッジ段落)。話者の声と区別する */
+.bridge { border-left: 2px solid var(--teal); padding-left: 20px; }
+
+/* ---------- プルクォート(HBR型) ---------- */
+.pullquote {
+  margin: 48px 0;
+  padding: 24px 0;
+  border-top: 2px solid var(--teal);
+  border-bottom: 2px solid var(--teal);
+  text-align: center;
+}
+.pullquote blockquote {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--navy-700);
+}
+.pullquote figcaption { margin-top: 8px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+/* ---------- 締めのメッセージ ---------- */
+.message-box {
+  margin-top: 32px;
+  border-radius: 8px;
+  background: var(--navy-100);
+  padding: 24px;
+}
+.message-box p { margin: 0 0 16px; }
+.message-box p:last-child { margin-bottom: 0; }
+
+/* ---------- CTA(サイト共通のCTAブロックを踏襲) ---------- */
+.cta { margin-top: 64px; background: var(--navy-900); color: #fff; padding: 64px 0; }
+.cta-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--navy-100);
+}
+.cta-label::before, .cta-label::after { content: ""; width: 40px; height: 1px; background: var(--teal); }
+.cta h2 { text-align: center; color: #fff; }
+.cta-copy { margin: 24px 0 0; text-align: center; font-size: 15px; }
+.cta-copy strong { font-weight: 700; }
+.cta-card {
+  margin: 48px auto 0;
+  max-width: 480px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 24px;
+}
+.cta-badge {
+  display: inline-block;
+  margin: 0 0 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.cta-card h3 { margin: 0 0 8px; font-size: 18px; font-weight: 700; }
+.cta-card > p { margin: 0 0 24px; font-size: 14px; opacity: 0.9; }
+.line-btn {
+  display: block;
+  border-radius: 9999px;
+  background: var(--line-green);
+  padding: 16px 24px;
+  text-align: center;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 1px 10px rgba(6, 199, 85, 0.28);
+  transition: opacity 0.2s ease;
+}
+.line-btn:hover { opacity: 0.9; }
+.line-btn small { display: block; margin-top: 2px; font-size: 13px; font-weight: 700; }
+.cta-note { margin: 16px 0 0; text-align: center; font-size: 13px; line-height: 1.6; opacity: 0.85; }
+.cta-note a { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+
+/* ---------- フッター ---------- */
+.site-footer { background: var(--navy-900); border-top: 1px solid rgba(255, 255, 255, 0.15); color: #fff; padding: 32px 0; }
+.footer-name { margin: 0; font-size: 14px; font-weight: 700; }
+.footer-tagline { margin: 8px 0 0; font-size: 13px; line-height: 1.6; color: var(--navy-100); }
+.footer-copy { margin: 16px 0 0; font-size: 13px; line-height: 1.6; opacity: 0.7; }
+
+/* ---------- レスポンシブ(PC) ---------- */
+@media (min-width: 768px) {
+  .container { padding-left: 40px; padding-right: 40px; }
+  .article-hero { padding-top: 64px; }
+  h1 { font-size: 36px; line-height: 1.35; }
+  h2 { font-size: 28px; }
+  .sec { margin-top: 96px; }
+  .summary { padding: 32px; }
+  .pullquote blockquote { font-size: 24px; }
+  .cta { margin-top: 96px; padding: 96px 0; }
+  .cta-card { padding: 32px; }
+}
+
+/* ---------- モーション(フェードイン+8px上昇のみ) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  [data-reveal].is-visible { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="container">
+    <p class="masthead-brand">maido &amp; crafts strategy</p>
+  </div>
+</header>
+
+<main>
+  <article>
+    <header class="article-hero container">
+      <p class="kicker">受講者インタビュー</p>
+      <h1>「背中を見て学べ」が通用しない。29歳CSマネージャーが「言語化の壁」を乗り越えるまで</h1>
+      <p class="dek">若手が、次々と辞めていく。SaaS企業でカスタマーサクセスのマネージャーを務めるM氏は、<strong>その原因を1年近く、自分の指導力に求め続けていました。</strong>けれど壁の正体は、指導力ではなかったといいます。</p>
+      <p class="article-meta">maido! 勉強会|受講者の声(M氏)|読了目安 約6分</p>
+
+      <aside class="summary" aria-label="この記事のポイント">
+        <p class="summary-title">この記事のポイント</p>
+        <dl>
+          <dt>どんな人か</dt>
+          <dd>広告代理店で社内MVP、転職後は解約しそうな顧客を誰よりも先に見抜いてきた20代マネージャー</dd>
+          <dt>何に行き詰まっていたか</dt>
+          <dd>「背中を見て学べ」が通じず、若手が辞めていく。指導力が足りないのだと、自分を責めていた</dd>
+          <dt class="is-outcome">何が変わったか</dt>
+          <dd>教えるのをやめて、聞く側に回った。答えを渡さなくなったことで、部下が自分で考えるように</dd>
+        </dl>
+      </aside>
+
+      <nav class="toc" aria-label="目次">
+        <p class="toc-title">目次</p>
+        <ol>
+          <li><a href="#sec-1">なぜできるのかを説明できないまま、教える側に回った</a></li>
+          <li><a href="#sec-2">指導力不足ではなく「言語化の壁」と「知識の呪い」だった</a></li>
+          <li><a href="#sec-3">「教える」を手放し、問いで引き出し合うチームへ</a></li>
+          <li><a href="#sec-4">「自分の指導力が足りない」と悩むマネージャーのあなたへ</a></li>
+        </ol>
+      </nav>
+    </header>
+
+    <section class="sec container" id="sec-1" data-reveal>
+      <p class="sec-num" aria-hidden="true">01</p>
+      <h2>なぜできるのかを説明できないまま、教える側に回った</h2>
+
+      <p class="bridge">M氏は、いわゆる「できてしまう人」でした。新卒で入った広告代理店でも、転職先のSaaS企業でも、仕事に詰まった記憶がほとんどないといいます。</p>
+
+      <p class="q">── 苦労した記憶がない、と。</p>
+      <p>代理店ではアカウントプランナーを4年やりました。数字を見ていても、お客様と話していても、次にどう動けばいいかが先に浮かぶんです。考えて出すというより、出てくる。社内のMVPも何度かいただきました。カスタマーサクセスに移ってからも同じです。この顧客はそろそろ解約するな、というのが、まだ誰も騒いでいない段階でわかるんですよ。</p>
+
+      <p class="q">── なぜ気づけるんですか。</p>
+      <p>それが、説明できないんです。<strong>当時は、そこが問題だとも思っていませんでした。</strong></p>
+
+      <p class="q">── マネージャーになられたのは。</p>
+      <p>1年ほど前です。若手を何人か見ることになりました。やり方は、それまでと同じでいいと思っていたんです。自分の背中を見て学んでもらえばいい、と。それが、まったく通用しませんでした。若手が、次々に辞めていったんです。</p>
+
+      <p class="q">── そのとき、部下に対してどう思っていましたか。</p>
+      <p>「なんでできないの？」でした。今言うと、ひどい話ですけど。自分が引っかからずに通れた場所なので、どこで引っかかるのかが見えないんです。</p>
+
+      <p class="q">── 口に出していたんですか。</p>
+      <p>出してはいません。ただ、伝わっていたはずです。<strong>そう思っている人間の下で働くのは、しんどいと思います。</strong></p>
+
+      <p class="q">── ご自身は、それをどう受け止めていましたか。</p>
+      <p>自分の指導力が足りないんだ、と。どう教えればいいのかもわからない。責める相手が、自分しかいなかったんです。あの時期が、一番しんどかったですね。</p>
+    </section>
+
+    <section class="sec container" id="sec-2" data-reveal>
+      <p class="sec-num" aria-hidden="true">02</p>
+      <h2>指導力不足ではなく「言語化の壁」と「知識の呪い」だった</h2>
+
+      <p class="bridge">彼を勉強会に押し出したのも、社内の人間ではありませんでした。</p>
+
+      <p class="q">── きっかけは。</p>
+      <p>代理店時代の元上司です。ずっと信頼している方で、「玉岡さんの『maido! 勉強会』に行ってみたら」と声をかけてもらいました。自分を責める以外に手がない状態でしたから、藁にもすがる気持ちでした。</p>
+
+      <p class="q">── 行ってみて、何が見えましたか。</p>
+      <p><strong>壁の正体が、指導力ではなかったんです。</strong>診断レポートに、こう書いてありました。</p>
+
+      <figure class="pullquote">
+        <blockquote>「なんでできないの？」と思ってしまうのは、指導力不足ではなく、感覚で出来すぎてきたからです</blockquote>
+        <figcaption>── 診断レポートより</figcaption>
+      </figure>
+
+      <p>読んで、手が止まりました。</p>
+
+      <p class="q">── 失礼を承知で伺います。「指導力不足ではない」というのは、責任逃れにも聞こえませんか。</p>
+      <p>私も、最初はそう受け取りかけました。でも、逆だったんです。原因は若手の気質やコミュニケーションにあると思い込んでいたのが、<strong>全部こちら側の話だとわかったわけですから。責任は、むしろ増えました。</strong>ただ、置き場所が変わったんです。自分の中の「うまくいくやり方」が、一度も言葉になったことがなかった。言葉になっていないものは、渡しようがありません。</p>
+
+      <p class="q">── 「知識の呪い」という言葉も出てきたそうですね。</p>
+      <p>はい。一度できるようになってしまうと、できなかった頃に世界がどう見えていたかを、思い出せなくなる。まさにそれでした。私は、部下が何につまずいているのかを、想像すらできていなかったんです。</p>
+
+      <p class="q">── では、説明の仕方を練習する、という方向に。</p>
+      <p>それが、違ったんです。示された解決策は、説明のうまさを磨くことでも、マニュアルを整えることでもありませんでした。<strong>「うまく教える」という立ち位置そのものを降りなさい</strong>、と。問いで引き出し合う関係に変える。正直、最初は意味がわかりませんでした。</p>
+    </section>
+
+    <section class="sec container" id="sec-3" data-reveal>
+      <p class="sec-num" aria-hidden="true">03</p>
+      <h2>「教える」を手放し、問いで引き出し合うチームへ</h2>
+
+      <p class="bridge">やり方を変えるのに、道具はほとんど要らなかったといいます。</p>
+
+      <p class="q">── 何から変えましたか。</p>
+      <p>聞き方です。話の途中で「それは違う」とも「わかるよ」とも言わない。最後まで、そのまま聞く。まずそれだけを徹底しました。そのうえで、何を聞くかをあらかじめ決めてから話すようにしたんです。本人がまだ言葉にしていないところへ、こちらから手を伸ばすような質問を用意しておく。</p>
+
+      <p class="q">── 反応はどうでしたか。</p>
+      <p>部下が変わっていきました。<strong>答えをもらいに来る人から、自分で考える人へ。</strong>ただ、意外だったのは、そこではないんです。</p>
+
+      <p class="q">── どこですか。</p>
+      <p>私の方が、変わりました。部下に聞いているうちに、自分の頭の中にあって一度も言葉にしていなかったものが、少しずつ言葉になっていったんです。<strong>人に問いを投げているうちに、自分のやり方が見えてきた。</strong>教えられなかったものを教えられるようになったのは、そのあとです。</p>
+
+      <p class="q">── 離れかけていた若手との関係は。</p>
+      <p>勉強会で「承認の技法」を学んでから、立て直せました。ただ、すぐではありません。時間はかかりましたし、辞めていった人たちが戻ってくるわけでもない。そこは、変わらない事実です。</p>
+
+      <p class="q">── それでも、変わったと言えますか。</p>
+      <p>言えます。「うまく教えなきゃ」というプレッシャーがなくなったのが、何より大きかったです。今は、プレイヤーの頃に持っていたあの手応えを、リーダーとして持てている感覚があります。</p>
+    </section>
+
+    <section class="sec container" id="sec-4" data-reveal>
+      <p class="sec-num" aria-hidden="true">04</p>
+      <h2>「自分の指導力が足りない」と悩むマネージャーのあなたへ</h2>
+
+      <p class="q">── 最後に。かつてのご自身と同じ場所にいる人に、何を伝えたいですか。</p>
+      <div class="message-box">
+        <p>昔の私と同じように、「背中を見て学べ」が通じず、若手が辞めていく。どう教えればいいかわからず、自分を責めている。もしそういう方がいたら、伝えたいことがあります。その苦しさは、あなたの指導力不足ではありません。部下の気質の問題でもない。<strong>感覚で結果を出してきた人だからこそぶつかる、「言語化の壁」という構造の問題です。</strong></p>
+      </div>
+
+      <p class="q">── 構造の問題だと気づくことが、第一歩なんですね。</p>
+      <p>気づくだけでは足りません。<strong>言語化はセンスではなく、技術です。</strong>そして、自分の中にあるものは、適切な問いを投げてくれる相手とのやりとりでしか、言葉になりません。一人で抱えて、うまく教えようとしているうちは、出てこないんです。私はそれを、外に出て初めて知りました。</p>
+    </section>
+  </article>
+
+  <section class="cta" aria-labelledby="cta-heading">
+    <div class="container" data-reveal>
+      <p class="cta-label" aria-hidden="true">ご相談・お問い合わせ</p>
+      <h2 id="cta-heading">まず、話してみませんか</h2>
+      <p class="cta-copy"><strong>売り込みはしません。</strong>まとまっていない相談ほど、歓迎です。</p>
+      <p class="cta-copy">合わないと感じたら、<strong>そこで終わりにして大丈夫です。</strong></p>
+      <p class="cta-copy"><strong>私たちのゴールは、支援が要らなくなることです。だから、続けていただくための提案はしません。</strong></p>
+
+      <div class="cta-card">
+        <p class="cta-badge">個人の方|60分・3,000円・オンライン</p>
+        <h3>まずは、現状のモヤモヤを話してみる</h3>
+        <p>60分の個別相談で、あなたの現場の「どこから手を付けるか」の見立てを、その場で必ずお渡しします。相談だけで終えていただいて構いません。</p>
+        <a class="line-btn" href="https://line.me/R/oaMessage/@798sqegp/?%E5%80%8B%E5%88%A5%E7%9B%B8%E8%AB%87" target="_blank" rel="noopener">
+          LINEで「個別相談」と送る
+          <small>「個別相談」の4文字を送るだけ・約30秒</small>
+        </a>
+        <p class="cta-note">その前に、<a href="/shindan/">無料の30秒診断</a>で現状を確かめることもできます。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-name">maido&amp;crafts strategy株式会社</p>
+    <p class="footer-tagline">人の成長が、価値を倍増させる。</p>
+    <p class="footer-copy">本記事は「maido! 勉強会」受講者へのインタビューをもとに構成しています。<br />&copy; maido&amp;crafts strategy Inc.</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('[data-reveal]');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
