@@ -10,36 +10,34 @@ import Positioning from '../components/sections/Positioning.astro';
 import VoicesStats from '../components/sections/VoicesStats.astro';
 import { SITE } from '../lib/site';
 
-// 経営理念の体系(会社説明資料 p.3 より。文言は資料のまま)
+// 経営理念の体系(会社説明資料 p.3 より。title/body の文言は資料のまま)。
+// vow は各指針を「お客様への約束」に読み替えたもの(2026年9月7日 改善版ドラフト承認済み)
 const principles = [
   {
     title: '人は係数として機能することを理解する',
     body: '人の能力開発への投資が、すべての資源(ヒト・モノ・カネ・情報)の価値を何倍にも高めることを認識します。',
+    vow: 'あなたを「コスト」ではなく「可能性」として扱います。',
   },
   {
     title: '成長の喜びを分かち合う',
     body: '自分自身が成長する喜びを知り、その体験を他者と共有することで、学びの連鎖を生み出します。',
+    vow: 'あなたの小さな前進に気づいて、一緒に喜びます。',
   },
   {
     title: '基礎を大切にする',
     body: 'どんな専門分野でも応用できるポータブルスキルの習得を重視し、変化に強い人材を育成します。',
+    vow: '業種や職種が変わっても使える、長持ちする土台をお渡しします。',
   },
   {
     title: '実践と教育を循環させる',
     body: '理論だけの学びではなく、実践を通じた経験と内省のサイクルを大切にします。',
+    vow: '学んで終わりにしません。現場で使えるようになるまで、お付き合いします。',
   },
   {
     title: '社会への貢献を目指す',
     body: '個人と組織の成長が最終的に社会全体の発展につながることを常に意識します。',
+    vow: 'あなたの成長は、やがて次の誰かを育てます。その連鎖を信じています。',
   },
-];
-
-// 持続的成長の4要素(会社説明資料 p.7・p.9 より)
-const fourElements = [
-  { name: '想い', sub: '目的意識と内発的動機', body: 'なぜこれが必要か。組織と個人にとっての意義を明確にします。' },
-  { name: '誠実さ', sub: '信頼関係と心理的安全性', body: '誰と一緒に成長するか。安心して話せる関係を築きます。' },
-  { name: 'スキル', sub: '思考・行動パターンの体系化', body: '何を習得し活用するか。特にポータブルスキルを身につけます。' },
-  { name: '行動', sub: '持続的な実践と習慣化', body: 'どのように継続するか。実務に埋め込み、行動を起こすことを支援します。' },
 ];
 
 // 「人を遺す」という指針(後藤新平の遺訓として伝えられる言葉。代表の事業への思い)
@@ -80,8 +78,8 @@ const overview = [
     <p class="mt-6 text-xl font-bold text-primary-700 md:text-2xl">
       人の成長が、価値を倍増させる。
     </p>
-    <p class="mt-4 max-w-[42em] text-muted">
-      私たちは、人が「係数」として機能することを信じています。同じ予算・設備・情報でも、成果は「人」で何倍にも変わる。だから、人の成長に投資します。
+    <p class="mt-4 max-w-[42em]">
+      はじめまして。このページには、私たちがどんな会社で、なぜこの仕事をしているのかをまとめました。5分ほどで読めます。読み終えたとき、<strong>「一度、話してみようかな」</strong>と思っていただけたら、うれしいです。
     </p>
   </div>
 
@@ -91,6 +89,9 @@ const overview = [
       <p class="mb-4 text-lg font-bold text-primary-700">「まいど！最近、元気ないな？」</p>
       <p class="mb-4">
         代表の玉岡が育った大阪の商店街では、こんな声が毎日飛び交っていました。八百屋さんは体調を気遣い、魚屋さんは「兄ちゃん、大きくなったなぁ」と成長を喜んでくれる。そこにあったのは、売買を超えて<strong>互いの成長を喜び合う文化</strong>でした。
+      </p>
+      <p class="mb-4">
+        いま、あなたの職場に、こんな声はあるでしょうか。頑張っているのに、誰にも見守られていない。私たちは仕事の中で、そんなリーダーにたくさん出会ってきました。
       </p>
       <p>
         この温かさを、現代の組織に再現したい。商店街のおっちゃん、おばちゃんが若者を見守り育てたように、私たちは組織と個人の持続的な成長を支援します。
@@ -186,6 +187,21 @@ const overview = [
     <p class="mx-auto mt-4 max-w-[42em]" data-reveal>
       企業のご支援でも同じです。私たちが去ったあとに残るのは、報告書ではなく、自分たちで考えて進められる人と、そのやり方です。
     </p>
+
+    {/* 感情が動いた直後の受け皿(中間CTA)。控えめに一つだけ置く */}
+    <div class="mx-auto mt-12 max-w-[42em] rounded-lg border border-edge bg-white p-6 text-center" data-reveal>
+      <p class="text-sm">ここまで読んで、少し話してみたくなった方へ。<strong>売り込みはしません。</strong></p>
+      <p class="mt-2">
+        <a
+          href="/contact/"
+          data-track="cta_contact_click"
+          data-loc="about_mid"
+          class="inline-flex min-h-11 items-center text-sm font-bold text-primary-700 underline underline-offset-4"
+        >
+          個別相談・お問い合わせ →
+        </a>
+      </p>
+    </div>
   </Section>
 
   <Section narrow>
@@ -196,15 +212,24 @@ const overview = [
         <p class="leading-loose">
           成長の土台となるポータブルスキルを構築し、個人と組織の持続的な発展を促進することで、社会に貢献できる人材を輩出します。
         </p>
+        <p class="mt-4 border-t border-edge pt-4 text-sm font-bold leading-loose text-primary-700">
+          ふだんの言葉で言うと ── どこの会社でも通用する仕事の土台を、あなたと一緒につくる。そして、あなたが誰かを育てる側になるまで伴走する。
+        </p>
       </div>
       <div class="rounded-lg border border-edge bg-white p-6" data-reveal>
         <p class="mb-2 text-xs font-bold tracking-widest text-primary-500">ビジョン(目指す姿)</p>
         <p class="leading-loose">
           すべての人が自らの成長を実感し、その喜びを仕事に見出せる社会を創造します。「教育と実践の融合」というアプローチで、人と組織の可能性を最大限に引き出す最高のパートナーとなります。
         </p>
+        <p class="mt-4 border-t border-edge pt-4 text-sm font-bold leading-loose text-primary-700">
+          ふだんの言葉で言うと ── 「成長がうれしい」と言える人と職場を、この国に増やす。
+        </p>
       </div>
       <div data-reveal>
-        <p class="mb-4 text-xs font-bold tracking-widest text-primary-500">行動指針</p>
+        <p class="mb-2 text-xs font-bold tracking-widest text-primary-500">行動指針</p>
+        <p class="mb-4 text-sm text-muted">
+          行動指針は、お客様への約束でもあると考えています。それぞれの指針が、あなたにとって何を意味するのかを添えました。
+        </p>
         <ol class="space-y-3">
           {principles.map((principle, i) => (
             <li class="flex gap-4 rounded-lg border border-edge bg-white p-5">
@@ -217,6 +242,9 @@ const overview = [
               <div>
                 <h3 class="font-semibold text-primary-700">{principle.title}</h3>
                 <p class="mt-1 text-sm text-muted">{principle.body}</p>
+                <p class="mt-2 text-sm font-bold text-primary-700">
+                  <span class="text-brand-teal" aria-hidden="true">→ </span>{principle.vow}
+                </p>
               </div>
             </li>
           ))}
@@ -225,26 +253,7 @@ const overview = [
     </div>
   </Section>
 
-  <Section tone="subtle">
-    <SectionTitle>持続的成長の4要素</SectionTitle>
-    <p class="mb-8 max-w-[42em]" data-reveal>
-      持続的な成長には「想い」「誠実さ」「スキル」「行動」の4つが欠かせません。どれかひとつではなく、<strong>4つの質を掛け算で高めること</strong>が、成長の鍵だと考えています。
-    </p>
-    <div class="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6" data-reveal="group">
-      {fourElements.map((element) => (
-        <div class="rounded-lg border border-edge bg-white p-5">
-          <p class="text-lg font-bold text-primary-700">{element.name}</p>
-          <p class="mt-1 text-xs font-bold text-muted">{element.sub}</p>
-          <p class="mt-3 text-sm text-muted">{element.body}</p>
-        </div>
-      ))}
-    </div>
-    <p class="mt-6 text-center text-sm font-bold text-primary-700" data-reveal>
-      想い × 誠実さ × スキル × 行動 = 持続的な成長
-    </p>
-  </Section>
-
-  <Section narrow>
+  <Section tone="subtle" narrow>
     <SectionTitle>なぜ「ポータブルスキル」なのか</SectionTitle>
     <p class="mb-4">
       成果を出せない真の原因は、多くの場合、専門知識ではなく<strong>ポータブルスキルの欠如</strong>にあります。現状分析力、問題解決力、目標設定力、コミュニケーション力。業種や職種が変わっても持ち運べる、価値を生み出す実践的能力です。
@@ -265,7 +274,7 @@ const overview = [
     </p>
   </Section>
 
-  <Section tone="subtle">
+  <Section>
     <SectionTitle>私たちのやり方</SectionTitle>
     <p class="mb-8 max-w-[42em]">
       知識を教えて終わりにはしません。教育 × 実践 × リフレクションの循環で、<strong>「わかる」を「できる」に変えます。</strong>
@@ -276,18 +285,18 @@ const overview = [
     </p>
   </Section>
 
-  <Section>
+  <Section tone="subtle">
     <SectionTitle>研修でも、コンサルでもなく</SectionTitle>
     <Positioning />
   </Section>
 
-  <Section tone="subtle">
+  <Section>
     <SectionTitle>数字と、声。</SectionTitle>
     <VoicesStats />
   </Section>
 
   {/* 未来を語る、感情のクライマックス。事実の主張はせず、目指す情景と信念だけを書く */}
-  <Section narrow>
+  <Section tone="subtle" narrow>
     <SectionTitle>私たちが見ている未来</SectionTitle>
     <div class="space-y-6" data-reveal>
       <p>私たちが見ているのは、そう遠くない未来です。</p>
@@ -321,7 +330,7 @@ const overview = [
     </div>
   </Section>
 
-  <Section tone="subtle" narrow>
+  <Section narrow>
     <SectionTitle>会社概要</SectionTitle>
     <table class="w-full overflow-hidden rounded-lg border border-edge bg-white text-sm">
       <tbody>
